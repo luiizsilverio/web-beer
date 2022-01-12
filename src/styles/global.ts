@@ -5,6 +5,8 @@ export const GlobalStyle = createGlobalStyle`
     --background: rgb(31, 32, 36);
     --orange: #ff872c;
     --back_black: #18161c;
+    --text-light: #c1c1c1;
+    --white: #f1f1f1
   }  
 
   * {
@@ -16,18 +18,12 @@ export const GlobalStyle = createGlobalStyle`
   body {
     background: var(--background); 
     -webkit-font-smoothing: antialiased;
-		font-family: Roboto, Open-Sans, Helvetica, Sans-Serif;    
+		font-family: Roboto, 'Open Sans', Helvetica, Sans-Serif;    
   }
   
   html {
-    @media (max-width: 1080px) {
-      font-size: 93.75%; /*15px*/
-    }
-
-    @media (max-width: 720px) {
-      font-size: 87.5%; /*14px*/
-    }
-    
+    font-size: 62.5%; /* equivale a 10px */;
+ 
     button {
       cursor: pointer;
     }

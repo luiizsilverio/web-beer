@@ -1,4 +1,15 @@
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
+
+const crescer = keyframes`
+  from {
+    transform: scale(.95);
+    opacity: 0.8;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
 
 export const Container = styled.div`
   display: flex;
@@ -16,13 +27,45 @@ export const Container = styled.div`
 
 export const Content = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 400px;
-  height: 400px;
+  width: 42rem;
+  height: 38rem;  
 
   background-color: var(--background);
-  border-radius: 15px;
+  border-radius: 20px;
   box-shadow: 15px 15px 15px rgba(0, 0, 0, 0.5);
-  color: #c1c1c1;
+  color: var(--white);
+  padding: 20px;
+
+  animation: ${crescer} 0.2s linear;
+
+  p {
+    font-size: 1.6rem;
+    color: var(--text-light);
+  }
+    
+`;
+
+export const Title = styled.header`
+  height: 14rem;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  h1 {
+    font-size: 5rem;
+    font-weight: 100;
+  }
+
+ svg {
+    margin-right: 1rem;
+  }
+`;
+
+export const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  padding: 2rem 0;
 `;
