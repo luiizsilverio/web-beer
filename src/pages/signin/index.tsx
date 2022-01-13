@@ -2,8 +2,8 @@ import Image from 'next/image'
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
 
 import * as S from './styles'
-import InputBox from '../../components/InputBox'
-import { MyButton } from '../../components/MyButton'
+import InputBox from '@/components/InputBox'
+import { MyButton } from '@/components/MyButton'
 
 function SignIn() {
   return (
