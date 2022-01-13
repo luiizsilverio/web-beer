@@ -50,14 +50,7 @@ export const Menu = styled.ul`
   font-size: 1.6rem;  
   animation: ${ animacao_subir } 0.4s ease-out;
   
-  li {
-    margin-bottom: 6px;
 
-    &:hover {
-      transform: scale(1.04);
-      color: red;
-    }
-  }
 `;
 
 export const MenuLink = styled.a`
@@ -65,7 +58,8 @@ export const MenuLink = styled.a`
   color: var(--text-light);
   font-size: 1.6rem;
   margin: 4px 0;
-  transition: all 0.1s;
+  padding: 2px 0;
+  /* transition: all 0.2s; */
 
   svg {
     margin-right: 6px;

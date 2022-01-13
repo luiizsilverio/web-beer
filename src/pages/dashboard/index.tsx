@@ -1,22 +1,27 @@
 import * as S from './styles'
 import Aside from '@/components/Aside'
 import Header from '@/components/Header'
+import Card from '@/components/Card'
 
 export default function Dashboard() {
   return (
-    <S.Grid>
-      <Header title="Dashboard">
-        <h1>xxxxx</h1>
-      </Header>
+    <>
+      <Header title="Dashboard">aaa</Header>
+      <S.Main>
+        <S.CardContainer>
+          <Card title='Total vendido R$'>
+          </Card>
+          <Card title='Produtos mais vendidos'>
+          </Card>
+        </S.CardContainer>
+        
+        <Card title='Evolução de Vendas'>
+        </Card>
 
-      <Aside />
-
-      <S.Main>        
-        <S.Card />
-        <S.Card />
-        <S.Card />
-        <S.Card />
+        <Card title='Relatório de Vendas'>
+        </Card>              
+        
       </S.Main>
-    </S.Grid>
+    </>
   )
 }
