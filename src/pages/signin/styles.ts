@@ -1,15 +1,5 @@
-import styled, {keyframes} from 'styled-components'
-
-const crescer = keyframes`
-  from {
-    transform: scale(.95);
-    opacity: 0.8;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
-`;
+import styled from 'styled-components'
+import { animacao_crescer } from '@/styles/keyframes';
 
 export const Container = styled.div`
   display: flex;
@@ -38,13 +28,13 @@ export const Content = styled.div`
   color: var(--white);
   padding: 20px;
 
-  animation: ${crescer} 0.2s linear;
+  animation: ${animacao_crescer} 0.2s linear;
 
   p {
     font-size: 1.6rem;
     color: var(--text-light);
   }
-    
+
 `;
 
 export const Title = styled.header`
@@ -68,4 +58,6 @@ export const Form = styled.form`
   flex-direction: column;
   width: 60%;
   padding: 2rem 0;
+
+  
 `;
