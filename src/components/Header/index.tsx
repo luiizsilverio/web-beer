@@ -2,7 +2,7 @@ import * as S from './styles'
 
 type Props = {
   title: string
-  children: React.ReactNode
+  children?: React.ReactNode
 }
 
 export default function Header({ title, children }: Props) {

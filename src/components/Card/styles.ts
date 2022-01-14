@@ -3,15 +3,18 @@ import { animacao_crescer } from '@/styles/keyframes';
 
 export const Container = styled.div`
   margin-bottom: 1.5rem;
-  margin-right: 1.5rem;
+
+  &:not(:last-child) {
+    margin-right: 1.5rem;
+  }
 `;
 
 export const Content = styled.div`
   display: flex;
   height: 18rem;
   border-radius: 2rem;
-  background-color: var(--background);
-  filter: opacity(40%);
+  background-color: var(--back_light);
+  filter: opacity(50%);
   
   animation: ${ animacao_crescer } 0.4s;
 `;

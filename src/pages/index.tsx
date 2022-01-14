@@ -7,7 +7,7 @@ import Dashboard from './dashboard'
 export default function Home() {
   return (
     <>
-      <Layout title="">
+      <Layout>
         <Dashboard />
       </Layout>
       {/* <SignIn /> */}

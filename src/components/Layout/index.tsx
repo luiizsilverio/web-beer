@@ -3,23 +3,21 @@ import { ReactNode } from 'react'
 import * as S from './styles'
 import Aside from '@/components/Aside'
 import Header from '@/components/Header'
+import Content from '@/components/Content'
 
 
 type Props = {
-  title: string
   children: ReactNode
 }
 
-export default function Layout({ title, children }: Props) {
+export default function Layout({ children }: Props) {
   return (
     <S.Grid>
-      {/* <Header title={ title }></Header>  */}
-
       <Aside />
 
-      <S.Main>        
+      <Content>
         { children }
-      </S.Main>
+      </Content>
     </S.Grid>
   )
 }

@@ -6,18 +6,20 @@ export const Container = styled.aside`
   background-color: var(--background);
   border-right: 1px solid var(--brown); // #bb844c;
   color: var(--white);
+  background-image: linear-gradient(to bottom right, 
+    var(--background), var(--back_light));
 
 `;
 
 export const TitleContainer = styled.header`
   display: flex;
   align-items: center;
-  justify-content: center;
-  height: 90px;
-  margin-bottom: 20px;
+  /* justify-content: center; */
+  margin-left: 2rem;
+  height: 110px;
 
   svg {
-    margin-right: 12px;
+    margin-right: 10px;
     animation: ${ animacao_balanca } 0.3s ease-in-out;
   }  
 `;
@@ -25,18 +27,18 @@ export const TitleContainer = styled.header`
 export const Title = styled.div`
   display: flex;
   flex-direction: column;
-
+  
   h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: var(--white);
 
     &::after {      
       content: "";
       display: block;
       height: 3px;
-      width: 70px;
+      width: 72px;
       border-bottom: 1px solid var(--orange);      
     }
   }
@@ -49,7 +51,6 @@ export const Menu = styled.ul`
   padding: 2.5rem;
   font-size: 1.6rem;  
   animation: ${ animacao_subir } 0.4s ease-out;
-  
 
 `;
 

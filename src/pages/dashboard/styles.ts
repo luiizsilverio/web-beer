@@ -5,7 +5,7 @@ export const Main = styled.main`
   grid-area: princ;
   display: flex;  
   flex-direction: column;
-  padding: 20px;
+  padding: 15px 20px;
 `;
 
 export const CardContainer = styled.div`
@@ -14,3 +14,13 @@ export const CardContainer = styled.div`
 
 `;
   
+export const ChartContainer = styled.div`
+  flex: 1;
+  
+`;
+
+export const LegendContainer = styled.div`
+  /* display: flex;
+  background-color: red; */
+
+`;

@@ -7,14 +7,17 @@ export const Container = styled.header`
   align-items: center;
   padding: 0 2rem;
   background-color: var(--background);
-  font-family: 'Open Sans';
-  font-size: 1.5rem;  
-  height: 70px;
+  font-family: Roboto; //'Open Sans';
+  height: 60px;
   width: 100%;
+  font-size: 1.4rem;  
+
+  position: fixed;
+  top: 0;
   
   h1 {
-    font-weight: 700;
-    color: var(--text-light);
+    font-weight: 500;
+    color: var(--white);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
   }
 `;
