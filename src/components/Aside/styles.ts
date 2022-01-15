@@ -9,6 +9,8 @@ export const Container = styled.aside`
   background-image: linear-gradient(to bottom right, 
     var(--background), var(--back_light));
 
+  /* clip-path: polygon(0 0, 100% 0, 100% 65%, 0% 100%); */
+  clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%, 0% 50%);
 `;
 
 export const TitleContainer = styled.header`
@@ -50,7 +52,7 @@ export const Menu = styled.ul`
   list-style: none;
   padding: 2.5rem;
   font-size: 1.6rem;  
-  animation: ${ animacao_subir } 0.4s ease-out;
+  animation: ${ animacao_subir } 0.4s ease-out;  
 
 `;
 

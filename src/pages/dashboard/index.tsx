@@ -65,10 +65,7 @@ export default function Dashboard() {
         </S.CardContainer>
         
         <Card title='Evolução de Vendas'>
-        </Card>
-
-        <Card title='Relatório de Vendas'>
-        </Card>              
+        </Card>          
         
       </S.Main>
     </>

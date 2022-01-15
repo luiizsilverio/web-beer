@@ -9,7 +9,8 @@ export const GlobalStyle = createGlobalStyle`
     --back_black: #18161c;    
     --text-light: #e1e1e1;
     --white: #f1f1f1;
-    --brown: #bb844c;
+    --brown: #a17242;
+    --brown2: #bb844c;
   }  
 
   * {

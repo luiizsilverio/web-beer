@@ -2,6 +2,7 @@ import { Beer } from '@styled-icons/ionicons-solid'
 import { Dashboard } from '@styled-icons/material-rounded'
 import { ExitToApp } from '@styled-icons/material-rounded' //@styled-icons/material/ExitToApp
 import { Calculator } from '@styled-icons/fluentui-system-filled'
+import { AttachMoney } from '@styled-icons/material';
 
 import * as S from './styles'
 
@@ -26,6 +27,11 @@ export default function Aside() {
           Fechar Conta
         </S.MenuLink>
         
+        <S.MenuLink href="/fechar">  
+          <AttachMoney size={30} />
+          Relatório
+        </S.MenuLink>
+
         <S.MenuLink href="/signin">      
           <ExitToApp size={30} />    
           Sair

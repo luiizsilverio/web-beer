@@ -5,13 +5,18 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
+  padding: 0 2.6rem;
   background-color: var(--background);
   font-family: Roboto; //'Open Sans';
+  
   height: 60px;
-  width: 100%;
-  font-size: 1.4rem;  
-
+  width: calc(100% - 22rem);
+  /* width: 100%; */
+  
+  font-size: 1.2rem;  
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  
   position: fixed;
   top: 0;
   
