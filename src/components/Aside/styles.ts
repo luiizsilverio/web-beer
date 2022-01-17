@@ -9,7 +9,6 @@ export const Container = styled.aside`
   background-image: linear-gradient(to bottom right, 
     var(--background), var(--back_light));
 
-  /* clip-path: polygon(0 0, 100% 0, 100% 65%, 0% 100%); */
   clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%, 0% 50%);
 `;
 
@@ -22,7 +21,7 @@ export const TitleContainer = styled.header`
 
   svg {
     margin-right: 10px;
-    animation: ${ animacao_balanca } 0.3s ease-in-out;
+    animation: ${ animacao_balanca } 0.5s ease-in-out;
   }  
 `;
 

@@ -14,8 +14,8 @@ export const Container = styled.header`
   /* width: 100%; */
   
   font-size: 1.2rem;  
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
+  /* border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px; */
   
   position: fixed;
   top: 0;

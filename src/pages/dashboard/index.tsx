@@ -1,4 +1,5 @@
 import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts'
+import { AttachMoney } from '@styled-icons/material';
 
 import * as S from './styles'
 import Aside from '@/components/Aside'
@@ -39,11 +40,26 @@ export default function Dashboard() {
       <Header title="Dashboard" />
       <S.Main>
         <S.CardContainer>
-          <Card title='Total vendido R$'>
+          <Card title='Total de Vendas'>
+            <S.TotalContainer>
+              <S.Valor>
+                <span>Valor Total:</span>
+                <h2>R$ 1000,000</h2>
+              </S.Valor>
+              <S.Valor>
+                <span>Qtd. de Contas:</span>
+                <h2>25</h2>
+              </S.Valor>
+              <S.Valor>
+                <span>Vl. médio / Mesa:</span>
+                <h2>R$ 40,00</h2>
+              </S.Valor>
+              <AttachMoney size={240} />
+            </S.TotalContainer>
           </Card>
 
           <Card title='Produtos mais vendidos'>
-            {/* <S.LegendContainer /> */}
+            <S.LegendContainer />
             <S.ChartContainer>
               <ResponsiveContainer>
                 <PieChart>
