@@ -93,6 +93,42 @@ const history: IHistory[] = [
     month: "Jun",
     totVal: [900, 900, 700, 600, 450],
     totQtd: [90, 90, 70, 60, 45]
+  },
+  {
+    monthNo: 6,
+    month: "Jul",
+    totVal: [700, 700, 300, 650, 500],
+    totQtd: [70, 70, 30, 65, 50]
+  },
+  {
+    monthNo: 7,
+    month: "Ago",
+    totVal: [700, 700, 300, 650, 500],
+    totQtd: [70, 70, 30, 65, 50]
+  },
+  {
+    monthNo: 8,
+    month: "Set",
+    totVal: [750, 700, 300, 650, 500],
+    totQtd: [70, 70, 30, 65, 50]
+  },
+  {
+    monthNo: 9,
+    month: "Out",
+    totVal: [750, 700, 300, 650, 500],
+    totQtd: [70, 70, 30, 65, 50]
+  },
+  {
+    monthNo: 10,
+    month: "Nov",
+    totVal: [750, 700, 300, 650, 500],
+    totQtd: [70, 70, 30, 65, 50]
+  },
+  {
+    monthNo: 11,
+    month: "Dez",
+    totVal: [770, 750, 330, 690, 560],
+    totQtd: [70, 70, 30, 65, 50]
   }
 ]
 
@@ -160,7 +196,23 @@ export default function Dashboard() {
               > 
                 <CartesianGrid strokeDasharray="2 1" stroke="grey" />
                 <XAxis dataKey="month" stroke="#cecece" />
-                <Line dataKey="totVal[0]" 
+                {/* <XAxis dataKey={} type="number" /> */}
+
+                {
+                  data.map((item, index) => (
+                    <Line dataKey={ `totVal[${ index }]` }
+                      key={ item.name }
+                      name={ item.name }
+                      type="monotone"
+                      stroke={ item.color }
+                      strokeWidth={4}
+                      dot={{ r: 5 }}
+                      activeDot={{ r: 8 }}
+                    />
+                  ))
+                }
+
+                {/* <Line dataKey="totVal[0]" 
                   name="Agua" 
                   type="monotone"
                   stroke="#ccc"
@@ -199,12 +251,14 @@ export default function Dashboard() {
                   strokeWidth={4}
                   dot={{ r: 5 }}
                   activeDot={{ r: 8 }}
-                />
+                /> */}
                  
                 <Tooltip 
                   formatter={(value: number) => value.toFixed(2)}
                   cursor={{ fill: 'none '}}
-                  // animationDuration={0} 
+                  contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                  labelStyle={{color: "#1f1f24", fontWeight: 600 }}
+                  animationDuration={0} 
                 />
               </LineChart>
             </ResponsiveContainer>
