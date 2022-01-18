@@ -5,25 +5,20 @@ export const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2.6rem;
+  padding: 0 20px;
   background-color: var(--background);
   font-family: Roboto; //'Open Sans';
   
   height: 60px;
-  width: calc(100% - 22rem);
-  /* width: 100%; */
-  
-  font-size: 1.2rem;  
-  /* border-top-right-radius: 30px;
-  border-bottom-right-radius: 30px; */
+  width: calc(100% - 22rem); /* 22rem é a largura do menu */
   
   position: fixed;
   top: 0;
   
   h1 {
+    font-size: 2.6rem;     
     font-weight: 500;
-    color: var(--white);
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, .2);
+    color: var(--bege); //var(--white);
   }
 `;
 
