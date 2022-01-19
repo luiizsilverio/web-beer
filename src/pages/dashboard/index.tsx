@@ -11,7 +11,7 @@ import SelectInput from '@/components/SelectInput';
 interface IData{
   name: string
   value: number
-  percent: number
+  quant: number
   color: string
 }
 
@@ -26,31 +26,31 @@ const data: IData[] = [
   {
     name: "Chopp Pilsen",
     value: 450,
-    percent: 45,
+    quant: 45,
     color: 'crimson'
   },
   {
     name: "Chopp Weiss",
     value: 300,
-    percent: 30,
+    quant: 30,
     color: '#699fff'
   },
   {
     name: "Batata Chips",
     value: 150,
-    percent: 15,
+    quant: 15,
     color: 'orange'
   },
   {
     name: "Porcao Amendoim",
     value: 50,
-    percent: 5,
+    quant: 5,
     color: 'darkseagreen'
   },
   {
     name: "Água mineral",
     value: 50,
-    percent: 5,
+    quant: 5,
     color: 'violet'
   }
 ]
@@ -130,6 +130,11 @@ const history: IHistory[] = [
   }
 ]
 
+interface ILista {
+  label: string | number;
+  value: string | number;
+}
+
 const periodos: ILista[] = [
   {
     label: "Hoje",
@@ -148,8 +153,16 @@ const periodos: ILista[] = [
     value: 15
   },
   {
+    label: "20 dias",
+    value: 20
+  },
+  {
     label: "30 dias",
     value: 30
+  },
+  {
+    label: "2 meses",
+    value: 60
   },
   {
     label: "3 meses",
@@ -165,15 +178,23 @@ const periodos: ILista[] = [
   }
 ]
 
-interface ILista {
-  label: string | number;
-  value: string | number;
-}
+const totais: ILista[] = [
+  {
+    label: "Qtd.",
+    value: "QT"
+  },
+  {
+    label: "R$",
+    value: "VL"
+  }
+]
+
 
 export default function Dashboard() {
   const hoje = new Date()
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
   const [periodoSel, setPeriodoSel] = useState(0)
+  const [totalSel, setTotalSel] = useState("QT")
 
   const years: ILista[] = useMemo(() => {
     const lista = []
@@ -207,6 +228,14 @@ export default function Dashboard() {
     }
   }, [])
 
+  const strzero = useCallback((valor, minSize: number): string => {
+    let stnum = valor.toString().trim()
+    if (stnum.length < minSize) {
+      stnum = stnum.padStart(minSize, "0")
+    }
+    return stnum
+  }, [])
+
   return (
     <>
       <Header title="Dashboard" />      
@@ -230,7 +259,13 @@ export default function Dashboard() {
             {
               data.map(item => (
                 <S.Legend color={ item.color } key={ item.name }>
-                  <div>{ item.percent.toFixed(1) }%</div>
+                  <div>
+                    {                   
+                      totalSel === "R$" 
+                        ? item.value.toFixed(2)
+                        : strzero(item.quant, 3) 
+                    }
+                  </div>
                   <span>{ item.name }</span>
                 </S.Legend>
               ))
@@ -242,7 +277,7 @@ export default function Dashboard() {
                 <PieChart>
                   <Pie 
                     data={ data }
-                    dataKey="value"
+                    dataKey={ totalSel === "R$" ? "value" : "quant" }
                   >
                     {
                       data.map((item) => (
@@ -252,7 +287,11 @@ export default function Dashboard() {
                   </Pie>
                   
                   <Tooltip 
-                    formatter={(value: number) => (`R$ ${value.toFixed(2)}`)}
+                    formatter={(value: number) => (
+                      totalSel === "R$" 
+                        ? `R$ ${value.toFixed(2)}`
+                        : strzero(value, 3)
+                    )}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
                     animationDuration={0} 
                   />
@@ -260,13 +299,18 @@ export default function Dashboard() {
               </ResponsiveContainer>
             </S.ChartContainer>
 
-            <S.PizzaControllers>
+            <S.SelectContainer>
+              <SelectInput 
+                  options={ totais } 
+                  defaultValue={ totalSel }
+                  onChange={(e) => setTotalSel(e.target.value)}
+                />
               <SelectInput 
                   options={ periodos } 
                   defaultValue={ periodoSel }
                   onChange={(e) => handlePeriodo(e.target.value)}
                 />
-            </S.PizzaControllers>
+            </S.SelectContainer>
           </Card>
         </S.CardContainer>
         
@@ -296,7 +340,11 @@ export default function Dashboard() {
                 }               
                  
                 <Tooltip 
-                  formatter={(value: number) => value.toFixed(2)}
+                  formatter={(value: number) => (
+                    totalSel === "R$" 
+                      ? `R$ ${value.toFixed(2)}`
+                      : strzero(value, 3)
+                  )}
                   cursor={{ fill: 'none '}}
                   contentStyle={{borderRadius: "8px", opacity: 0.8}}
                   labelStyle={{color: "#1f1f24", fontWeight: 600 }}
@@ -306,13 +354,13 @@ export default function Dashboard() {
             </ResponsiveContainer>
           </S.ChartContainer>
 
-          <S.YearContainer>
+          <S.SelectContainer>
             <SelectInput 
               options={ years } 
               defaultValue={ yearSel }
               onChange={(e) => handleYear(e.target.value)}            
             />
-          </S.YearContainer>
+          </S.SelectContainer>
         </Card>          
         
       </S.Main>

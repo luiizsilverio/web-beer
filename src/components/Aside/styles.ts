@@ -21,7 +21,7 @@ export const TitleContainer = styled.header`
 
   svg {
     margin-right: 10px;
-    animation: ${ animacao_balanca } 0.5s ease-in-out;
+    animation: ${ animacao_balanca } 0.7s ease-in-out;
   }  
 `;
 
@@ -61,6 +61,7 @@ export const MenuLink = styled.a`
   font-size: 1.6rem;
   margin: 4px 0;
   padding: 2px 0;
+  cursor: pointer;
   /* transition: all 0.2s; */
 
   svg {

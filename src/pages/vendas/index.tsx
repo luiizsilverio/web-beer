@@ -5,7 +5,7 @@ import Card from '@/components/Card'
 export default function Fechar() {
   return (
     <>
-      <Header title="Fechar Conta" />
+      <Header title="Relatório de Vendas" />
       <S.Main>           
         
       </S.Main>

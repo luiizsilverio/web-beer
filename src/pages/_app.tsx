@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { GlobalStyle } from '../styles/global'
+import Layout from '@/components/Layout'
 
 export default function App({ Component, pageProps }) {
   return (
@@ -11,7 +12,10 @@ export default function App({ Component, pageProps }) {
       </Head>
                 
       <GlobalStyle />
-      <Component {...pageProps} />
+      
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
     </>
   )
 }

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Beer } from '@styled-icons/ionicons-solid'
 import { Dashboard } from '@styled-icons/material-rounded'
 import { ExitToApp } from '@styled-icons/material-rounded' //@styled-icons/material/ExitToApp
@@ -17,25 +18,33 @@ export default function Aside() {
       </S.TitleContainer>
 
       <S.Menu>
-        <S.MenuLink href="/dashboard">  
-          <Dashboard size={30} />
-          Dashboard
-        </S.MenuLink>
+        <Link href={"/dashboard"}>
+          <S.MenuLink>
+            <Dashboard size={30} />
+            Dashboard
+          </S.MenuLink>
+        </Link>
 
-        <S.MenuLink href="/fechar">  
-          <Calculator size={30} />
-          Fechar Conta
-        </S.MenuLink>
+        <Link href={"/fechar"}>
+          <S.MenuLink>  
+            <Calculator size={30} />
+            Fechar Conta
+          </S.MenuLink>
+        </Link>
         
-        <S.MenuLink href="/fechar">  
-          <AttachMoney size={30} />
-          Relatório
-        </S.MenuLink>
+        <Link href={"/vendas"}>
+          <S.MenuLink>  
+            <AttachMoney size={30} />
+            Rel. de Vendas
+          </S.MenuLink>
+        </Link>
 
-        <S.MenuLink href="/signin">      
-          <ExitToApp size={30} />    
-          Sair
-        </S.MenuLink>
+        <Link href={"/signin"}>
+          <S.MenuLink>      
+            <ExitToApp size={30} />    
+            Sair
+          </S.MenuLink>
+        </Link>
       </S.Menu>
     </S.Container>
   )

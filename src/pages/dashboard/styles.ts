@@ -10,7 +10,7 @@ export const Main = styled.main`
 export const CardContainer = styled.div`
   display: grid;
   grid-template-columns: 50% auto; 
-  `;
+`;
 
 export const ChartContainer = styled.div`
   display: flex;
@@ -127,18 +127,20 @@ export const Legend = styled.li<ILegendProps>`
   }
 `;
 
-export const PizzaControllers = styled.div`
-  position: absolute;
-  top: -3.1rem;
-  right: 0;
-  filter: opacity(0.8);
+export const SelectContainer = styled.div`
+  div {
+    position: absolute;
+    top: -3.1rem;
+    filter: opacity(0.8);
+
+    &:first-child {
+      right: 9.8rem;
+      /* left: 18.6rem; */
+    }
+
+    &:last-child {
+      right: 0;
+    }
+  }
 `;
 
-export const YearContainer = styled.div`
-  /* display: inline-block;   */
-  position: absolute;
-  top: -3.1rem;
-  /* right: 0; */
-  left: 18.6rem;
-  filter: opacity(0.8);
-`;
