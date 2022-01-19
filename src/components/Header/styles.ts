@@ -9,14 +9,15 @@ export const Container = styled.header`
   background-color: var(--background);
   font-family: Roboto; //'Open Sans';
   
-  height: 60px;
-  width: calc(100% - 22rem); /* 22rem é a largura do menu */
+  /* height: 60px; */
+  height: ${ props => process.env.NEXT_PUBLIC_HEADER_HEIGHT }px;
+  width: calc(100% - ${ props => process.env.NEXT_PUBLIC_ASIDE_WIDTH }px); /* subtrai a largura do menu */
   
   position: fixed;
   top: 0;
   
   h1 {
-    font-size: 2.6rem;     
+    font-size: 2.4rem;     
     font-weight: 500;
     color: var(--bege); //var(--white);
   }

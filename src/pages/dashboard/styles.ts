@@ -126,3 +126,19 @@ export const Legend = styled.li<ILegendProps>`
     white-space: nowrap;
   }
 `;
+
+export const PizzaControllers = styled.div`
+  position: absolute;
+  top: -3.1rem;
+  right: 0;
+  filter: opacity(0.8);
+`;
+
+export const YearContainer = styled.div`
+  /* display: inline-block;   */
+  position: absolute;
+  top: -3.1rem;
+  /* right: 0; */
+  left: 18.6rem;
+  filter: opacity(0.8);
+`;

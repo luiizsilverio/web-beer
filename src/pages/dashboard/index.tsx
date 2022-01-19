@@ -1,14 +1,12 @@
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, YAxis } from 'recharts'
-import { BarChart, Bar, LineChart,
-  Line,
-  XAxis,
-  CartesianGrid } from 'recharts'
+import { useCallback, useMemo, useState } from 'react';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, XAxis, CartesianGrid } from 'recharts'
 import { AttachMoney } from '@styled-icons/material';
 
 import * as S from './styles'
-import Aside from '@/components/Aside'
 import Header from '@/components/Header'
 import Card from '@/components/Card'
+import SelectInput from '@/components/SelectInput';
 
 interface IData{
   name: string
@@ -132,10 +130,87 @@ const history: IHistory[] = [
   }
 ]
 
+const periodos: ILista[] = [
+  {
+    label: "Hoje",
+    value: 0
+  },
+  {
+    label: "7 dias",
+    value: 7
+  },
+  {
+    label: "10 dias",
+    value: 10
+  },
+  {
+    label: "15 dias",
+    value: 15
+  },
+  {
+    label: "30 dias",
+    value: 30
+  },
+  {
+    label: "3 meses",
+    value: 90
+  },
+  {
+    label: "6 meses",
+    value: 180
+  },
+  {
+    label: "1 ano",
+    value: 365
+  }
+]
+
+interface ILista {
+  label: string | number;
+  value: string | number;
+}
+
 export default function Dashboard() {
+  const hoje = new Date()
+  const [yearSel, setYearSel] = useState(hoje.getFullYear())
+  const [periodoSel, setPeriodoSel] = useState(0)
+
+  const years: ILista[] = useMemo(() => {
+    const lista = []
+    const anoAtual = hoje.getFullYear()
+
+    for(let y = anoAtual -4; y <= anoAtual; y++) {
+      lista.push({
+        value: y,
+        label: y.toString()
+      })
+    }    
+
+    return lista
+  }, [])
+
+  const handleYear = useCallback((year: string) => {
+    const ano = parseInt(year)
+    if (!isNaN(ano)) {
+      setYearSel(ano)
+    } else {
+      throw new Error('Ano inválido');
+    }
+  }, [])
+  
+  const handlePeriodo = useCallback((per: string) => {
+    const ndias = parseInt(per)
+    if (!isNaN(ndias)) {
+      setPeriodoSel(ndias)
+    } else {
+      throw new Error('Período inválido');
+    }
+  }, [])
+
   return (
     <>
-      <Header title="Dashboard" />
+      <Header title="Dashboard" />      
+
       <S.Main>
         <S.CardContainer>
           <Card title='Total de Vendas'>
@@ -184,10 +259,18 @@ export default function Dashboard() {
                 </PieChart>
               </ResponsiveContainer>
             </S.ChartContainer>
+
+            <S.PizzaControllers>
+              <SelectInput 
+                  options={ periodos } 
+                  defaultValue={ periodoSel }
+                  onChange={(e) => handlePeriodo(e.target.value)}
+                />
+            </S.PizzaControllers>
           </Card>
         </S.CardContainer>
         
-        <Card title='Evolução de Vendas' heightPx={220}>
+        <Card title='Evolução de Vendas' heightPx={220}>          
           <S.ChartContainer>
             <ResponsiveContainer width="99%" height="99%">
               <LineChart 
@@ -210,48 +293,7 @@ export default function Dashboard() {
                       activeDot={{ r: 8 }}
                     />
                   ))
-                }
-
-                {/* <Line dataKey="totVal[0]" 
-                  name="Agua" 
-                  type="monotone"
-                  stroke="#ccc"
-                  strokeWidth={4}
-                  dot={{ r: 5 }}
-                  activeDot={{ r: 8 }}
-                />
-                <Line dataKey="totVal[1]" 
-                  name="Weiss" 
-                  type="monotone"
-                  stroke="#c11"
-                  strokeWidth={4}
-                  dot={{ r: 5 }}
-                  activeDot={{ r: 8 }}
-                />
-                <Line dataKey="totVal[2]" 
-                  name="Batata" 
-                  type="monotone"
-                  stroke="#cf1"
-                  strokeWidth={4}
-                  dot={{ r: 5 }}
-                  activeDot={{ r: 8 }}
-                />
-                <Line dataKey="totVal[3]" 
-                  name="Amendoim" 
-                  type="monotone"
-                  stroke="#bcf"
-                  strokeWidth={4}
-                  dot={{ r: 5 }}
-                  activeDot={{ r: 8 }}
-                />
-                <Line dataKey="totVal[4]" 
-                  name="Agua" 
-                  type="monotone"
-                  stroke="#e1f"
-                  strokeWidth={4}
-                  dot={{ r: 5 }}
-                  activeDot={{ r: 8 }}
-                /> */}
+                }               
                  
                 <Tooltip 
                   formatter={(value: number) => value.toFixed(2)}
@@ -263,6 +305,14 @@ export default function Dashboard() {
               </LineChart>
             </ResponsiveContainer>
           </S.ChartContainer>
+
+          <S.YearContainer>
+            <SelectInput 
+              options={ years } 
+              defaultValue={ yearSel }
+              onChange={(e) => handleYear(e.target.value)}            
+            />
+          </S.YearContainer>
         </Card>          
         
       </S.Main>
