@@ -10,6 +10,10 @@ export const Container = styled.aside`
     var(--background), var(--back_light));
 
   clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%, 0% 50%);
+
+  @media(max-width: 740px) {
+    display: none;	  
+	}
 `;
 
 export const TitleContainer = styled.header`
@@ -37,7 +41,7 @@ export const Title = styled.div`
 
     &::after {      
       content: "";
-      display: block;
+      display: inline-block;
       height: 3px;
       width: 72px;
       border-bottom: 1px solid var(--orange);      
@@ -52,7 +56,6 @@ export const Menu = styled.ul`
   padding: 2.5rem;
   font-size: 1.6rem;  
   animation: ${ animacao_subir } 0.4s ease-out;  
-
 `;
 
 export const MenuLink = styled.a`

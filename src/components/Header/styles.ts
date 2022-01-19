@@ -7,7 +7,7 @@ export const Container = styled.header`
   align-items: center;
   padding: 0 20px;
   background-color: var(--background);
-  font-family: Roboto; //'Open Sans';
+  font-family: Roboto;
   
   /* height: 60px; */
   height: ${ props => process.env.NEXT_PUBLIC_HEADER_HEIGHT }px;
@@ -21,5 +21,9 @@ export const Container = styled.header`
     font-weight: 500;
     color: var(--bege); //var(--white);
   }
+
+  @media(max-width: 740px) {
+	  width: 100%;
+	}
 `;
 

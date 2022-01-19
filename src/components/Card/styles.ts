@@ -2,11 +2,9 @@ import styled,{ css } from 'styled-components'
 import { animacao_crescer } from '@/styles/keyframes';
 
 export const Container = styled.div`
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.8rem;
 
-  &:not(:last-child) {
-    margin-right: 1.5rem;
-  }
+  
 `;
 
 type CardProps = {
@@ -32,16 +30,20 @@ export const Content = styled.div<CardProps>`
   background-color: rgba(50, 50, 50, .6); 
   
   animation: ${ animacao_crescer } 0.4s;
+
+  @media(max-width: 900px) {
+	  width: auto;
+	}
 `;
 
 export const Title = styled.div`
   display: flex;
-  height: 3.1rem;
   align-items: flex-start;
   justify-content: space-between;
   color: var(--white);
   /* font-family: 'Open Sans'; */
   font-size: 1.3rem;
+  line-height: 1.5;
   
   h2 {
     font-weight: lighter; //400;

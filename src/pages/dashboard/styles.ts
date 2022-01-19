@@ -9,13 +9,20 @@ export const Main = styled.main`
 
 export const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: 50% auto; 
+  grid-template-columns: 40% auto; 
+  column-gap: 1.5rem;  
+
+  @media(max-width: 900px) {
+	  display: inline-block;
+    width: 100%;     
+	}
 `;
 
 export const ChartContainer = styled.div`
   display: flex;
   flex: 1;  
   /* background-color: red; */
+
 `;
 
 export const TotalContainer = styled.div`
@@ -25,7 +32,7 @@ export const TotalContainer = styled.div`
   align-items: center;
 
   width: 100%;
-  padding: 20px;
+  padding-left: 20px;
   padding-top: 40px;
   position: relative;
   /* background-color: red; */
@@ -49,6 +56,30 @@ export const TotalContainer = styled.div`
     top: -42px;
     color: rgba(127, 255, 212, 0.1); 
   }
+
+  @media(max-width: 1064px) {
+    grid-template-columns: 120px 1fr;
+    padding-left: 10px;
+    
+    span {
+      font-size: 1.4rem;
+    }
+	  h1 {
+      font-size: 2rem;
+	  }
+  }
+
+  @media(max-width: 900px) {
+    grid-template-columns: 140px 1fr;
+    padding-left: 20px;
+
+    span {
+      font-size: 1.6rem;
+    }
+	  h1 {
+      font-size: 2.4rem;
+	  }
+	}
 `;
 
 export const TotalLabel = styled.div`
@@ -74,12 +105,11 @@ export const TotalValue = styled.div`
 `;
 
 export const LegendContainer = styled.ul`
-  width: 190px;
+  width: 200px;
   list-style: none;
   padding: 12px 8px;
   padding-right: 5px;
   overflow-y: scroll;
-  /* background-color: black; */
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -105,7 +135,6 @@ export const Legend = styled.li<ILegendProps>`
   align-items: center;
   flex: 1;
   overflow-x: hidden;
-  /* background-color: red; */  
 
   > div {
     background-color: ${props => props.color};
