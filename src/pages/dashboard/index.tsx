@@ -363,6 +363,10 @@ export default function Dashboard() {
           </S.SelectContainer>
         </Card>          
         
+        <S.Footer>
+          <p>Luiz Oliveira (2022)</p>
+          <p>Todos os direitos reservados.</p>
+        </S.Footer>
       </S.Main>
     </>
   )

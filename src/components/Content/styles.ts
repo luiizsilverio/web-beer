@@ -14,7 +14,7 @@ export const Container = styled.div`
 
   color: var(--white);
   /* padding: 12px; */
-  overflow-y: scroll;  
+  overflow-y: auto; //scroll;  
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -28,5 +28,6 @@ export const Container = styled.div`
   ::-webkit-scrollbar-track {
     background-color: var(--brown);
   }
+
 
 `;

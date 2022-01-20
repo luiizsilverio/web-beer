@@ -43,11 +43,17 @@ export const Title = styled.div`
   color: var(--white);
   /* font-family: 'Open Sans'; */
   font-size: 1.3rem;
-  line-height: 1.5;
+  line-height: 1.8;
   
   h2 {
     font-weight: lighter; //400;
     color: var(--white);
     text-shadow: 1px 1px 4px rgba(0, 0, 0, .3);
   }
+
+  @media(max-width: 460px) {
+	  font-size: 1.1rem;
+    line-height: 2;
+      
+	}
 `;

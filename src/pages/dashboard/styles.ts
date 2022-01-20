@@ -5,6 +5,7 @@ export const Main = styled.main`
   display: flex;  
   flex-direction: column;
   padding: 20px;
+ 
 `;
 
 export const CardContainer = styled.div`
@@ -173,3 +174,13 @@ export const SelectContainer = styled.div`
   }
 `;
 
+export const Footer = styled.footer`
+  display: none;
+  
+  @media(max-width: 460px) {
+    display: inline-block;
+    text-align: center;
+    height: 40px;
+    font-size: 14px;
+  }
+`;
