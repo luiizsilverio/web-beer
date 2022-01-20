@@ -241,8 +241,8 @@ export default function Dashboard() {
       <Header title="Dashboard" />      
 
       <S.Main>
-        <S.CardContainer>
-          <Card title='Total de Vendas'>
+        <S.CardContainer widthCard1={40}>
+          <Card title='Resumo'>
             <S.TotalContainer>
               <span>Valor Total:</span>
               <h1>R$ 1000,00</h1>
@@ -254,7 +254,7 @@ export default function Dashboard() {
             </S.TotalContainer>
           </Card>
 
-          <Card title='Produtos mais vendidos'>
+          <Card title='Produtos Top 5'>
             <S.LegendContainer>
             {
               data.map(item => (
@@ -314,55 +314,65 @@ export default function Dashboard() {
           </Card>
         </S.CardContainer>
         
-        <Card title='Evolução de Vendas' heightPx={220}>          
-          <S.ChartContainer>
-            <ResponsiveContainer width="99%" height="99%">
-              <LineChart 
-                data={ history }
-                margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
-              > 
-                <CartesianGrid strokeDasharray="2 1" stroke="grey" />
-                <XAxis dataKey="month" stroke="#cecece" />
-                {/* <XAxis dataKey={} type="number" /> */}
+        <S.CardContainer widthCard1={60}>
+          <Card title='Faturamento Top 5' heightPx={210}>          
+            <S.ChartContainer>
+              <ResponsiveContainer width="99%" height="99%">
+                <LineChart 
+                  data={ history }
+                  margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
+                > 
+                  <CartesianGrid strokeDasharray="2 1" stroke="grey" />
+                  <XAxis dataKey="month" stroke="#cecece" />
+                  {/* <XAxis dataKey={} type="number" /> */}
 
-                {
-                  data.map((item, index) => (
-                    <Line dataKey={ `totVal[${ index }]` }
-                      key={ item.name }
-                      name={ item.name }
-                      type="monotone"
-                      stroke={ item.color }
-                      strokeWidth={4}
-                      dot={{ r: 5 }}
-                      activeDot={{ r: 8 }}
-                    />
-                  ))
-                }               
-                 
-                <Tooltip 
-                  formatter={(value: number) => (
-                    totalSel === "R$" 
-                      ? `R$ ${value.toFixed(2)}`
-                      : strzero(value, 3)
-                  )}
-                  cursor={{ fill: 'none '}}
-                  contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                  labelStyle={{color: "#1f1f24", fontWeight: 600 }}
-                  animationDuration={0} 
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </S.ChartContainer>
+                  {
+                    data.map((item, index) => (
+                      <Line dataKey={ `totVal[${ index }]` }
+                        key={ item.name }
+                        name={ item.name }
+                        type="monotone"
+                        stroke={ item.color }
+                        strokeWidth={4}
+                        dot={{ r: 5 }}
+                        activeDot={{ r: 8 }}
+                      />
+                    ))
+                  }               
+                  
+                  <Tooltip 
+                    formatter={(value: number) => (
+                      totalSel === "R$" 
+                        ? `R$ ${value.toFixed(2)}`
+                        : strzero(value, 3)
+                    )}
+                    cursor={{ fill: 'none '}}
+                    contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                    labelStyle={{color: "#1f1f24", fontWeight: 600 }}
+                    animationDuration={0} 
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </S.ChartContainer>
 
-          <S.SelectContainer>
-            <SelectInput 
-              options={ years } 
-              defaultValue={ yearSel }
-              onChange={(e) => handleYear(e.target.value)}            
-            />
-          </S.SelectContainer>
-        </Card>          
+            <S.SelectContainer>
+              <SelectInput 
+                options={ years } 
+                defaultValue={ yearSel }
+                onChange={(e) => handleYear(e.target.value)}            
+              />
+            </S.SelectContainer>
+          </Card>       
+
+          <Card title='Categorias' heightPx={210}>
+            <h2>Categorias</h2>
+          </Card>
+        </S.CardContainer>   
         
+        <Card title='Faturamento Total' heightPx={210}>
+          <h2>Faturamento</h2>
+        </Card>
+
         <S.Footer>
           <p>Luiz Oliveira (2022)</p>
           <p>Todos os direitos reservados.</p>

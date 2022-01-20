@@ -8,9 +8,13 @@ export const Main = styled.main`
  
 `;
 
-export const CardContainer = styled.div`
+type Props = {
+  widthCard1: number
+}
+
+export const CardContainer = styled.div<Props>`
   display: grid;
-  grid-template-columns: 40% auto; 
+  grid-template-columns: ${ props => props.widthCard1 }% auto; 
   column-gap: 1.5rem;  
 
   @media(max-width: 900px) {

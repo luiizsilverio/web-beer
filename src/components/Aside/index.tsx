@@ -13,7 +13,7 @@ export default function Aside() {
       <S.TitleContainer>
         <Beer size={50} color='#ff872c'/>
         <S.Title>
-          <h1>Web-Beer</h1>
+          <h1>My-Beer</h1>
         </S.Title>
       </S.TitleContainer>
 

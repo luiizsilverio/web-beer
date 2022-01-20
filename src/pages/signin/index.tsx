@@ -11,7 +11,7 @@ function SignIn() {
       <S.Content>
         <S.Title>
           <Beer size={120} color='#ff872c'/>
-          <h1>Web-Beer</h1>
+          <h1>My-Beer</h1>
         </S.Title>
         <S.Form>
           <InputBox 

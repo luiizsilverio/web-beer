@@ -21,7 +21,7 @@ export const Container = styled.div`
   }
 
   ::-webkit-scrollbar-thumb {
-    background-color: var(--text-light);
+    background-color: var(--scrollbar);
     border-radius: 5px;
   }
 

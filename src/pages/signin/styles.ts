@@ -42,10 +42,13 @@ export const Title = styled.header`
   display: flex;
   align-items: center;
   justify-content: center;
-
+  
   h1 {
-    font-size: 5rem;
+    border-top: 1px solid var(--orange);
+    border-bottom: 1px solid var(--orange);
+    font-size: 4.5rem;
     font-weight: 100;
+    line-height: 7.3rem;
   }
 
  svg {

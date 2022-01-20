@@ -31,21 +31,26 @@ export const TitleContainer = styled.header`
 
 export const Title = styled.div`
   display: flex;
+  width: 8.2rem;
   flex-direction: column;
+  border-top: 1px solid var(--orange);
+  border-bottom: 1px solid var(--orange);
+
   
   h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 2rem;
     color: var(--white);
+    line-height: 4.2rem;
 
-    &::after {      
+    /* &::after {      
       content: "";
       display: inline-block;
       height: 3px;
       width: 72px;
       border-bottom: 1px solid var(--orange);      
-    }
+    } */
   }
 `;
 
