@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import { Beer } from '@styled-icons/ionicons-solid'
-import { Dashboard } from '@styled-icons/material-rounded'
-import { ExitToApp } from '@styled-icons/material-rounded' //@styled-icons/material/ExitToApp
+import { Dashboard, ExitToApp } from '@styled-icons/material-rounded'
 import { Calculator } from '@styled-icons/fluentui-system-filled'
 import { AttachMoney } from '@styled-icons/material';
 

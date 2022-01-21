@@ -4,16 +4,24 @@ import { animacao_balanca, animacao_subir } from '@/styles/keyframes';
 export const Container = styled.aside`
   grid-area: menu;
   background-color: var(--background);
-  border-right: 1px solid var(--brown); // #bb844c;
   color: var(--white);
   background-image: linear-gradient(to bottom right, 
     var(--background), var(--back_light));
-
-  clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%, 0% 50%);
-
+      
   @media(max-width: 740px) {
-    display: none;	  
-	}
+    /* display: none;	   */
+    position: absolute;
+    z-index: 50;
+    top: 0;
+    left: 0;
+    width: 100%;
+    box-shadow: 4px 4px 15px 6px rgba(0, 0, 0, .2);
+  }
+
+  @media(min-width: 741px) {
+    clip-path: polygon(0 0, 100% 0, 100% 77%, 0 100%, 0% 50%);
+    border-right: 1px solid var(--brown); // #bb844c;
+  }
 `;
 
 export const TitleContainer = styled.header`
@@ -27,6 +35,7 @@ export const TitleContainer = styled.header`
     margin-right: 10px;
     animation: ${ animacao_balanca } 0.7s ease-in-out;
   }  
+  
 `;
 
 export const Title = styled.div`
@@ -52,6 +61,7 @@ export const Title = styled.div`
       border-bottom: 1px solid var(--orange);      
     } */
   }
+
 `;
 
 export const Menu = styled.ul`
@@ -61,6 +71,7 @@ export const Menu = styled.ul`
   padding: 2.5rem;
   font-size: 1.6rem;  
   animation: ${ animacao_subir } 0.4s ease-out;  
+  max-width: 30rem;
 `;
 
 export const MenuLink = styled.a`
@@ -72,6 +83,10 @@ export const MenuLink = styled.a`
   cursor: pointer;
   /* transition: all 0.2s; */
 
+  &:last-child {
+    margin-bottom: 40px;
+  }
+
   svg {
     margin-right: 6px;
 
@@ -82,7 +97,7 @@ export const MenuLink = styled.a`
 
   &:hover, &:active {
     background-color: var(--orange);
-    color: var(--back_black);
+    color: var(--black);
     border-radius: 4px;
   }
 

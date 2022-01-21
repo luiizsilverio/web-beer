@@ -185,7 +185,7 @@ const totais: ILista[] = [
   },
   {
     label: "R$",
-    value: "VL"
+    value: "R$"
   }
 ]
 
@@ -258,7 +258,7 @@ export default function Dashboard() {
             <S.LegendContainer>
             {
               data.map(item => (
-                <S.Legend color={ item.color } key={ item.name }>
+                <S.Legend color={ item.color } key={ item.name } totalSel={ totalSel }>
                   <div>
                     {                   
                       totalSel === "R$" 
@@ -315,7 +315,10 @@ export default function Dashboard() {
         </S.CardContainer>
         
         <S.CardContainer widthCard1={60}>
-          <Card title='Faturamento Top 5' heightPx={210}>          
+          <Card 
+            title={`Faturamento Top 5 ${ totalSel === 'R$' ? ': R$' : '' }`} 
+            heightPx={210}
+          >
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
                 <LineChart 
@@ -364,12 +367,12 @@ export default function Dashboard() {
             </S.SelectContainer>
           </Card>       
 
-          <Card title='Categorias' heightPx={210}>
+          <Card title='Categorias: R$' heightPx={210}>
             <h2>Categorias</h2>
           </Card>
         </S.CardContainer>   
         
-        <Card title='Faturamento Total' heightPx={210}>
+        <Card title='Faturamento Total: R$' heightPx={210}>
           <h2>Faturamento</h2>
         </Card>
 

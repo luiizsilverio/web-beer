@@ -24,6 +24,7 @@ export const Container = styled.header`
 
   @media(max-width: 740px) {
 	  width: 100%;
+    padding-left: 60px;
 	}
 `;
 

@@ -6,7 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     --background: rgb(31, 32, 36);
     --back_light: #292823;  /* rgb(41, 40, 35); */
     --orange: #ff872c;
-    --back_black: #18161c;    
+    --black: #18161c;    
     --text-light: #e1e1e1;
     --white: #f1f1f1;
     --brown: #a17242;

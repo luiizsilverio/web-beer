@@ -9,7 +9,7 @@ export const Container = styled.div`
     font-size: 1.4rem;
     font-weight: bold;
     text-align: center;
-    color: var(--back_black);
+    color: var(--black);
     outline: none;
   }
 `;

@@ -1,18 +1,18 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 export const Main = styled.main`
   grid-area: princ;
   display: flex;  
   flex-direction: column;
-  padding: 20px;
+  padding: 18px 20px;
  
 `;
 
-type Props = {
+type ContainerProps = {
   widthCard1: number
 }
 
-export const CardContainer = styled.div<Props>`
+export const CardContainer = styled.div<ContainerProps>`
   display: grid;
   grid-template-columns: ${ props => props.widthCard1 }% auto; 
   column-gap: 1.5rem;  
@@ -132,6 +132,7 @@ export const LegendContainer = styled.ul`
 
 interface ILegendProps {
   color: string
+  totalSel: 'QT' | 'R$'
 }
 
 export const Legend = styled.li<ILegendProps>`
@@ -143,9 +144,18 @@ export const Legend = styled.li<ILegendProps>`
 
   > div {
     background-color: ${props => props.color};
-    width: 55px;
-    min-width: 55px;
-    height: 24px;
+    height: 24px;    
+
+    ${ props => props.totalSel === 'R$' && css`
+      width: 85px;
+      min-width: 85px;
+    `};
+
+    ${ props => props.totalSel === 'QT' && css`
+      width: 55px;
+      min-width: 55px;
+    `};
+
     border-radius: 8px;
     font-size: 1.4rem;
     line-height: 24px;
