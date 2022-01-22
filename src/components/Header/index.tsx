@@ -1,17 +1,19 @@
-import MenuButton from '../MenuButton'
 import * as S from './styles'
+import { useBeerContext } from '@/contexts';
+import MenuButton from '../MenuButton'
 
 type Props = {
   title: string
-  showMenuButton?: boolean
   children?: React.ReactNode
 }
 
-export default function Header({ title, showMenuButton = true, children }: Props) {
+export default function Header({ title, children }: Props) {
+  const { menuOpen, toggleMenu } = useBeerContext()
+  
   return (
     <S.Container>
       {
-        showMenuButton && <MenuButton icon="Menu" onClick={() => {}} />
+        !menuOpen && <MenuButton icon="Menu" onClick={ toggleMenu } />
       }
       
       <h1>{ title }</h1>

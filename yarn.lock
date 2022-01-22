@@ -296,6 +296,14 @@
   resolved "https://registry.yarnpkg.com/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-12.0.7.tgz#8d75d3b6a872ab97ab73e3b4173d56dbb2991917"
   integrity sha512-frEWtbf+q8Oz4e2UqKJrNssk6DZ6/NLCQXn5/ORWE9dPAfe9XS6aK5FRZ6DuEPmmKd5gOoRkKJFFz5nYd+TeyQ==
 
+"@styled-icons/bootstrap@^10.34.0":
+  version "10.34.0"
+  resolved "https://registry.yarnpkg.com/@styled-icons/bootstrap/-/bootstrap-10.34.0.tgz#d9142e9eb70dc437f7ef62ffc40168e1ae13ab12"
+  integrity sha512-UpzdVUR7r9BNqEfPrMchJdgMZEg9eXQxLQJUXM0ouvbI5o9j21/y1dGameO4PZtYbutT/dWv5O6y24z5JWzd5w==
+  dependencies:
+    "@babel/runtime" "^7.14.0"
+    "@styled-icons/styled-icon" "^10.6.3"
+
 "@styled-icons/fluentui-system-filled@^10.35.0":
   version "10.35.0"
   resolved "https://registry.yarnpkg.com/@styled-icons/fluentui-system-filled/-/fluentui-system-filled-10.35.0.tgz#6d89c09af2c98153c826ca6d04a91e6c50f6a7fa"

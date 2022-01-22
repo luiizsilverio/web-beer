@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import { GlobalStyle } from '../styles/global'
+import { BeerProvider } from '@/contexts'
 import Layout from '@/components/Layout'
 
 export default function App({ Component, pageProps }) {
@@ -13,9 +14,11 @@ export default function App({ Component, pageProps }) {
                 
       <GlobalStyle />
       
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <BeerProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </BeerProvider>
     </>
   )
 }

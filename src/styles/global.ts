@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components'
 
-
 export const GlobalStyle = createGlobalStyle`
   :root {  
     --background: rgb(31, 32, 36);
@@ -13,8 +12,7 @@ export const GlobalStyle = createGlobalStyle`
     --ocre: #bb844c;
     --bege: #ffe4c4;
     --cinza: rgb(180,180,170);
-    --scrollbar: rgb(170,170,150);
-    
+    --scrollbar: rgb(170,170,150);    
   }  
 
   * {

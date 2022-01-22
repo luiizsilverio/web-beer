@@ -5,16 +5,31 @@ import { Calculator } from '@styled-icons/fluentui-system-filled'
 import { AttachMoney } from '@styled-icons/material';
 
 import * as S from './styles'
+import { useBeerContext } from '@/contexts';
+import MenuButton from '../MenuButton'
 
 export default function Aside() {
+  const { menuOpen, toggleMenu } = useBeerContext()
+  
+  console.log('menu: ', menuOpen)
+
   return (
-    <S.Container>
+    <S.Container menuOpen={ menuOpen }>
       <S.TitleContainer>
-        <Beer size={50} color='#ff872c'/>
+
+        <Beer size={50} color={"var(--orange)"} /> 
+
         <S.Title>
           <h1>My-Beer</h1>
-        </S.Title>
+        </S.Title>    
       </S.TitleContainer>
+
+      {
+        menuOpen && 
+          <S.Button>
+            <MenuButton icon="Close" onClick={ toggleMenu } />
+          </S.Button>
+      }    
 
       <S.Menu>
         <Link href={"/dashboard"}>

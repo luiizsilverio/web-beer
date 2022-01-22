@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { animacao_crescer } from '@/styles/keyframes';
+import { animacao_balanca, animacao_crescer } from '@/styles/keyframes';
 
 export const Container = styled.div`
   display: flex;
@@ -53,6 +53,8 @@ export const Title = styled.header`
 
  svg {
     margin-right: 1rem;
+    animation: ${ animacao_balanca } 0.7s ease-in-out;
+  }  
   }
 `;
 

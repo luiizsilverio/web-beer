@@ -1,9 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
-import { LineChart, Line, XAxis, CartesianGrid } from 'recharts'
+import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
+
 import { AttachMoney } from '@styled-icons/material';
+import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
 
 import * as S from './styles'
+import strzero from '@/utils/strzero'
+import cores_grafico from '@/utils/cores';
+
 import Header from '@/components/Header'
 import Card from '@/components/Card'
 import SelectInput from '@/components/SelectInput';
@@ -17,9 +22,10 @@ interface IData{
 
 interface IHistory {
   monthNo: number
-  month: string  //3 letras
-  totVal: number[] // toFixed(2)
-  totQtd: number[] // toFixed(2)
+  month: string  
+  totVal: number[]
+  totQtd: number[]
+  total?: number
 }
 
 const data: IData[] = [
@@ -27,32 +33,65 @@ const data: IData[] = [
     name: "Chopp Pilsen",
     value: 450,
     quant: 45,
-    color: 'crimson'
+    color: cores_grafico[0]
   },
   {
     name: "Chopp Weiss",
     value: 300,
     quant: 30,
-    color: '#699fff'
+    color: cores_grafico[1]
   },
   {
     name: "Batata Chips",
     value: 150,
     quant: 15,
-    color: 'orange'
+    color: cores_grafico[2]
   },
   {
     name: "Porcao Amendoim",
     value: 50,
     quant: 5,
-    color: 'darkseagreen'
+    color: cores_grafico[3]
   },
   {
     name: "Água mineral",
     value: 50,
     quant: 5,
-    color: 'violet'
+    color: cores_grafico[4]
   }
+]
+
+const categories: IData[] = [
+  {
+    name: "BEBIDAS",
+    value: 450,
+    quant: 0,
+    color: cores_grafico[0]
+  },
+  {
+    name: "BEBIDAS S/ ALCOOL",
+    value: 280,
+    quant: 0,
+    color: cores_grafico[1]
+  },
+  {
+    name: "ALIMENTOS",
+    value: 150,
+    quant: 0,
+    color: cores_grafico[2]
+  },
+  {
+    name: "PETISCOS",
+    value: 90,
+    quant: 0,
+    color: cores_grafico[3]
+  },
+  {
+    name: "PRODUTOS",
+    value: 30,
+    quant: 0,
+    color: cores_grafico[4]
+  }  
 ]
 
 const history: IHistory[] = [
@@ -60,73 +99,85 @@ const history: IHistory[] = [
     monthNo: 0,
     month: "Jan",
     totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30]
+    totQtd: [100, 70, 50, 45, 30],
+    total: 2950    
   },
   {
     monthNo: 1,
     month: "Fev",
     totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45]
+    totQtd: [90, 90, 70, 60, 45],
+    total: 3550
   },
   {
     monthNo: 2,
     month: "Mar",
     totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30]
+    totQtd: [100, 70, 50, 45, 30],
+    total: 2900
   },
   {
     monthNo: 3,
     month: "Abr",
     totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45]
+    totQtd: [90, 90, 70, 60, 45],
+    total: 4000
   },
   {
     monthNo: 4,
     month: "Mai",
     totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30]
+    totQtd: [100, 70, 50, 45, 30],
+    total: 3200
   },
   {
     monthNo: 5,
     month: "Jun",
     totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45]
+    totQtd: [90, 90, 70, 60, 45],
+    total: 2200
   },
   {
     monthNo: 6,
     month: "Jul",
     totVal: [700, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 2800
   },
   {
     monthNo: 7,
     month: "Ago",
     totVal: [700, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 3100
   },
   {
     monthNo: 8,
     month: "Set",
     totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 4000
   },
   {
     monthNo: 9,
     month: "Out",
     totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 2500
   },
   {
     monthNo: 10,
     month: "Nov",
     totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 1800
   },
   {
     monthNo: 11,
     month: "Dez",
     totVal: [770, 750, 330, 690, 560],
-    totQtd: [70, 70, 30, 65, 50]
+    totQtd: [70, 70, 30, 65, 50],
+    total: 4500
   }
 ]
 
@@ -228,14 +279,6 @@ export default function Dashboard() {
     }
   }, [])
 
-  const strzero = useCallback((valor, minSize: number): string => {
-    let stnum = valor.toString().trim()
-    if (stnum.length < minSize) {
-      stnum = stnum.padStart(minSize, "0")
-    }
-    return stnum
-  }, [])
-
   return (
     <>
       <Header title="Dashboard" />      
@@ -250,8 +293,16 @@ export default function Dashboard() {
               <h1>25</h1>
               <span>Vl. Médio / Mesa:</span>
               <h1>R$ 40,00</h1>
-              <AttachMoney size={270} /> 
+              <AttachMoney size={270} />               
             </S.TotalContainer>
+
+            <S.ArrowBox color="limegreen">
+                <div title="Comparativo com o período anterior">
+                  <p >+5.5%</p>
+                  <ArrowUpShort size={22} />
+                  {/* <ArrowDownShort size={22} /> */}
+                </div>
+              </S.ArrowBox>
           </Card>
 
           <Card title='Produtos Top 5'>
@@ -314,7 +365,7 @@ export default function Dashboard() {
           </Card>
         </S.CardContainer>
         
-        <S.CardContainer widthCard1={60}>
+        
           <Card 
             title={`Faturamento Top 5 ${ totalSel === 'R$' ? ': R$' : '' }`} 
             heightPx={210}
@@ -367,14 +418,81 @@ export default function Dashboard() {
             </S.SelectContainer>
           </Card>       
 
-          <Card title='Categorias: R$' heightPx={210}>
-            <h2>Categorias</h2>
-          </Card>
-        </S.CardContainer>   
+          <S.CardContainer widthCard1={50}>          
+          
+            <Card title='Categorias: R$'>
+              <S.LegendContainer>
+              {
+                categories.map(item => (
+                  <S.Legend color={ item.color } key={ item.name } totalSel="R$" >
+                    <div>
+                      {                   
+                        item.value.toFixed(2)
+                      }
+                    </div>
+                    <span>{ item.name }</span>
+                  </S.Legend>
+                ))
+              }         
+              </S.LegendContainer>
+
+              <S.ChartContainer>
+                <ResponsiveContainer width="99%" height="99%">
+                  <PieChart>
+                    <Pie 
+                      data={ categories }
+                      dataKey="value"
+                      cx={64}
+                      cy={90}
+                      innerRadius={40}
+                      outerRadius={66}
+                      paddingAngle={5}
+                    >
+                      {
+                        categories.map((item) => (
+                          <Cell key={ item.name } fill={ item.color } />
+                        ))
+                      }
+                    </Pie>
+                    
+                    <Tooltip 
+                      formatter={(value: number) => (
+                        `R$ ${value.toFixed(2)}`
+                      )}
+                      contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                      animationDuration={0} 
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </S.ChartContainer>
+            </Card>
+
+            <Card title='Faturamento Total: R$'>
+              <ResponsiveContainer width="99%" height="99%">
+                <BarChart 
+                  data={ history }                     
+                  margin={{ top: 20, bottom: 0, left: 10, right: 10 }}
+                > 
+                  <CartesianGrid strokeDasharray="2 1" stroke="grey" />
+                  <XAxis dataKey="month" stroke="#cecece" />
+
+                  <Bar 
+                    dataKey="total" 
+                    fill={"var(--scrollbar)"}
+                  />
+                  
+                  <Tooltip 
+                    formatter={(value: number) => ( `R$ ${value.toFixed(2)}` )}
+                    cursor={{ fill: 'none '}}
+                    contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                    labelStyle={{color: "#1f1f24", fontWeight: 600 }}
+                    animationDuration={0} 
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </Card>
+          </S.CardContainer>   
         
-        <Card title='Faturamento Total: R$' heightPx={210}>
-          <h2>Faturamento</h2>
-        </Card>
 
         <S.Footer>
           <p>Luiz Oliveira (2022)</p>

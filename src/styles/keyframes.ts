@@ -84,6 +84,15 @@ export const animacao_aparecer = keyframes`
   }
 `;
 
+export const animacao_desaparecer = keyframes`
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`;
+
 export const animacao_subir = keyframes`
 	from {
 		opacity: 0;

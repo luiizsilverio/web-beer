@@ -27,7 +27,6 @@ export const ChartContainer = styled.div`
   display: flex;
   flex: 1;  
   /* background-color: red; */
-
 `;
 
 export const TotalContainer = styled.div`
@@ -38,7 +37,7 @@ export const TotalContainer = styled.div`
 
   width: 100%;
   padding-left: 20px;
-  padding-top: 40px;
+  padding-top: 30px;
   position: relative;
   /* background-color: red; */
   overflow: hidden;
@@ -115,6 +114,11 @@ export const LegendContainer = styled.ul`
   padding: 12px 8px;
   padding-right: 5px;
   overflow-y: scroll;
+  /* background-color: black; */
+
+  @media(max-width: 980px) {
+    width: 170px;
+  }
 
   ::-webkit-scrollbar {
     width: 10px;
@@ -127,7 +131,7 @@ export const LegendContainer = styled.ul`
 
   ::-webkit-scrollbar-track {
     background-color: transparent; //var(--brown);
-  }
+  }  
 `;
 
 interface ILegendProps {
@@ -147,17 +151,17 @@ export const Legend = styled.li<ILegendProps>`
     height: 24px;    
 
     ${ props => props.totalSel === 'R$' && css`
-      width: 85px;
-      min-width: 85px;
+      width: 70px;
+      min-width: 70px;
     `};
 
     ${ props => props.totalSel === 'QT' && css`
-      width: 55px;
-      min-width: 55px;
+      width: 50px;
+      min-width: 50px;
     `};
 
     border-radius: 8px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     line-height: 24px;
     text-align: center;
     margin: 4px 6px 3px 0;    
@@ -197,4 +201,29 @@ export const Footer = styled.footer`
     height: 40px;
     font-size: 14px;
   }
+`;
+
+type ArrowProps = {
+  color: string
+}
+
+export const ArrowBox = styled.div<ArrowProps>`
+  div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    
+    width: 64px;
+    background-color: ${props => props.color};
+    border-radius: 6px;
+    color: var(--white);
+    padding-left: 4px;
+  }
+  
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 44;
+  font-size: 12px;  
 `;

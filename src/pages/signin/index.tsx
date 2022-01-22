@@ -10,7 +10,7 @@ function SignIn() {
     <S.Container>
       <S.Content>
         <S.Title>
-          <Beer size={120} color='#ff872c'/>
+          <Beer size={120} color={"var(--orange)"} /> 
           <h1>My-Beer</h1>
         </S.Title>
         <S.Form>

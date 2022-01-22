@@ -1,21 +1,39 @@
-import styled from 'styled-components'
-import { animacao_balanca, animacao_subir } from '@/styles/keyframes';
+import styled, { css } from 'styled-components'
+import { 
+  animacao_balanca, 
+  animacao_subir, 
+  animacao_para_direita
+} from '@/styles/keyframes';
 
-export const Container = styled.aside`
+type Props = {
+  menuOpen: boolean
+}
+
+export const Container = styled.aside<Props>`
   grid-area: menu;
   background-color: var(--background);
   color: var(--white);
+  position: relative;
   background-image: linear-gradient(to bottom right, 
     var(--background), var(--back_light));
       
   @media(max-width: 740px) {
-    /* display: none;	   */
+    /* display: ${props => props.menuOpen ? "initial" : "none" };     */
     position: absolute;
     z-index: 50;
     top: 0;
     left: 0;
     width: 100%;
     box-shadow: 4px 4px 15px 6px rgba(0, 0, 0, .2);
+
+    ${ props => props.menuOpen && css`
+      animation: ${animacao_para_direita} 1s;
+      display: initial;
+    `};
+
+    ${ props => !props.menuOpen && css`
+      display: none;
+    `};
   }
 
   @media(min-width: 741px) {
@@ -100,5 +118,10 @@ export const MenuLink = styled.a`
     color: var(--black);
     border-radius: 4px;
   }
+`;
 
+export const Button = styled.div`
+  position: absolute;
+  right: 7rem;
+  top: 2rem;
 `;
