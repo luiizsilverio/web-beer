@@ -30,30 +30,30 @@ export default function Aside() {
           </S.Button>
       }    
 
-      <S.Menu>
+      <S.Menu onClick={ toggleMenu }>
         <Link href={"/dashboard"}>
-          <S.MenuLink onClick={ toggleMenu }>
+          <S.MenuLink>
             <Dashboard size={30} />
             Dashboard
           </S.MenuLink>
         </Link>
 
         <Link href={"/fechar"}>
-          <S.MenuLink onClick={ toggleMenu }>  
+          <S.MenuLink>  
             <Calculator size={30} />
             Fechar Conta
           </S.MenuLink>
         </Link>
         
         <Link href={"/vendas"}>
-          <S.MenuLink onClick={ toggleMenu }>  
+          <S.MenuLink>  
             <AttachMoney size={30} />
             Rel. de Vendas
           </S.MenuLink>
         </Link>
 
         <Link href={"/signin"}>
-          <S.MenuLink onClick={ toggleMenu }>      
+          <S.MenuLink>      
             <ExitToApp size={30} />    
             Sair
           </S.MenuLink>

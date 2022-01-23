@@ -92,18 +92,17 @@ export const Menu = styled.ul`
   max-width: 30rem;
 `;
 
-export const MenuLink = styled.button`
+export const MenuLink = styled.a`
   text-decoration: none;
   color: var(--text-light);
   font-size: 1.6rem;
   margin: 4px 0;
   padding: 2px 0;
   cursor: pointer;
-  /* transition: all 0.2s; */
 
-  text-align: left;
+  /* text-align: left;
   background-color: transparent;
-  border: none;
+  border: none; */
 
   &:last-child {
     margin-bottom: 40px;
