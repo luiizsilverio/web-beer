@@ -1,6 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
+import decode from 'jwt-decode'
+import Cookies from 'js-cookie'
 
 import { AttachMoney } from '@styled-icons/material';
 import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
@@ -501,4 +503,19 @@ export default function Dashboard() {
       </S.Main>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const senha = Cookies.get('My-Beer:senha')
+
+  const senhaAdm = senha ? decode(senha) : ''
+
+  if (!senhaAdm) {
+    return {
+      redirect: {
+        destination: '/signin',
+        permanent: false,
+      }
+    }
+  }
 }

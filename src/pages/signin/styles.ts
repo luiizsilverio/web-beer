@@ -13,6 +13,11 @@ export const Container = styled.div`
   background-size: cover;
   background-repeat: no-repeat;
   /* filter: blur(4px); */
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 88;
 `;
 
 export const Content = styled.div`
@@ -21,6 +26,7 @@ export const Content = styled.div`
   align-items: center;
   width: 42rem;
   height: 38rem;  
+  max-width: 80%;  
 
   background-color: var(--background);
   border-radius: 20px;
@@ -34,7 +40,6 @@ export const Content = styled.div`
     font-size: 1.6rem;
     color: var(--text-light);
   }
-
 `;
 
 export const Title = styled.header`
@@ -55,6 +60,11 @@ export const Title = styled.header`
     margin-right: 1rem;
     animation: ${ animacao_balanca } 0.7s ease-in-out;
   }  
+
+  @media(max-width: 460px) {
+    h1 {
+      font-size: 3.2rem;
+    }
   }
 `;
 
@@ -64,5 +74,7 @@ export const Form = styled.form`
   width: 60%;
   padding: 2rem 0;
 
-  
+  @media(max-width: 460px) {
+    width: 80%;
+  }
 `;
