@@ -12,6 +12,9 @@ export const GlobalStyle = createGlobalStyle`
     --ocre: #bb844c;
     --bege: #ffe4c4;
     --cinza: rgb(180,180,170);
+    --cinza2: #9AA5B1;
+    --cinza3: #52667A;
+    --cinza4: #313D49;
     --scrollbar: rgb(170,170,150);    
   }  
 

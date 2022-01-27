@@ -25,8 +25,9 @@ export const Content = styled.div<CardProps>`
   /* background-color: var(--back_light);
   filter: opacity(50%); */
   
-  background-color: rgba(50, 50, 50, .6); 
-  
+  /* background-color: rgba(82, 102, 122, .6);  */
+  background-color: rgba(49, 61, 73, .6);   
+
   animation: ${ animacao_crescer } 0.4s;
 
   @media(max-width: 900px) {
