@@ -1,15 +1,17 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
-import decode from 'jwt-decode'
-import Cookies from 'js-cookie'
+import Nookies, { setCookie, parseCookies } from 'nookies'
+import CryptoJS from 'crypto-js'
+// import decode from 'jwt-decode'
 
 import { AttachMoney } from '@styled-icons/material';
 import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
 
-import * as S from './styles'
+import * as S from '@/styles/dashboard.styles'
 import strzero from '@/utils/strzero'
 import cores_grafico from '@/utils/cores';
+import { useBeerContext } from '@/contexts'
 
 import Header from '@/components/Header'
 import Card from '@/components/Card'
@@ -248,6 +250,7 @@ export default function Dashboard() {
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
   const [periodoSel, setPeriodoSel] = useState(0)
   const [totalSel, setTotalSel] = useState("QT")
+  const { senha, checaAdmin, isAdmin } = useBeerContext()
 
   const years: ILista[] = useMemo(() => {
     const lista = []
@@ -280,6 +283,8 @@ export default function Dashboard() {
       throw new Error('Período inválido');
     }
   }, [])
+
+
 
   return (
     <>
@@ -506,10 +511,19 @@ export default function Dashboard() {
 }
 
 export async function getServerSideProps(context) {
-  const senha = Cookies.get('My-Beer:senha')
+  console.log("OIII")
+  const { checaAdmin } = useBeerContext()
+  const cookies = Nookies.get(context)
+  let senha = cookies['MyBeer:senha']
+  let senhaAdm = false
 
-  const senhaAdm = senha ? decode(senha) : ''
-
+  console.log("senha: ", senha, senhaAdm)
+  if (senha) {
+    const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
+    senha = bytes.toString(CryptoJS.enc.Utf8);   
+    senhaAdm = await checaAdmin(senha)
+  }
+  
   if (!senhaAdm) {
     return {
       redirect: {
@@ -517,5 +531,9 @@ export async function getServerSideProps(context) {
         permanent: false,
       }
     }
+  }
+
+  return {
+    props: {}
   }
 }

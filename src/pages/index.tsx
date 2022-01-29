@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 // import decode from 'jwt-decode'
-import { setCookie, parseCookies } from 'nookies'
+import Nookies, { setCookie, parseCookies } from 'nookies'
 import CryptoJS from 'crypto-js'
 
 import SignIn from './signin'
@@ -12,42 +12,43 @@ interface Props {
 }
 
 export default function Home(props: Props) {
-  const { senha, checaAdmin, isAdmin } = useBeerContext()
+  // const { senha, checaAdmin, isAdmin } = useBeerContext()
 
-  useEffect(() => {
-    async function inic() {
-      if (props.senha) {
-        await checaAdmin(props.senha);
-        // if (isAdmin) {
-        //   setCookie(null, 'My-Beer:senha', senha)
-        // }
-      }
-    }
-
-    inic()  
-  }, [])
+  // useEffect(() => {
+  //   async function inic() {
+  //     if (props.senha) {
+  //       await checaAdmin(props.senha);
+        
+  //     }
+  //   }
+  //   inic()  
+  // }, [])
 
   return (
     <>
-      { 
+      <Dashboard />
+      {/* { 
         isAdmin ? <Dashboard /> : <SignIn />
-      }
+      } */}
     </>
   )
 }
 
 export async function getServerSideProps(context) {
-  const cookies = Nookies.get(context)
-  let senha = Nookies['My-Beer:senha']
-  console.log('senha**', senha)
+//   const cookies = Nookies.get(context)
+//   let senha = Nookies['My-Beer:senha']
+//   console.log('senha**', senha)
 
-  // let senha: string = passw ? decode(passw) : ''
+//   // let senha: string = passw ? decode(passw) : ''
 
-  if (senha) {
-    const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
-    senha = bytes.toString(CryptoJS.enc.Utf8);    
-    console.log('senha***', senha)
-  }
+//   if (senha) {
+//     const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
+//     senha = bytes.toString(CryptoJS.enc.Utf8);    
+//     console.log('senha***', senha)
+//   }
+
+const senha = 'OI***';
+console.log(senha)
 
   return {
     props: {

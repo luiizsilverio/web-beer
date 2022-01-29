@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
-import { setCookie, parseCookies } from 'nookies'
+import { setCookie, parseCookies, destroyCookie } from 'nookies'
 import CryptoJS from 'crypto-js'
 
-import * as S from './styles'
+import * as S from '@/styles/signin.styles'
 import { useBeerContext } from '@/contexts'
 import InputBox from '@/components/InputBox'
 import { MyButton } from '@/components/MyButton'
@@ -15,6 +15,8 @@ function SignIn() {
 
   async function handleSignIn() {
     const senhaOk = await checaAdmin(mySenha)
+
+    destroyCookie(null, 'MyBeer:senha') 
 
     if (!senhaOk) {
       toast.error('Senha incorreta.', {
@@ -32,24 +34,8 @@ function SignIn() {
     ).toString();
 
     // salva a senha criptografada nos cookies
-    setCookie(null, 'My-Beer:senha', senhaCriptografada)
+    setCookie(null, 'MyBeer:senha', senhaCriptografada)
   }
-
-
-  useEffect(() => {
-    const cookies = parseCookies()
-    let senha = cookies['My-Beer:senha']
-    
-    if (!senha) {
-      checaAdmin("")
-    } 
-    else {
-      const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
-      senha = bytes.toString(CryptoJS.enc.Utf8);
-      console.log('senha descriptografada:', senha)
-      checaAdmin(senha)
-    }
-  }, [])
 
   return (
     <S.Container>
