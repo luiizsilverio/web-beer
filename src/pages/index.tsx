@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import decode from 'jwt-decode'
-import Cookies from 'js-cookie'
-import { hash } from 'bcryptjs'
+// import decode from 'jwt-decode'
+import { setCookie, parseCookies } from 'nookies'
+import CryptoJS from 'crypto-js'
 
 import SignIn from './signin'
 import Dashboard from './dashboard'
@@ -18,9 +18,9 @@ export default function Home(props: Props) {
     async function inic() {
       if (props.senha) {
         await checaAdmin(props.senha);
-        if (isAdmin) {
-          Cookies.set('My-Beer:senha', senha)
-        }
+        // if (isAdmin) {
+        //   setCookie(null, 'My-Beer:senha', senha)
+        // }
       }
     }
 
@@ -29,7 +29,6 @@ export default function Home(props: Props) {
 
   return (
     <>
-      {/* <Dashboard /> */}
       { 
         isAdmin ? <Dashboard /> : <SignIn />
       }
@@ -38,11 +37,16 @@ export default function Home(props: Props) {
 }
 
 export async function getServerSideProps(context) {
-  const passw = Cookies.get('My-Beer:senha')
-  let senha: string = passw ? decode(passw) : ''
+  const cookies = Nookies.get(context)
+  let senha = Nookies['My-Beer:senha']
+  console.log('senha**', senha)
+
+  // let senha: string = passw ? decode(passw) : ''
 
   if (senha) {
-    senha = await hash(senha, 8); //criptografa
+    const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
+    senha = bytes.toString(CryptoJS.enc.Utf8);    
+    console.log('senha***', senha)
   }
 
   return {

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import toast, { Toaster } from 'react-hot-toast';
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
-import Cookies from 'js-cookie'
-import { hash } from 'bcryptjs'
+import { setCookie, parseCookies } from 'nookies'
+import CryptoJS from 'crypto-js'
 
 import * as S from './styles'
 import { useBeerContext } from '@/contexts'
@@ -25,12 +25,30 @@ function SignIn() {
       return
     } 
 
-    const senha = await hash(mySenha, 8); //criptografa
-    Cookies.set('My-Beer:senha', senha)
+    // criptografa a senha, antes de salvar nos Cookies
+    const senhaCriptografada = CryptoJS.AES.encrypt(
+      mySenha,
+      process.env.NEXT_PUBLIC_API_SECRET
+    ).toString();
+
+    // salva a senha criptografada nos cookies
+    setCookie(null, 'My-Beer:senha', senhaCriptografada)
   }
 
+
   useEffect(() => {
-    checaAdmin("")
+    const cookies = parseCookies()
+    let senha = cookies['My-Beer:senha']
+    
+    if (!senha) {
+      checaAdmin("")
+    } 
+    else {
+      const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
+      senha = bytes.toString(CryptoJS.enc.Utf8);
+      console.log('senha descriptografada:', senha)
+      checaAdmin(senha)
+    }
   }, [])
 
   return (
