@@ -7,10 +7,9 @@ import { AttachMoney } from '@styled-icons/material';
 import * as S from './styles'
 import { useBeerContext } from '@/contexts';
 import MenuButton from '../MenuButton'
-import { useEffect } from 'react';
 
 export default function Aside() {
-  const { menuOpen, toggleMenu } = useBeerContext()
+  const { menuOpen, toggleMenu, logout } = useBeerContext()
   
   return (
     <S.Container menuOpen={ menuOpen }>
@@ -53,10 +52,10 @@ export default function Aside() {
         </Link>
 
         <Link href={"/signin"}>
-          <S.MenuLink>      
+          <S.LinkButton type="button" onClick={logout}>
             <ExitToApp size={30} />    
             Sair
-          </S.MenuLink>
+          </S.LinkButton>
         </Link>
       </S.Menu>
     </S.Container>

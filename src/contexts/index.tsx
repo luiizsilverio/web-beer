@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import { destroyCookie } from 'nookies'
 
 import api from '@/services/api'
 import { IConfig } from '../dtos'
@@ -10,6 +11,7 @@ interface IBeerContext {
   config: IConfig
   senha: string
   isAdmin: boolean
+  logout(): void
   checaAdmin: (key?: string) => Promise<boolean>
   gravaConfig: (config: IConfig) => Promise<void>
   getConfig: () => Promise<IConfig>
@@ -43,12 +45,13 @@ function BeerProvider ({ children }: ProviderProps) {
 
     if (!key) {
       setIsAdmin(false)
+      setSenha("")
       return false
     }
     
     try {
       const response = await api.get(`/config/password/${ key }`)
-
+      
       const ok = response.data.match
       setIsAdmin(ok)
       return ok
@@ -58,6 +61,12 @@ function BeerProvider ({ children }: ProviderProps) {
       setIsAdmin(false)
       return false
     }
+  }
+
+  function logout() {
+    setIsAdmin(false)
+    setSenha("")
+    destroyCookie(null, 'MyBeer:senha') 
   }
 
   async function gravaConfig(config_: IConfig) {    
@@ -105,6 +114,7 @@ function BeerProvider ({ children }: ProviderProps) {
       toggleMenu,
       isAdmin,
       senha,
+      logout,
       config,
       checaAdmin,
       gravaConfig,

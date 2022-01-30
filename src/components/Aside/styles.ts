@@ -52,6 +52,10 @@ export const TitleContainer = styled.header`
   svg {
     margin-right: 10px;
     animation: ${ animacao_balanca } 0.7s ease-in-out;
+    
+    &:hover {
+      animation: ${ animacao_balanca } 0.5s infinite;
+    }
   }  
   
 `;
@@ -70,14 +74,6 @@ export const Title = styled.div`
     font-size: 2rem;
     color: var(--white);
     line-height: 4.2rem;
-
-    /* &::after {      
-      content: "";
-      display: inline-block;
-      height: 3px;
-      width: 72px;
-      border-bottom: 1px solid var(--orange);      
-    } */
   }
 
 `;
@@ -100,13 +96,32 @@ export const MenuLink = styled.a`
   padding: 2px 0;
   cursor: pointer;
 
-  /* text-align: left;
-  background-color: transparent;
-  border: none; */
-
   &:last-child {
     margin-bottom: 40px;
   }
+
+  svg {
+    margin-right: 6px;
+
+    &:hover {
+      font-size: 32px;
+    }
+  }
+
+  &:hover, &:active {
+    background-color: var(--orange);
+    color: var(--black);
+    border-radius: 4px;
+  }
+`;
+
+export const LinkButton = styled.button`
+  background-color: transparent;
+  color: var(--text-light);
+  font-size: 1.6rem;  
+  text-align: left;
+  cursor: pointer;
+  border: none;
 
   svg {
     margin-right: 6px;

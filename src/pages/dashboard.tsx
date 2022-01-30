@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
-import Nookies, { setCookie, parseCookies } from 'nookies'
+import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
-// import decode from 'jwt-decode'
 
 import { AttachMoney } from '@styled-icons/material';
 import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
@@ -250,7 +250,8 @@ export default function Dashboard() {
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
   const [periodoSel, setPeriodoSel] = useState(0)
   const [totalSel, setTotalSel] = useState("QT")
-  const { senha, checaAdmin, isAdmin } = useBeerContext()
+  const { checaAdmin, senha, logout, isAdmin } = useBeerContext()
+  const router = useRouter()
 
   const years: ILista[] = useMemo(() => {
     const lista = []
@@ -285,6 +286,41 @@ export default function Dashboard() {
   }, [])
 
 
+  useEffect(() => {
+    async function inicUser() {
+      let mySenha = senha
+      
+      if (!isAdmin) {
+        // busca a senha dos cookies
+        const cookies = Nookies.get(null)
+        mySenha = cookies['MyBeer:senha']
+
+        if (mySenha) {
+          // descriptografa a senha do cookie        
+          const bytes  = CryptoJS.AES.decrypt(mySenha, process.env.NEXT_PUBLIC_API_SECRET);
+          mySenha = bytes.toString(CryptoJS.enc.Utf8);          
+        }
+      }
+
+      // verifica se a senha do cookie é a senha Admin
+      if (!mySenha) {
+        logout()
+        return false
+      }
+      else {
+        console.log(mySenha)
+        return await checaAdmin(mySenha)              
+      }  
+    }
+
+    inicUser()
+      .then((response) => {
+        if (!response) {
+          router.push('/signin')
+        }
+      })   
+
+  }, [])
 
   return (
     <>
@@ -510,30 +546,4 @@ export default function Dashboard() {
   )
 }
 
-export async function getServerSideProps(context) {
-  console.log("OIII")
-  const { checaAdmin } = useBeerContext()
-  const cookies = Nookies.get(context)
-  let senha = cookies['MyBeer:senha']
-  let senhaAdm = false
 
-  console.log("senha: ", senha, senhaAdm)
-  if (senha) {
-    const bytes  = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
-    senha = bytes.toString(CryptoJS.enc.Utf8);   
-    senhaAdm = await checaAdmin(senha)
-  }
-  
-  if (!senhaAdm) {
-    return {
-      redirect: {
-        destination: '/signin',
-        permanent: false,
-      }
-    }
-  }
-
-  return {
-    props: {}
-  }
-}
