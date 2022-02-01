@@ -25,6 +25,9 @@ api.interceptors.response.use(
 		else if (error.message === 'Network Error') {
 			apiConfig.ok = false
 		}
+		if (!apiConfig.ok) {
+			console.log('** Erro ao acessar Beer-API')
+		}
 		return Promise.reject(error);
 	}
 );

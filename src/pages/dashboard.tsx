@@ -12,6 +12,7 @@ import * as S from '@/styles/dashboard.styles'
 import strzero from '@/utils/strzero'
 import cores_grafico from '@/utils/cores';
 import { useBeerContext } from '@/contexts'
+import api, { apiConfig } from '@/services/api';
 
 import Header from '@/components/Header'
 import Card from '@/components/Card'
@@ -286,6 +287,25 @@ export default function Dashboard() {
   }, [])
 
 
+  async function fetchData() {
+    // setLoading(true)
+    // api.get<IComplemento[]>('complementos', {
+    //   params: {
+    //     _sort: 'id',
+    //     _order: 'asc'
+    //   }
+    // })
+    // .then(response => {
+    //   setComplementos(response.data)
+
+    // }).catch(error => {
+    //   console.log(error.message)
+
+    // }).finally(() => {
+    //   setLoading(false)
+    // })
+  }
+
   useEffect(() => {
     async function inicUser() {
       let mySenha = senha
@@ -308,19 +328,25 @@ export default function Dashboard() {
         return false
       }
       else {
-        console.log(mySenha)
         return await checaAdmin(mySenha)              
       }  
+    }
+
+    async function inicDados() {
+      await fetchData()
     }
 
     inicUser()
       .then((response) => {
         if (!response) {
           router.push('/signin')
+        } else {
+          inicDados()
         }
       })   
 
   }, [])
+
 
   return (
     <>

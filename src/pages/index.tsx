@@ -1,5 +1,4 @@
 import { useEffect } from 'react'
-import decode from 'jwt-decode'
 import { verify } from 'jsonwebtoken'
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
@@ -51,16 +50,14 @@ export async function getServerSideProps(context) {
   }
 
   // verifica se o token é válido ou se não expirou
-  const decoded = verify(
-    token as string, 
-    process.env.NEXT_PUBLIC_API_SECRET, (err, result) => {
-      if (err?.message) {
-        console.log('**', err?.message) // jwt expired
-        token = ''
-      }
-    }
-  )
-
+  try {
+    verify(token as string, process.env.NEXT_PUBLIC_API_SECRET)
+  }
+  catch(err) {
+    console.log('**', err?.message) // jwt expired
+    token = ''
+  }
+  
   // se o token for inválido ou expirou, vai para a tela de login
   if (!token) {
     return {

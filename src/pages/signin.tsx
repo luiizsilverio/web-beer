@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
-import { setCookie, destroyCookie } from 'nookies'
+import { setCookie } from 'nookies'
 import { sign } from 'jsonwebtoken'
 import CryptoJS from 'crypto-js'
 
@@ -33,7 +33,7 @@ function SignIn() {
     // cria um Token JWT que expira em 8h
     const token = sign({}, 
       process.env.NEXT_PUBLIC_API_SECRET, {
-        subject: 'Admin',
+        subject: 'beer',
         expiresIn: '8h'
       }
     )
