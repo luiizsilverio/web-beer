@@ -182,8 +182,7 @@ export const SelectContainer = styled.div`
     filter: opacity(0.8);
 
     &:first-child {
-      right: 9.8rem;
-      /* left: 18.6rem; */
+      right: 11.6rem;
     }
 
     &:last-child {

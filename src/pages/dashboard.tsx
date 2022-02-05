@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
+import { format, subDays, addDays } from 'date-fns';
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
 
@@ -9,6 +10,7 @@ import { AttachMoney } from '@styled-icons/material';
 import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
 
 import * as S from '@/styles/dashboard.styles'
+import { IResumo } from '@/dtos';
 import strzero from '@/utils/strzero'
 import cores_grafico from '@/utils/cores';
 import { useBeerContext } from '@/contexts'
@@ -17,8 +19,10 @@ import api, { apiConfig } from '@/services/api';
 import Header from '@/components/Header'
 import Card from '@/components/Card'
 import SelectInput from '@/components/SelectInput';
+import { Loading } from '@/components/Loading';
 
 interface IData{
+  id: string
   name: string
   value: number
   quant: number
@@ -35,30 +39,35 @@ interface IHistory {
 
 const data: IData[] = [
   {
+    id: '1',
     name: "Chopp Pilsen",
     value: 450,
     quant: 45,
     color: cores_grafico[0]
   },
   {
+    id: '2',
     name: "Chopp Weiss",
     value: 300,
     quant: 30,
     color: cores_grafico[1]
   },
   {
+    id: '3',
     name: "Batata Chips",
     value: 150,
     quant: 15,
     color: cores_grafico[2]
   },
   {
+    id: '4',
     name: "Porcao Amendoim",
     value: 50,
     quant: 5,
     color: cores_grafico[3]
   },
   {
+    id: '5',
     name: "Água mineral",
     value: 50,
     quant: 5,
@@ -66,32 +75,37 @@ const data: IData[] = [
   }
 ]
 
-const categories: IData[] = [
+const categories_: IData[] = [
   {
+    id: '1',
     name: "BEBIDAS",
     value: 450,
     quant: 0,
     color: cores_grafico[0]
   },
   {
+    id: '2',
     name: "BEBIDAS S/ ALCOOL",
     value: 280,
     quant: 0,
     color: cores_grafico[1]
   },
   {
+    id: '3',
     name: "ALIMENTOS",
     value: 150,
     quant: 0,
     color: cores_grafico[2]
   },
   {
+    id: '4',
     name: "PETISCOS",
     value: 90,
     quant: 0,
     color: cores_grafico[3]
   },
   {
+    id: '5',
     name: "PRODUTOS",
     value: 30,
     quant: 0,
@@ -194,7 +208,11 @@ interface ILista {
 const periodos: ILista[] = [
   {
     label: "Hoje",
-    value: 0
+    value: 1
+  },
+  {
+    label: "2 dias",
+    value: 2
   },
   {
     label: "7 dias",
@@ -205,7 +223,7 @@ const periodos: ILista[] = [
     value: 10
   },
   {
-    label: "15 dias",
+    label: "2 semanas",
     value: 15
   },
   {
@@ -251,6 +269,8 @@ export default function Dashboard() {
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
   const [periodoSel, setPeriodoSel] = useState(0)
   const [totalSel, setTotalSel] = useState("QT")
+  const [categories, setCategories] = useState<IData[]>([])
+  const [loading, setLoading] = useState(false)
   const { checaAdmin, senha, logout, isAdmin } = useBeerContext()
   const router = useRouter()
 
@@ -287,23 +307,39 @@ export default function Dashboard() {
   }, [])
 
 
-  async function fetchData() {
-    // setLoading(true)
-    // api.get<IComplemento[]>('complementos', {
-    //   params: {
-    //     _sort: 'id',
-    //     _order: 'asc'
-    //   }
-    // })
-    // .then(response => {
-    //   setComplementos(response.data)
+  async function loadData() {
+    setLoading(true)
 
-    // }).catch(error => {
-    //   console.log(error.message)
+    const hoje = new Date()
+    const dt2 = hoje.toISOString()
+    const dt1 = subDays(hoje, periodoSel + 1).toISOString()
+    
+    console.log(dt1, dt2)
+    
+    api.get('estatistica/categorias', {
+      params: {
+        dtInicial: dt1,
+        dtFinal: dt2
+      }
+    })
+    .then(response => {
+      console.log(response.data)
+      const totais = response.data.map((item, index) => ({
+        id: item.data,
+        name: item.name,
+        value: item.vl_total,
+        qtd: item.qtd,
+        color: cores_grafico[index]
+      }))
 
-    // }).finally(() => {
-    //   setLoading(false)
-    // })
+      setCategories(totais)
+
+    }).catch(error => {
+      console.log(error.message)
+
+    }).finally(() => {
+      // setLoading(false)
+    })
   }
 
   useEffect(() => {
@@ -333,7 +369,7 @@ export default function Dashboard() {
     }
 
     async function inicDados() {
-      await fetchData()
+      await loadData()
     }
 
     inicUser()
@@ -353,6 +389,11 @@ export default function Dashboard() {
       <Header title="Dashboard" />      
 
       <S.Main>
+
+        {
+          loading && <Loading />
+        }
+
         <S.CardContainer widthCard1={40}>
           <Card title='Resumo'>
             <S.TotalContainer>

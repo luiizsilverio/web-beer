@@ -51,3 +51,10 @@ export interface IMesa {
   id_comanda: string
   temNovoConsumo?: boolean
 }
+
+export interface IResumo {
+  vl_total: number
+  qtdMesas: number
+  vlMedio: number
+  comparativo: string
+}

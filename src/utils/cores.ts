@@ -4,7 +4,12 @@ const cores_grafico = [
   '#699fff',
   'orange',
   'darkseagreen',
-  'violet'
+  'violet',
+  'yellow',
+  'blue',
+  'green',
+  'red',
+  'gray'
 ];
 
 export default cores_grafico;
