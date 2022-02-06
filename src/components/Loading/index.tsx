@@ -1,25 +1,16 @@
-import Lottie from 'react-lottie'
+import Lottie from 'react-lottie-player'
 import caveira from '@/assets/loading-skull.json'
 
 import * as S from './styles'
-
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: caveira,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice"
-  }
-}
 
 export function Loading() {
   return (
     <S.Container>
       {/* <img src="/skull.gif" alt="Caveira" width={300} /> */}
       <Lottie
-        options={defaultOptions}
-        height={250}
-        width={250}
+        loop={true}
+        play={true}
+        animationData={caveira}
         className="lottie"
       />
     </S.Container>
