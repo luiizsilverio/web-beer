@@ -322,6 +322,7 @@ export default function Dashboard() {
         color: cores_grafico[index]
       }))
 
+      console.log('Categorias')
       setCategories(totais)
     })
   }
@@ -335,7 +336,7 @@ export default function Dashboard() {
       }
     })
     .then(response => {
-      console.log(response.data)
+      console.log('Resumo')
       setResumo(response.data)
     })
   }
@@ -348,15 +349,17 @@ export default function Dashboard() {
     const dt1 = subDays(hoje, periodoSel + 1).toISOString()
     
     try {
-      loadCategorias(dt1, dt2)
 
-      loadResumo(dt1, dt2)
+        loadCategorias(dt1, dt2),
+        loadResumo(dt1, dt2)
 
+      console.log('OK')
     }
     catch (error) {
       console.log(error.message)
     }
     finally {
+      console.log('OKK')
       setLoading(false)
     }
     // api.get('estatistica/categorias', {
