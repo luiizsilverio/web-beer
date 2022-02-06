@@ -109,15 +109,20 @@ export const TotalValue = styled.div`
 `;
 
 export const LegendContainer = styled.ul`
-  width: 200px;
   list-style: none;
   padding: 12px 8px;
   padding-right: 5px;
   overflow-y: scroll;
+  width: 170px;
   /* background-color: black; */
 
-  @media(max-width: 980px) {
-    width: 170px;
+  
+  @media(max-width: 900px) {
+    width: 220px; /*170px;*/
+  }
+
+  @media(min-width: 1000px) {
+    width: 220px; /*170px;*/
   }
 
   ::-webkit-scrollbar {

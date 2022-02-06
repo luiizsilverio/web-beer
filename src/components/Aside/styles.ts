@@ -71,7 +71,7 @@ export const Title = styled.div`
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
     font-size: 2rem;
-    color: var(--white);
+    color: var(--bege);
     line-height: 4.2rem;
   }
 

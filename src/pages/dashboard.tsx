@@ -10,9 +10,10 @@ import { AttachMoney } from '@styled-icons/material';
 import { ArrowUpShort, ArrowDownShort } from '@styled-icons/bootstrap';
 
 import * as S from '@/styles/dashboard.styles'
-import { IResumo } from '@/dtos';
+import { IResumo, ITop5 } from '@/dtos';
 import strzero from '@/utils/strzero'
 import cores_grafico from '@/utils/cores';
+import months from '@/utils/months';
 import { useBeerContext } from '@/contexts'
 import api, { apiConfig } from '@/services/api';
 
@@ -20,6 +21,7 @@ import Header from '@/components/Header'
 import Card from '@/components/Card'
 import SelectInput from '@/components/SelectInput';
 import { Loading } from '@/components/Loading';
+import { exit } from 'process';
 
 interface IData{
   id: string
@@ -32,9 +34,14 @@ interface IData{
 interface IHistory {
   monthNo: number
   month: string  
-  totVal: number[]
-  totQtd: number[]
-  total?: number
+  vl_total: number
+}
+
+interface ITop5History {
+  monthNo: number
+  month: string  
+  vl_total: number[]
+  qtd: number[]
 }
 
 const data: IData[] = [
@@ -72,131 +79,6 @@ const data: IData[] = [
     value: 50,
     quant: 5,
     color: cores_grafico[4]
-  }
-]
-
-const categories_: IData[] = [
-  {
-    id: '1',
-    name: "BEBIDAS",
-    value: 450,
-    quant: 0,
-    color: cores_grafico[0]
-  },
-  {
-    id: '2',
-    name: "BEBIDAS S/ ALCOOL",
-    value: 280,
-    quant: 0,
-    color: cores_grafico[1]
-  },
-  {
-    id: '3',
-    name: "ALIMENTOS",
-    value: 150,
-    quant: 0,
-    color: cores_grafico[2]
-  },
-  {
-    id: '4',
-    name: "PETISCOS",
-    value: 90,
-    quant: 0,
-    color: cores_grafico[3]
-  },
-  {
-    id: '5',
-    name: "PRODUTOS",
-    value: 30,
-    quant: 0,
-    color: cores_grafico[4]
-  }  
-]
-
-const history: IHistory[] = [
-  {
-    monthNo: 0,
-    month: "Jan",
-    totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30],
-    total: 2950    
-  },
-  {
-    monthNo: 1,
-    month: "Fev",
-    totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45],
-    total: 3550
-  },
-  {
-    monthNo: 2,
-    month: "Mar",
-    totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30],
-    total: 2900
-  },
-  {
-    monthNo: 3,
-    month: "Abr",
-    totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45],
-    total: 4000
-  },
-  {
-    monthNo: 4,
-    month: "Mai",
-    totVal: [1000, 700, 500, 450, 300],
-    totQtd: [100, 70, 50, 45, 30],
-    total: 3200
-  },
-  {
-    monthNo: 5,
-    month: "Jun",
-    totVal: [900, 900, 700, 600, 450],
-    totQtd: [90, 90, 70, 60, 45],
-    total: 2200
-  },
-  {
-    monthNo: 6,
-    month: "Jul",
-    totVal: [700, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 2800
-  },
-  {
-    monthNo: 7,
-    month: "Ago",
-    totVal: [700, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 3100
-  },
-  {
-    monthNo: 8,
-    month: "Set",
-    totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 4000
-  },
-  {
-    monthNo: 9,
-    month: "Out",
-    totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 2500
-  },
-  {
-    monthNo: 10,
-    month: "Nov",
-    totVal: [750, 700, 300, 650, 500],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 1800
-  },
-  {
-    monthNo: 11,
-    month: "Dez",
-    totVal: [770, 750, 330, 690, 560],
-    totQtd: [70, 70, 30, 65, 50],
-    total: 4500
   }
 ]
 
@@ -270,6 +152,9 @@ export default function Dashboard() {
   const [totalSel, setTotalSel] = useState("QT")
   const [categories, setCategories] = useState<IData[]>([])
   const [resumo, setResumo] = useState<IResumo>({} as IResumo)
+  const [history, setHistory] = useState<IHistory[]>([])
+  const [top5, setTop5] = useState<ITop5[]>([])
+  const [top5history, setTop5history] = useState<ITop5History[]>([])
   const [loading, setLoading] = useState(false)
   const { checaAdmin, senha, logout, isAdmin } = useBeerContext()
   const router = useRouter()
@@ -322,7 +207,6 @@ export default function Dashboard() {
       color: cores_grafico[index]
     }))
 
-    console.log('Categorias')
     setCategories(totais)    
   }
 
@@ -335,8 +219,102 @@ export default function Dashboard() {
       }
     })
     
-    console.log('Resumo')
-    setResumo(response.data)    
+    const totais: IResumo = {
+      vl_total: response.data.vl_total?.toFixed(2),
+      vlMedio: response.data.vlMedio?.toFixed(2),
+      qtdMesas: strzero(response.data.qtdMesas, 3),
+      comparativo: response.data.comparativo
+    }
+
+    setResumo(totais)    
+  }
+
+  async function loadHistory(ano: number) {
+    const response = await api.get('estatistica/anual', {
+      params: {
+        ano: ano.toString()
+      }
+    })
+
+    const totais: IHistory[] = response.data.map((item, index) => ({
+      monthNo: months[index].value,
+      month: months[index].label.substring(0,3),
+      vl_total: item      
+    }))
+
+    setHistory(totais)    
+  }
+
+  async function loadTop5(dt1, dt2: string) {
+    const response = await api.get('estatistica/top5/produtos', {
+      params: {
+        dtInicial: dt1,
+        dtFinal: dt2,
+        unidade: totalSel
+      }
+    })
+
+    const totais: ITop5[] = response.data.map((item, index) => ({
+      id_product: item.id_product,
+      name: item.name,
+      vl_total: item.vl_total,
+      quant: item.qtd,
+      color: cores_grafico[index]
+    }))
+
+    const produtos = response.data.map((item, index) => (
+      item.id_product
+    ))
+
+    setTop5(totais)    
+
+    loadTop5history(yearSel, produtos)
+  }
+
+  async function loadTop5history(ano: number, produtos: string[]) {    
+    if (produtos.length === 0 || !produtos[0]) {
+      setTop5history([])
+      return
+    }
+
+    const vpar = {
+      ano: ano.toString(),
+      prod1: '',
+      prod2: '',
+      prod3: '',
+      prod4: '',
+      prod5: '',
+    }
+
+    if (produtos.length > 0) vpar.prod1 = produtos[0]
+    if (produtos.length > 1) vpar.prod2 = produtos[1]
+    if (produtos.length > 2) vpar.prod3 = produtos[2]
+    if (produtos.length > 3) vpar.prod4 = produtos[3]
+    if (produtos.length > 4) vpar.prod5 = produtos[4]
+
+    const totais: ITop5History[] = []
+
+    for (let i = 0; i < 11; i++) {
+      totais.push({
+        monthNo: months[i].value,
+        month: months[i].label.substring(0,3),
+        vl_total: Array(12).fill(0),
+        qtd: Array(12).fill(0)
+      })
+    }
+
+    const response = await api.get('estatistica/top5/anual', { params: vpar })
+
+    response.data.map((item, index) => {
+      const i = produtos.findIndex(prod => prod === item.id_product)
+
+      if (i >= 0) {
+        totais[i].vl_total = item.vl_total
+        totais[i].qtd = item.qtd
+      }      
+    })
+
+    setTop5history(totais)    
   }
 
   async function loadData() {
@@ -347,19 +325,18 @@ export default function Dashboard() {
     const dt1 = subDays(hoje, periodoSel + 1).toISOString()
     
     try {
-
       await Promise.all([
+        loadResumo(dt1, dt2),
+        loadTop5(dt1, dt2),
         loadCategorias(dt1, dt2),
-        loadResumo(dt1, dt2)
-      ])
-      
-      console.log('OK')        
-
+        loadHistory(yearSel),
+      ])            
     }
     catch (error) {
       console.log(error.message)
     }
     finally {
+      console.log('loadData OK')
       setLoading(false)
     }
   }
@@ -390,20 +367,24 @@ export default function Dashboard() {
       }  
     }
 
+    inicUser()
+      .then((response) => {
+        if (!response) {
+          router.push('/signin')        
+        }
+      })   
+  }, [])
+
+
+  useEffect(() => {
     async function inicDados() {
       await loadData()
     }
 
-    inicUser()
-      .then((response) => {
-        if (!response) {
-          router.push('/signin')
-        } else {
-          inicDados()
-        }
-      })   
-
-  }, [])
+    if (isAdmin && !loading) {
+      inicDados()
+    }
+  }, [periodoSel, yearSel])
 
 
   return (
@@ -428,24 +409,34 @@ export default function Dashboard() {
               <AttachMoney size={270} />               
             </S.TotalContainer>
 
-            <S.ArrowBox color="limegreen">
-                <div title="Comparativo com o período anterior">
-                  <p >+5.5%</p>
-                  <ArrowUpShort size={22} />
-                  {/* <ArrowDownShort size={22} /> */}
-                </div>
-              </S.ArrowBox>
+            {
+              resumo.comparativo >= 0
+              ?
+                <S.ArrowBox color="limegreen">
+                  <div title="Comparativo com o período anterior">
+                    <p>+{ resumo.comparativo }%</p>
+                    <ArrowUpShort size={22} />
+                  </div>
+                </S.ArrowBox>
+              :
+                <S.ArrowBox color="crimson">
+                  <div title="Comparativo com o período anterior">
+                    <p>-{ resumo.comparativo }%</p>
+                    <ArrowDownShort size={22} />
+                  </div>
+                </S.ArrowBox>              
+            }
           </Card>
 
           <Card title='Produtos Top 5'>
             <S.LegendContainer>
             {
-              data.map(item => (
+              top5.map(item => (
                 <S.Legend color={ item.color } key={ item.name } totalSel={ totalSel }>
                   <div>
                     {                   
                       totalSel === "R$" 
-                        ? item.value.toFixed(2)
+                        ? item.vl_total?.toFixed(2)
                         : strzero(item.quant, 3) 
                     }
                   </div>
@@ -459,8 +450,8 @@ export default function Dashboard() {
               <ResponsiveContainer width="99%" height="99%">
                 <PieChart>
                   <Pie 
-                    data={ data }
-                    dataKey={ totalSel === "R$" ? "value" : "quant" }
+                    data={ top5 }
+                    dataKey={ totalSel === "R$" ? "vl_total" : "quant" }
                   >
                     {
                       data.map((item) => (
@@ -472,7 +463,7 @@ export default function Dashboard() {
                   <Tooltip 
                     formatter={(value: number) => (
                       totalSel === "R$" 
-                        ? `R$ ${value.toFixed(2)}`
+                        ? `R$ ${value?.toFixed(2)}`
                         : strzero(value, 3)
                     )}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
@@ -505,7 +496,7 @@ export default function Dashboard() {
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
                 <LineChart 
-                  data={ history }
+                  data={ top5history }
                   margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
                 > 
                   <CartesianGrid strokeDasharray="2 1" stroke="grey" />
@@ -514,7 +505,7 @@ export default function Dashboard() {
 
                   {
                     data.map((item, index) => (
-                      <Line dataKey={ `totVal[${ index }]` }
+                      <Line dataKey={ `vl_total[${ index }]` }
                         key={ item.name }
                         name={ item.name }
                         type="monotone"
@@ -529,7 +520,7 @@ export default function Dashboard() {
                   <Tooltip 
                     formatter={(value: number) => (
                       totalSel === "R$" 
-                        ? `R$ ${value.toFixed(2)}`
+                        ? `R$ ${value?.toFixed(2)}`
                         : strzero(value, 3)
                     )}
                     cursor={{ fill: 'none '}}
@@ -559,7 +550,7 @@ export default function Dashboard() {
                   <S.Legend color={ item.color } key={ item.name } totalSel="R$" >
                     <div>
                       {                   
-                        item.value.toFixed(2)
+                        item.value?.toFixed(2)
                       }
                     </div>
                     <span>{ item.name }</span>
@@ -589,7 +580,7 @@ export default function Dashboard() {
                     
                     <Tooltip 
                       formatter={(value: number) => (
-                        `R$ ${value.toFixed(2)}`
+                        `R$ ${value?.toFixed(2)}`
                       )}
                       contentStyle={{borderRadius: "8px", opacity: 0.8}}
                       animationDuration={0} 
@@ -609,12 +600,12 @@ export default function Dashboard() {
                   <XAxis dataKey="month" stroke="#cecece" />
 
                   <Bar 
-                    dataKey="total" 
+                    dataKey="vl_total" 
                     fill={"var(--scrollbar)"}
                   />
                   
                   <Tooltip 
-                    formatter={(value: number) => ( `R$ ${value.toFixed(2)}` )}
+                    formatter={(value: number) => ( `R$ ${value?.toFixed(2)}` )}                      
                     cursor={{ fill: 'none '}}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
                     labelStyle={{color: "#1f1f24", fontWeight: 600 }}

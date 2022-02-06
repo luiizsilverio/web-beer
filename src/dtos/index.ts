@@ -53,8 +53,16 @@ export interface IMesa {
 }
 
 export interface IResumo {
+  vl_total: string
+  qtdMesas: string
+  vlMedio: string
+  comparativo: number  
+}
+
+export interface ITop5{
+  id: string
+  name: string
   vl_total: number
-  qtdMesas: number
-  vlMedio: number
-  comparativo: string
+  quant: number
+  color: string
 }

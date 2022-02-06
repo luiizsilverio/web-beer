@@ -51,6 +51,7 @@ export const Title = styled.header`
   h1 {
     border-top: 1px solid var(--orange);
     border-bottom: 1px solid var(--orange);
+    color: var(--bege); //var(--white);
     font-size: 4.5rem;
     font-weight: 100;
     line-height: 7.3rem;
@@ -59,6 +60,10 @@ export const Title = styled.header`
  svg {
     margin-right: 1rem;
     animation: ${ animacao_balanca } 0.7s ease-in-out;
+
+    &:hover {
+      animation: ${ animacao_balanca } 0.5s infinite;
+    }
   }  
 
   @media(max-width: 460px) {
