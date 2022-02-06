@@ -263,13 +263,13 @@ const totais: ILista[] = [
   }
 ]
 
-
 export default function Dashboard() {
   const hoje = new Date()
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
   const [periodoSel, setPeriodoSel] = useState(0)
   const [totalSel, setTotalSel] = useState("QT")
   const [categories, setCategories] = useState<IData[]>([])
+  const [resumo, setResumo] = useState<IResumo>({} as IResumo)
   const [loading, setLoading] = useState(false)
   const { checaAdmin, senha, logout, isAdmin } = useBeerContext()
   const router = useRouter()
@@ -306,16 +306,7 @@ export default function Dashboard() {
     }
   }, [])
 
-
-  async function loadData() {
-    setLoading(true)
-
-    const hoje = new Date()
-    const dt2 = hoje.toISOString()
-    const dt1 = subDays(hoje, periodoSel + 1).toISOString()
-    
-    console.log(dt1, dt2)
-    
+  function loadCategorias(dt1, dt2: string) {
     api.get('estatistica/categorias', {
       params: {
         dtInicial: dt1,
@@ -323,7 +314,6 @@ export default function Dashboard() {
       }
     })
     .then(response => {
-      console.log(response.data)
       const totais = response.data.map((item, index) => ({
         id: item.data,
         name: item.name,
@@ -333,13 +323,65 @@ export default function Dashboard() {
       }))
 
       setCategories(totais)
-
-    }).catch(error => {
-      console.log(error.message)
-
-    }).finally(() => {
-      // setLoading(false)
     })
+  }
+
+  function loadResumo(dt1, dt2: string) {
+    api.get('estatistica/resumo', {
+      params: {
+        dtInicial: dt1,
+        dtFinal: dt2,
+        ndias: periodoSel + 1
+      }
+    })
+    .then(response => {
+      console.log(response.data)
+      setResumo(response.data)
+    })
+  }
+
+  async function loadData() {
+    setLoading(true)
+
+    const hoje = new Date()
+    const dt2 = hoje.toISOString()
+    const dt1 = subDays(hoje, periodoSel + 1).toISOString()
+    
+    try {
+      loadCategorias(dt1, dt2)
+
+      loadResumo(dt1, dt2)
+
+    }
+    catch (error) {
+      console.log(error.message)
+    }
+    finally {
+      setLoading(false)
+    }
+    // api.get('estatistica/categorias', {
+    //   params: {
+    //     dtInicial: dt1,
+    //     dtFinal: dt2
+    //   }
+    // })
+    // .then(response => {
+    //   const totais = response.data.map((item, index) => ({
+    //     id: item.data,
+    //     name: item.name,
+    //     value: item.vl_total,
+    //     qtd: item.qtd,
+    //     color: cores_grafico[index]
+    //   }))
+
+    //   setCategories(totais)
+
+    // }).catch(error => {
+    //   console.log(error.message)
+
+    // }).finally(() => {
+    //   setLoading(false)
+    // })
   }
 
   useEffect(() => {
@@ -398,11 +440,11 @@ export default function Dashboard() {
           <Card title='Resumo'>
             <S.TotalContainer>
               <span>Valor Total:</span>
-              <h1>R$ 1000,00</h1>
+              <h1>R$ { resumo.vl_total }</h1>
               <span>Qtd. de Contas:</span>
-              <h1>25</h1>
+              <h1>{ resumo.qtdMesas }</h1>
               <span>Vl. Médio / Mesa:</span>
-              <h1>R$ 40,00</h1>
+              <h1>R$ { resumo.vlMedio }</h1>
               <AttachMoney size={270} />               
             </S.TotalContainer>
 

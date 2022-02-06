@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const apiConfig = {
 	ok: true,
-	api_host: process.env.NEXT_PUBLIC_API_HOST || '192.168.1.38',
+	api_host: process.env.NEXT_PUBLIC_API_HOST || '192.168.1.200',
 	api_port: process.env.NEXT_PUBLIC_API_PORT || '3434',
   api_secret: process.env.NEXT_PUBLIC_API_SECRET 
 }

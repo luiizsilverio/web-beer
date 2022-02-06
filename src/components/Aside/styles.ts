@@ -18,7 +18,6 @@ export const Container = styled.aside<Props>`
     var(--background), var(--back_light));
       
   @media(max-width: 740px) {
-    /* display: ${props => props.menuOpen ? "initial" : "none" };     */
     position: absolute;
     z-index: 50;
     top: 0;
