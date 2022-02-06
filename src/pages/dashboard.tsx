@@ -306,39 +306,37 @@ export default function Dashboard() {
     }
   }, [])
 
-  function loadCategorias(dt1, dt2: string) {
-    api.get('estatistica/categorias', {
+  async function loadCategorias(dt1, dt2: string) {
+    const response = await api.get('estatistica/categorias', {
       params: {
         dtInicial: dt1,
         dtFinal: dt2
       }
     })
-    .then(response => {
-      const totais = response.data.map((item, index) => ({
-        id: item.data,
-        name: item.name,
-        value: item.vl_total,
-        qtd: item.qtd,
-        color: cores_grafico[index]
-      }))
 
-      console.log('Categorias')
-      setCategories(totais)
-    })
+    const totais = response.data.map((item, index) => ({
+      id: item.data,
+      name: item.name,
+      value: item.vl_total,
+      qtd: item.qtd,
+      color: cores_grafico[index]
+    }))
+
+    console.log('Categorias')
+    setCategories(totais)    
   }
 
-  function loadResumo(dt1, dt2: string) {
-    api.get('estatistica/resumo', {
+  async function loadResumo(dt1, dt2: string) {
+    const response = await api.get('estatistica/resumo', {
       params: {
         dtInicial: dt1,
         dtFinal: dt2,
         ndias: periodoSel + 1
       }
     })
-    .then(response => {
-      console.log('Resumo')
-      setResumo(response.data)
-    })
+    
+    console.log('Resumo')
+    setResumo(response.data)    
   }
 
   async function loadData() {
@@ -350,41 +348,20 @@ export default function Dashboard() {
     
     try {
 
+      await Promise.all([
         loadCategorias(dt1, dt2),
         loadResumo(dt1, dt2)
+      ])
+      
+      console.log('OK')        
 
-      console.log('OK')
     }
     catch (error) {
       console.log(error.message)
     }
     finally {
-      console.log('OKK')
       setLoading(false)
     }
-    // api.get('estatistica/categorias', {
-    //   params: {
-    //     dtInicial: dt1,
-    //     dtFinal: dt2
-    //   }
-    // })
-    // .then(response => {
-    //   const totais = response.data.map((item, index) => ({
-    //     id: item.data,
-    //     name: item.name,
-    //     value: item.vl_total,
-    //     qtd: item.qtd,
-    //     color: cores_grafico[index]
-    //   }))
-
-    //   setCategories(totais)
-
-    // }).catch(error => {
-    //   console.log(error.message)
-
-    // }).finally(() => {
-    //   setLoading(false)
-    // })
   }
 
   useEffect(() => {
