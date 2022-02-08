@@ -16,6 +16,7 @@ export const GlobalStyle = createGlobalStyle`
     --cinza3: #52667A;
     --cinza4: #313D49;
     --scrollbar: rgb(170,170,150);    
+    --abacate: #697A21;
   }  
 
   * {

@@ -20,6 +20,7 @@ export const Content = styled.div<CardProps>`
   height: ${ props => props.heightPx }px; //19rem;
   border-radius: 1.6rem;
   padding: 2px 8px;
+  padding-right: 4px;
   position: relative;
 
   /* background-color: var(--back_light);

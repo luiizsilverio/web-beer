@@ -113,16 +113,20 @@ export const LegendContainer = styled.ul`
   padding: 12px 8px;
   padding-right: 5px;
   overflow-y: scroll;
-  width: 170px;
+  width: 180px;
   /* background-color: black; */
 
   
   @media(max-width: 900px) {
-    width: 220px; /*170px;*/
+    width: 230px; /*170px;*/
   }
 
   @media(min-width: 1000px) {
     width: 220px; /*170px;*/
+  }
+
+  @media(min-width: 1100px) {
+    width: 270px; /*170px;*/
   }
 
   ::-webkit-scrollbar {
@@ -156,8 +160,8 @@ export const Legend = styled.li<ILegendProps>`
     height: 24px;    
 
     ${ props => props.totalSel === 'R$' && css`
-      width: 70px;
-      min-width: 70px;
+      width: 80px;
+      min-width: 80px;
     `};
 
     ${ props => props.totalSel === 'QT' && css`
@@ -218,10 +222,10 @@ export const ArrowBox = styled.div<ArrowProps>`
     align-items: center;
     justify-content: center;
     
-    width: 64px;
+    width: 100px;
     background-color: ${props => props.color};
-    border-radius: 6px;
     color: var(--white);
+    border-radius: 6px;
     padding-left: 4px;
   }
   
@@ -230,4 +234,24 @@ export const ArrowBox = styled.div<ArrowProps>`
   bottom: 14px;
   z-index: 44;
   font-size: 12px;  
+`;
+
+export const RealBox = styled.div`
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+  border-radius: 6px;
+  padding: 0 4px;
+  font-size: 18px;  
+  text-align: center;
+  
+  position: absolute;
+  z-index: 44;
+  top: -2.8rem;
+  left: 200px;
+  background-color: var(--bege); 
+
+
+  color: var(--abacate);
+  
 `;

@@ -215,7 +215,7 @@ export default function Dashboard() {
       params: {
         dtInicial: dt1,
         dtFinal: dt2,
-        ndias: periodoSel + 1
+        ndias: periodoSel
       }
     })
     
@@ -250,7 +250,7 @@ export default function Dashboard() {
       params: {
         dtInicial: dt1,
         dtFinal: dt2,
-        unidade: totalSel
+        unidade: totalSel === 'R$' ? 'VL' : 'QT'
       }
     })
 
@@ -294,24 +294,24 @@ export default function Dashboard() {
 
     const totais: ITop5History[] = []
 
-    for (let i = 0; i < 11; i++) {
+    for (let i = 0; i < 12; i++) {
       totais.push({
         monthNo: months[i].value,
-        month: months[i].label.substring(0,3),
-        vl_total: Array(12).fill(0),
-        qtd: Array(12).fill(0)
+        month: months[i].label.substring(0, 3),
+        vl_total: Array(produtos.length).fill(0),
+        qtd: Array(produtos.length).fill(0)
       })
     }
 
     const response = await api.get('estatistica/top5/anual', { params: vpar })
 
     response.data.map((item, index) => {
-      const i = produtos.findIndex(prod => prod === item.id_product)
-
-      if (i >= 0) {
-        totais[i].vl_total = item.vl_total
-        totais[i].qtd = item.qtd
-      }      
+      const prod = produtos.findIndex(prod => prod === item.id_product)
+      
+      for (let mes = 0; mes < 12; mes++) {
+        totais[mes].vl_total[prod] = item.vl_total[mes] 
+        totais[mes].qtd[prod] = item.qtd[mes]
+      }    
     })
 
     setTop5history(totais)    
@@ -319,6 +319,7 @@ export default function Dashboard() {
 
   async function loadData() {
     setLoading(true)
+    console.log('loadData')
 
     const hoje = new Date()
     const dt2 = hoje.toISOString()
@@ -336,7 +337,6 @@ export default function Dashboard() {
       console.log(error.message)
     }
     finally {
-      console.log('loadData OK')
       setLoading(false)
     }
   }
@@ -421,7 +421,7 @@ export default function Dashboard() {
               :
                 <S.ArrowBox color="crimson">
                   <div title="Comparativo com o período anterior">
-                    <p>-{ resumo.comparativo }%</p>
+                    <p>{ resumo.comparativo }%</p>
                     <ArrowDownShort size={22} />
                   </div>
                 </S.ArrowBox>              
@@ -432,7 +432,7 @@ export default function Dashboard() {
             <S.LegendContainer>
             {
               top5.map(item => (
-                <S.Legend color={ item.color } key={ item.name } totalSel={ totalSel }>
+                <S.Legend color={ item.color } key={ item.id } totalSel={ totalSel }>
                   <div>
                     {                   
                       totalSel === "R$" 
@@ -454,7 +454,7 @@ export default function Dashboard() {
                     dataKey={ totalSel === "R$" ? "vl_total" : "quant" }
                   >
                     {
-                      data.map((item) => (
+                      top5.map((item) => (
                         <Cell key={ item.name } fill={ item.color } />
                       ))
                     }
@@ -501,12 +501,16 @@ export default function Dashboard() {
                 > 
                   <CartesianGrid strokeDasharray="2 1" stroke="grey" />
                   <XAxis dataKey="month" stroke="#cecece" />
-                  {/* <XAxis dataKey={} type="number" /> */}
 
                   {
-                    data.map((item, index) => (
-                      <Line dataKey={ `vl_total[${ index }]` }
-                        key={ item.name }
+                    top5.map((item, index) => (
+                      <Line 
+                        dataKey={ 
+                          totalSel === "R$" 
+                            ? `vl_total[${ index }]`
+                            : `qtd[${ index }]`
+                        }
+                        key={ item.id }
                         name={ item.name }
                         type="monotone"
                         stroke={ item.color }
@@ -547,7 +551,7 @@ export default function Dashboard() {
               <S.LegendContainer>
               {
                 categories.map(item => (
-                  <S.Legend color={ item.color } key={ item.name } totalSel="R$" >
+                  <S.Legend color={ item.color } key={ item.id } totalSel="R$" >
                     <div>
                       {                   
                         item.value?.toFixed(2)
