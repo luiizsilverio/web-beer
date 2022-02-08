@@ -490,8 +490,9 @@ export default function Dashboard() {
         
         
           <Card 
-            title={`Faturamento Top 5 ${ totalSel === 'R$' ? ': R$' : '' }`} 
+            title='Faturamento Top 5' 
             heightPx={210}
+            valorR$={ totalSel === 'R$' }
           >
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
@@ -547,7 +548,10 @@ export default function Dashboard() {
 
           <S.CardContainer widthCard1={50}>          
           
-            <Card title='Categorias: R$'>
+            <Card 
+              title='Categorias:'
+              valorR$={true}
+            >
               <S.LegendContainer>
               {
                 categories.map(item => (
@@ -594,7 +598,10 @@ export default function Dashboard() {
               </S.ChartContainer>
             </Card>
 
-            <Card title='Faturamento Total: R$'>
+            <Card 
+              title='Faturamento Total'
+              valorR$={true}
+            >
               <ResponsiveContainer width="99%" height="99%">
                 <BarChart 
                   data={ history }                     

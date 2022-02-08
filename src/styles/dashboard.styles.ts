@@ -58,7 +58,7 @@ export const TotalContainer = styled.div`
     z-index: 7;
     right: -50px;
     top: -42px;
-    color: rgba(127, 255, 212, 0.1); 
+    color: rgba(154, 165, 177, 0.2);
   }
 
   @media(max-width: 1064px) {
@@ -234,24 +234,4 @@ export const ArrowBox = styled.div<ArrowProps>`
   bottom: 14px;
   z-index: 44;
   font-size: 12px;  
-`;
-
-export const RealBox = styled.div`
-  display: inline-block;
-  width: 40px;
-  height: 22px;
-  border-radius: 6px;
-  padding: 0 4px;
-  font-size: 18px;  
-  text-align: center;
-  
-  position: absolute;
-  z-index: 44;
-  top: -2.8rem;
-  left: 200px;
-  background-color: var(--bege); 
-
-
-  color: var(--abacate);
-  
 `;

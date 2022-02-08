@@ -36,19 +36,27 @@ export const Content = styled.div<CardProps>`
 	}
 `;
 
-export const Title = styled.div`
+export const TitleContainer = styled.div`
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-direction: row;
   color: var(--white);
   /* font-family: 'Open Sans'; */
-  font-size: 1.3rem;
-  line-height: 1.8;
-  
+  font-size: 1.2rem;
+  line-height: 1.8;  
+`;
+
+export const Title = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 8px;
+
   h2 {
     font-weight: lighter; //400;
     color: var(--white);
-    text-shadow: 1px 1px 4px rgba(0, 0, 0, .4);
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, .8);
   }
 
   @media(max-width: 460px) {
@@ -59,4 +67,18 @@ export const Title = styled.div`
       font-weight: normal;
     }
 	}
+`;
+
+export const RealBox = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 22px;
+  border-radius: 6px;
+  padding-top: 2px;
+  font-size: 14px;
+  font-weight: bold;  
+  background-color: var(--bege); 
+  color: var(--abacate);
 `;
