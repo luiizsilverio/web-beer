@@ -426,6 +426,14 @@ export default function Dashboard() {
                   </div>
                 </S.ArrowBox>              
             }
+
+            <S.SelectContainer>
+              <SelectInput 
+                options={ periodos } 
+                defaultValue={ periodoSel }
+                onChange={(e) => handlePeriodo(e.target.value)}
+              />
+            </S.SelectContainer>
           </Card>
 
           <Card title='Produtos Top 5'>
@@ -479,11 +487,11 @@ export default function Dashboard() {
                   defaultValue={ totalSel }
                   onChange={(e) => setTotalSel(e.target.value)}
                 />
-              <SelectInput 
-                  options={ periodos } 
-                  defaultValue={ periodoSel }
-                  onChange={(e) => handlePeriodo(e.target.value)}
-                />
+              {/* <SelectInput 
+                options={ periodos } 
+                defaultValue={ periodoSel }
+                onChange={(e) => handlePeriodo(e.target.value)}
+              /> */}
             </S.SelectContainer>
           </Card>
         </S.CardContainer>
