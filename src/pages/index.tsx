@@ -22,7 +22,7 @@ export default function Home(props: Props) {
       }    
     }
 
-    inicUser()
+    //inicUser()
   }, [])
 
   return (
