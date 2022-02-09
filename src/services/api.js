@@ -23,7 +23,6 @@ if (host) {
 	api.defaults.baseURL = `http://${ apiConfig.api_host }:${ apiConfig.api_port }`;
 }
 
-
 api.interceptors.response.use(
 	(response) => {
 		apiConfig.ok = true
