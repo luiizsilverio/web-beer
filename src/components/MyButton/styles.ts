@@ -5,7 +5,7 @@ export const ButtonContainer = styled.button`
   font-family: Roboto, 'Sans Serif', sans-serif;
   font-weight: bold;
   font-size: 1.7rem;
-  color: black;   
+  color: var(--background);   
   padding: 10px;
   border-radius: 8px;
   margin: 6px 0;

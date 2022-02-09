@@ -8,6 +8,7 @@ import CryptoJS from 'crypto-js'
 
 import * as S from '@/styles/signin.styles'
 import { useBeerContext } from '@/contexts'
+import { apiConfig } from '@/services/api';
 import InputBox from '@/components/InputBox'
 import { MyButton } from '@/components/MyButton'
 
@@ -21,6 +22,11 @@ function SignIn() {
 
     // destroyCookie(null, 'MyBeer:senha') 
 
+    if (!senhaOk && !apiConfig.ok) {
+      router.push('/infoip')
+      return
+    }
+    
     if (!senhaOk) {
       toast.error('Senha incorreta.', {
         duration: 4000,

@@ -325,6 +325,8 @@ export default function Dashboard() {
     const dt2 = hoje.toISOString()
     const dt1 = subDays(hoje, periodoSel + 1).toISOString()
     
+    // executa todas as chamadas à API, antes de prosseguir
+    
     try {
       await Promise.all([
         loadResumo(dt1, dt2),
@@ -335,6 +337,9 @@ export default function Dashboard() {
     }
     catch (error) {
       console.log(error.message)
+      if (!apiConfig.ok) {
+        router.push('/infoip')        
+      }
     }
     finally {
       setLoading(false)

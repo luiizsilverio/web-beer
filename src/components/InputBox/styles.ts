@@ -21,14 +21,18 @@ export const InputContainer = styled.div`
   padding: 4px 8px;
 
   input {
-      font-size: 2.7rem;
-      font-family: Roboto, 'Sans Serif', sans-serif;
-      outline: none;
-      background-color: #18191c;
-      border: none;
-      color: var(--text-white);
-      text-align: center;     
-      width: 100%;       
+    font-size: 2.7rem;
+    font-family: Roboto, 'Sans Serif', sans-serif;
+    outline: none;
+    background-color: #18191c;
+    border: none;
+    color: var(--text-white);
+    text-align: center;     
+    width: 100%;     
+      
+    &::placeholder {
+      font-size: 1.6rem;                    
+    }
   }
 
   &:focus-within {
