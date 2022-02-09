@@ -1,3 +1,4 @@
+import { GetStaticPathsContext, GetStaticProps, GetStaticPropsContext, NextPageContext } from 'next'
 import { useEffect } from 'react'
 import { verify } from 'jsonwebtoken'
 import Nookies from 'nookies'
@@ -15,10 +16,14 @@ export default function Home(props: Props) {
   const { isAdmin, checaAdmin } = useBeerContext()
 
   useEffect(() => {
+    const cookies = Nookies.get()
+    let token = cookies['MyBeer:token']
+    let senha = cookies['MyBeer:senha']
+
     // verifica se a senha do cookie é a senha Admin
     async function inicUser() {
-      if (props.senha) {
-        await checaAdmin(props.senha)
+      if (senha) {
+        await checaAdmin(senha)
       }    
     }
 

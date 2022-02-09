@@ -39,7 +39,7 @@ api.interceptors.response.use(
 		if (!apiConfig.ok) {
 			console.log('** Erro ao acessar Beer-API')
 		}
-		// return Promise.reject(error);
+		return Promise.reject(error);
 	}
 );
 
