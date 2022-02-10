@@ -14,16 +14,6 @@ const api = axios.create({
 	headers: { 'secret': apiConfig.api_secret },
 })
 
-
-const cookies = Nookies.get()
-let host = cookies['MyBeer:host']
-
-if (host) {
-	apiConfig.api_host = host
-	api.defaults.baseURL = `http://${ apiConfig.api_host }:${ apiConfig.api_port }`;
-}
-
-
 api.interceptors.response.use(
 	(response) => {
 		apiConfig.ok = true

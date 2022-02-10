@@ -148,7 +148,7 @@ const totais: ILista[] = [
 export default function Dashboard() {
   const hoje = new Date()
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
-  const [periodoSel, setPeriodoSel] = useState(0)
+  const [periodoSel, setPeriodoSel] = useState(1)
   const [totalSel, setTotalSel] = useState("QT")
   const [categories, setCategories] = useState<IData[]>([])
   const [resumo, setResumo] = useState<IResumo>({} as IResumo)

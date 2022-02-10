@@ -48,7 +48,7 @@ function BeerProvider ({ children }: ProviderProps) {
       setSenha("")
       return false
     }
-    
+
     try {
       const response = await api.get(`/config/password/${ key }`)
       
