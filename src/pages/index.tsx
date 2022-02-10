@@ -35,11 +35,10 @@ export default function Home(props: Props) {
 
     if (!senha || !token) return;
     
-    // verifica se o token é válido ou se não expirou
+    // verifica se o token é válido e se não expirou
     try {
       verify(token as string, process.env.NEXT_PUBLIC_API_SECRET)
-    }
-    catch(err) {
+    } catch(err) {
       console.log('**', err?.message) // jwt expired
       token = ''
     }
@@ -50,8 +49,7 @@ export default function Home(props: Props) {
     try {
       const bytes = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
       senha = bytes.toString(CryptoJS.enc.Utf8);    
-    }
-    catch(err) {
+    } catch(err) {
       console.log('**', err) // invalid signature
       senha = ''
     }  

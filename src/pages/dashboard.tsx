@@ -385,12 +385,12 @@ export default function Dashboard() {
     async function inicDados() {
       await loadData()
     }
-
+    
     if (isAdmin && !loading) {
       inicDados()
     }
   }, [periodoSel, yearSel])
-
+  
 
   return (
     <>
@@ -445,7 +445,7 @@ export default function Dashboard() {
             <S.LegendContainer>
             {
               top5.map(item => (
-                <S.Legend color={ item.color } key={ item.id } totalSel={ totalSel }>
+                <S.Legend color={ item.color } key={ item.id_product } totalSel={ totalSel }>
                   <div>
                     {                   
                       totalSel === "R$" 
@@ -491,12 +491,7 @@ export default function Dashboard() {
                   options={ totais } 
                   defaultValue={ totalSel }
                   onChange={(e) => setTotalSel(e.target.value)}
-                />
-              {/* <SelectInput 
-                options={ periodos } 
-                defaultValue={ periodoSel }
-                onChange={(e) => handlePeriodo(e.target.value)}
-              /> */}
+                />              
             </S.SelectContainer>
           </Card>
         </S.CardContainer>
@@ -524,7 +519,7 @@ export default function Dashboard() {
                             ? `vl_total[${ index }]`
                             : `qtd[${ index }]`
                         }
-                        key={ item.id }
+                        key={ item.id_product }
                         name={ item.name }
                         type="monotone"
                         stroke={ item.color }
@@ -649,5 +644,3 @@ export default function Dashboard() {
     </>
   )
 }
-
-

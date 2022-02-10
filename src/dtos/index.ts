@@ -60,7 +60,7 @@ export interface IResumo {
 }
 
 export interface ITop5{
-  id: string
+  id_product: string
   name: string
   vl_total: number
   quant: number

@@ -10,7 +10,7 @@ export const apiConfig = {
 
 const api = axios.create({
 	baseURL: `http://${ apiConfig.api_host }:${ apiConfig.api_port }`,
-	timeout: 10000, //5000
+	timeout: 7000, //5000
 	headers: { 'secret': apiConfig.api_secret },
 })
 
