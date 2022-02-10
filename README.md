@@ -32,7 +32,7 @@ Possui animações, responsividade e acessa a minha API [Beer-API](https://githu
 
 ## :car: Iniciando o projeto
 * Baixe o repositório com ``` git clone ``` e entre na pasta do projeto.
-* Renomeie o arquivo ``` .env.example ``` para ``` .env ``` e informe a secret da API.
+* Renomeie o arquivo ``` .env.local-example ``` para ``` .env.local ``` e informe a secret da API.
 * Digite ``` yarn dev ``` no terminal.
 * Abra no navegador ``` localhost:3000 ``` .
 
