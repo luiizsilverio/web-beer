@@ -1,9 +1,8 @@
 import axios from 'axios'
-import Nookies from 'nookies'
 
 export const apiConfig = {
 	ok: true,
-	api_host: process.env.NEXT_PUBLIC_API_HOST || '192.168.1.200',
+	api_host: process.env.NEXT_PUBLIC_API_HOST || 'localhost',
 	api_port: process.env.NEXT_PUBLIC_API_PORT || '3434',
   api_secret: process.env.NEXT_PUBLIC_API_SECRET 
 }

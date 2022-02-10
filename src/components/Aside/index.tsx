@@ -25,11 +25,11 @@ export default function Aside() {
       {
         menuOpen && 
           <S.Button>
-            <MenuButton icon="Close" onClick={ toggleMenu } />
+            <MenuButton icon="Close" onClick={() => toggleMenu('close') } />
           </S.Button>
       }    
 
-      <S.Menu onClick={ toggleMenu }>
+      <S.Menu onClick={() => toggleMenu('close') }>
         <Link href={"/dashboard"}>
           <S.MenuLink>
             <Dashboard size={30} />
