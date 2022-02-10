@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
-const aside_width = process.env.NEXT_PUBLIC_ASIDE_WIDTH
-const header_height = process.env.NEXT_PUBLIC_HEADER_HEIGHT
+const aside_width = process.env.NEXT_PUBLIC_ASIDE_WIDTH || 210
+const header_height = process.env.NEXT_PUBLIC_HEADER_HEIGHT || 50
 
 export const Grid = styled.div`
   display: grid;
