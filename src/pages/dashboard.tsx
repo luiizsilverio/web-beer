@@ -148,7 +148,7 @@ const totais: ILista[] = [
 export default function Dashboard() {
   const hoje = new Date()
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
-  const [periodoSel, setPeriodoSel] = useState(0)
+  const [periodoSel, setPeriodoSel] = useState(1)
   const [totalSel, setTotalSel] = useState("QT")
   const [categories, setCategories] = useState<IData[]>([])
   const [resumo, setResumo] = useState<IResumo>({} as IResumo)
@@ -385,12 +385,12 @@ export default function Dashboard() {
     async function inicDados() {
       await loadData()
     }
-
+    
     if (isAdmin && !loading) {
       inicDados()
     }
   }, [periodoSel, yearSel])
-
+  
 
   return (
     <>
@@ -445,7 +445,7 @@ export default function Dashboard() {
             <S.LegendContainer>
             {
               top5.map(item => (
-                <S.Legend color={ item.color } key={ item.id } totalSel={ totalSel }>
+                <S.Legend color={ item.color } key={ item.id_product } totalSel={ totalSel }>
                   <div>
                     {                   
                       totalSel === "R$" 
@@ -491,155 +491,148 @@ export default function Dashboard() {
                   options={ totais } 
                   defaultValue={ totalSel }
                   onChange={(e) => setTotalSel(e.target.value)}
-                />
-              {/* <SelectInput 
-                options={ periodos } 
-                defaultValue={ periodoSel }
-                onChange={(e) => handlePeriodo(e.target.value)}
-              /> */}
+                />              
             </S.SelectContainer>
           </Card>
-        </S.CardContainer>
-        
-        
+        </S.CardContainer>        
+      
+        <Card 
+          title='Faturamento Top 5' 
+          heightPx={210}
+          valorR$={ totalSel === 'R$' }
+        >
+          <S.ChartContainer>
+            <ResponsiveContainer width="99%" height="99%">
+
+              <LineChart 
+                data={ top5history }
+                margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
+              > 
+                <CartesianGrid strokeDasharray="2 1" stroke="grey" />
+                <XAxis dataKey="month" stroke="#cecece" />
+                              
+                {
+                  top5.map((item, index) => (
+                    <Line 
+                      dataKey={ 
+                        totalSel === "R$" 
+                          ? `vl_total[${ index }]`
+                          : `qtd[${ index }]`
+                      }
+                      key={ item.id_product }
+                      name={ item.name }
+                      type="monotone"
+                      stroke={ item.color }
+                      strokeWidth={4}
+                      dot={{ r: 5 }}
+                      activeDot={{ r: 8 }}
+                    />
+                  ))
+                }               
+                
+                <Tooltip 
+                  formatter={(value: number) => (
+                    totalSel === "R$" 
+                      ? `R$ ${value?.toFixed(2)}`
+                      : strzero(value, 3)
+                  )}
+                  cursor={{ fill: 'none '}}
+                  contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                  labelStyle={{color: "#1f1f24", fontWeight: 600 }}
+                  animationDuration={0} 
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </S.ChartContainer>
+
+          <S.SelectContainer>
+            <SelectInput 
+              options={ years } 
+              defaultValue={ yearSel }
+              onChange={(e) => handleYear(e.target.value)}            
+            />
+          </S.SelectContainer>
+        </Card>       
+
+        <S.CardContainer widthCard1={50}>                   
           <Card 
-            title='Faturamento Top 5' 
-            heightPx={210}
-            valorR$={ totalSel === 'R$' }
+            title='Categorias:'
+            valorR$={true}
           >
+            <S.LegendContainer>
+            {
+              categories.map(item => (
+                <S.Legend color={ item.color } key={ item.id } totalSel="R$" >
+                  <div>
+                    {                   
+                      item.value?.toFixed(2)
+                    }
+                  </div>
+                  <span>{ item.name }</span>
+                </S.Legend>
+              ))
+            }         
+            </S.LegendContainer>
+
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
-                <LineChart 
-                  data={ top5history }
-                  margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
-                > 
-                  <CartesianGrid strokeDasharray="2 1" stroke="grey" />
-                  <XAxis dataKey="month" stroke="#cecece" />
-
-                  {
-                    top5.map((item, index) => (
-                      <Line 
-                        dataKey={ 
-                          totalSel === "R$" 
-                            ? `vl_total[${ index }]`
-                            : `qtd[${ index }]`
-                        }
-                        key={ item.id }
-                        name={ item.name }
-                        type="monotone"
-                        stroke={ item.color }
-                        strokeWidth={4}
-                        dot={{ r: 5 }}
-                        activeDot={{ r: 8 }}
-                      />
-                    ))
-                  }               
+                <PieChart>
+                  <Pie 
+                    data={ categories }
+                    dataKey="value"
+                    cx={64}
+                    cy={90}
+                    innerRadius={40}
+                    outerRadius={66}
+                    paddingAngle={5}
+                  >
+                    {
+                      categories.map((item) => (
+                        <Cell key={ item.name } fill={ item.color } />
+                      ))
+                    }
+                  </Pie>
                   
                   <Tooltip 
                     formatter={(value: number) => (
-                      totalSel === "R$" 
-                        ? `R$ ${value?.toFixed(2)}`
-                        : strzero(value, 3)
+                      `R$ ${value?.toFixed(2)}`
                     )}
-                    cursor={{ fill: 'none '}}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                    labelStyle={{color: "#1f1f24", fontWeight: 600 }}
                     animationDuration={0} 
                   />
-                </LineChart>
+                </PieChart>
               </ResponsiveContainer>
             </S.ChartContainer>
+          </Card>
 
-            <S.SelectContainer>
-              <SelectInput 
-                options={ years } 
-                defaultValue={ yearSel }
-                onChange={(e) => handleYear(e.target.value)}            
-              />
-            </S.SelectContainer>
-          </Card>       
+          <Card 
+            title='Faturamento Total'
+            valorR$={true}
+          >
+            <ResponsiveContainer width="99%" height="99%">
+              <BarChart 
+                data={ history }                     
+                margin={{ top: 20, bottom: 0, left: 10, right: 10 }}
+              > 
+                <CartesianGrid strokeDasharray="2 1" stroke="grey" />
+                <XAxis dataKey="month" stroke="#cecece" />
 
-          <S.CardContainer widthCard1={50}>          
-          
-            <Card 
-              title='Categorias:'
-              valorR$={true}
-            >
-              <S.LegendContainer>
-              {
-                categories.map(item => (
-                  <S.Legend color={ item.color } key={ item.id } totalSel="R$" >
-                    <div>
-                      {                   
-                        item.value?.toFixed(2)
-                      }
-                    </div>
-                    <span>{ item.name }</span>
-                  </S.Legend>
-                ))
-              }         
-              </S.LegendContainer>
-
-              <S.ChartContainer>
-                <ResponsiveContainer width="99%" height="99%">
-                  <PieChart>
-                    <Pie 
-                      data={ categories }
-                      dataKey="value"
-                      cx={64}
-                      cy={90}
-                      innerRadius={40}
-                      outerRadius={66}
-                      paddingAngle={5}
-                    >
-                      {
-                        categories.map((item) => (
-                          <Cell key={ item.name } fill={ item.color } />
-                        ))
-                      }
-                    </Pie>
-                    
-                    <Tooltip 
-                      formatter={(value: number) => (
-                        `R$ ${value?.toFixed(2)}`
-                      )}
-                      contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                      animationDuration={0} 
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </S.ChartContainer>
-            </Card>
-
-            <Card 
-              title='Faturamento Total'
-              valorR$={true}
-            >
-              <ResponsiveContainer width="99%" height="99%">
-                <BarChart 
-                  data={ history }                     
-                  margin={{ top: 20, bottom: 0, left: 10, right: 10 }}
-                > 
-                  <CartesianGrid strokeDasharray="2 1" stroke="grey" />
-                  <XAxis dataKey="month" stroke="#cecece" />
-
-                  <Bar 
-                    dataKey="vl_total" 
-                    fill={"var(--scrollbar)"}
-                  />
-                  
-                  <Tooltip 
-                    formatter={(value: number) => ( `R$ ${value?.toFixed(2)}` )}                      
-                    cursor={{ fill: 'none '}}
-                    contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                    labelStyle={{color: "#1f1f24", fontWeight: 600 }}
-                    animationDuration={0} 
-                  />
-                </BarChart>
-              </ResponsiveContainer>
-            </Card>
-          </S.CardContainer>   
-        
+                <Bar 
+                  dataKey="vl_total" 
+                  fill={"var(--scrollbar)"}
+                />
+                
+                <Tooltip 
+                  formatter={(value: number) => ( `R$ ${value?.toFixed(2)}` )}                      
+                  cursor={{ fill: 'none '}}
+                  contentStyle={{borderRadius: "8px", opacity: 0.8}}
+                  labelStyle={{color: "#1f1f24", fontWeight: 600 }}
+                  animationDuration={0} 
+                />
+              </BarChart>
+            </ResponsiveContainer>
+          </Card>
+        </S.CardContainer>           
 
         <S.Footer>
           <p>Luiz Oliveira (2022)</p>
@@ -649,5 +642,3 @@ export default function Dashboard() {
     </>
   )
 }
-
-

@@ -1,5 +1,8 @@
 import styled from 'styled-components'
 
+const aside_width = process.env.NEXT_PUBLIC_ASIDE_WIDTH || 210
+const header_height = process.env.NEXT_PUBLIC_HEADER_HEIGHT || 50
+
 export const Container = styled.header`
   grid-area: main;
   display: flex;
@@ -10,8 +13,8 @@ export const Container = styled.header`
   font-family: Roboto;
   
   /* height: 60px; */
-  height: ${ props => process.env.NEXT_PUBLIC_HEADER_HEIGHT }px;
-  width: calc(100% - ${ props => process.env.NEXT_PUBLIC_ASIDE_WIDTH }px); /* subtrai a largura do menu */
+  height: ${ props => header_height }px;
+  width: calc(100% - ${ props => aside_width }px); /* subtrai a largura do menu */
   
   position: fixed;
   top: 0;

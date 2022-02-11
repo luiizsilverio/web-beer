@@ -6,7 +6,7 @@ import { IConfig } from '../dtos'
 
 interface IBeerContext {
   menuOpen: boolean
-  toggleMenu(): void
+  toggleMenu(vOpen?: string): void
 
   config: IConfig
   senha: string
@@ -34,8 +34,14 @@ function BeerProvider ({ children }: ProviderProps) {
   const [senha, setSenha] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
 
-  const toggleMenu = () => {
-    setMenuOpen(prev => !prev);
+  const toggleMenu = (vOpen: string = '') => {
+    if (vOpen === 'open')
+      setMenuOpen(true);
+    else
+    if (vOpen === 'close')
+      setMenuOpen(false);
+    else
+       setMenuOpen(prev => !prev);
   }
 
   async function checaAdmin(key: string = senha): Promise<boolean> {
@@ -48,7 +54,7 @@ function BeerProvider ({ children }: ProviderProps) {
       setSenha("")
       return false
     }
-    
+
     try {
       const response = await api.get(`/config/password/${ key }`)
       

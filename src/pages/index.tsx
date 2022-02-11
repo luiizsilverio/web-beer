@@ -6,6 +6,7 @@ import CryptoJS from 'crypto-js'
 import SignIn from './signin'
 import Dashboard from './dashboard'
 import { useBeerContext } from '@/contexts'
+import api, { apiConfig } from '@/services/api'
 
 interface Props {
   senha: string
@@ -14,14 +15,45 @@ interface Props {
 export default function Home(props: Props) {
   const { isAdmin, checaAdmin } = useBeerContext()
 
-  useEffect(() => {
+  useEffect(() => {    
+    const cookies = Nookies.get()
+    let token = cookies['MyBeer:token']
+    let senha = cookies['MyBeer:senha']
+    let host  = cookies['MyBeer:api_host']
+
     // verifica se a senha do cookie é a senha Admin
     async function inicUser() {
-      if (props.senha) {
-        await checaAdmin(props.senha)
+      if (senha) {
+        await checaAdmin(senha)
       }    
+    }    
+    
+    if (host) {
+      apiConfig.api_host = host
+      api.defaults.baseURL = `http://${ host }:${ apiConfig.api_port }`;
     }
 
+    if (!senha || !token) return;
+    
+    // verifica se o token é válido e se não expirou
+    try {
+      verify(token as string, process.env.NEXT_PUBLIC_API_SECRET)
+    } catch(err) {
+      console.log('**', err?.message) // jwt expired
+      token = ''
+    }
+
+    if (!senha || !token) return;
+
+    // descriptografa a senha do cookie
+    try {
+      const bytes = CryptoJS.AES.decrypt(senha, process.env.NEXT_PUBLIC_API_SECRET);
+      senha = bytes.toString(CryptoJS.enc.Utf8);    
+    } catch(err) {
+      console.log('**', err) // invalid signature
+      senha = ''
+    }  
+    
     inicUser()
   }, [])
 
@@ -34,6 +66,8 @@ export default function Home(props: Props) {
   )
 }
 
+/*
+// tirei o getServerSideProps para não dar erro 504 no deploy da Vercel
 export async function getServerSideProps(context) {
   const cookies = Nookies.get(context)
   let token = cookies['MyBeer:token']
@@ -83,3 +117,4 @@ export async function getServerSideProps(context) {
     props: { senha }
   }
 }
+*/
