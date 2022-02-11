@@ -28,7 +28,7 @@ Possui animações, responsividade e acessa a minha API [Beer-API](https://githu
 * __Date-fns__ para sofrer menos com datas
 
 ## :camera_flash: Screenshots
-![](https://github.com/luiizsilverio/my-dashboard/blob/main/src/assets/dashboard.gif)
+![](https://github.com/luiizsilverio/web-beer/blob/main/src/assets/loading-skull.json)
 
 ## :car: Iniciando o projeto
 * Baixe o repositório com ``` git clone ``` e entre na pasta do projeto.
