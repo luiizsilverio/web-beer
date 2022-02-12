@@ -37,7 +37,7 @@ export default function Aside() {
           </S.MenuLink>
         </Link>
 
-        <Link href={"/fechar"}>
+        <Link href={"/mesas"}>
           <S.MenuLink>  
             <Calculator size={30} />
             Fechar Conta

@@ -2,7 +2,13 @@ import { createContext, ReactNode, useContext, useEffect, useState } from "react
 import { destroyCookie } from 'nookies'
 
 import api from '@/services/api'
-import { IConfig } from '../dtos'
+import { IConfig, IProduct, ICategory, IComplemento } from '../dtos'
+
+interface ProductProps {
+  id: string
+  name: string
+  preco: number
+}
 
 interface IBeerContext {
   menuOpen: boolean
@@ -15,6 +21,18 @@ interface IBeerContext {
   checaAdmin: (key?: string) => Promise<boolean>
   gravaConfig: (config: IConfig) => Promise<void>
   getConfig: () => Promise<IConfig>
+
+  products: ProductProps[]
+  loadProducts: () => Promise<void>
+  inicProducts: () => void
+
+  categories: ICategory[]
+  loadCategories: () => Promise<void>
+  inicCategories: () => void
+
+  complementos: IComplemento[]
+  loadComplementos: () => Promise<void>
+  inicComplementos: () => void
 }
 
 const DEFAULT_CONFIG = {
@@ -33,6 +51,9 @@ function BeerProvider ({ children }: ProviderProps) {
   const [config, setConfig] = useState<IConfig>(DEFAULT_CONFIG)
   const [senha, setSenha] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
+  const [products, setProducts] = useState<ProductProps[]>([])
+  const [categories, setCategories] = useState<ICategory[]>([])
+  const [complementos, setComplementos] = useState<ICategory[]>([])
 
   const toggleMenu = (vOpen: string = '') => {
     if (vOpen === 'open')
@@ -105,10 +126,76 @@ function BeerProvider ({ children }: ProviderProps) {
     }
   }
 
+  async function loadProducts() {
+    try {
+      const response = await api.get<IProduct[]>('products', {
+        params: {
+          _sort: 'name',
+          _order: 'asc'
+        }
+      })
+
+      const lista = response.data.map(item => ({ 
+        id: item.id, 
+        name: item.name, 
+        preco: item.preco
+      }))
+      
+      setProducts([ {id: '0', name: '', preco: 0}, ...lista ])     
+    }
+    catch(error: any) {
+      console.log(error.message)
+    }
+  }
+
+  function inicProducts() {
+    setProducts([])
+  }
+
+  async function loadCategories() {
+    try {
+      const response = await api.get<ICategory[]>('categories', {
+        params: {
+          _sort: 'name',
+          _order: 'asc'
+        }
+      })
+
+      setCategories(response.data)
+    }
+    catch(error: any) {
+      console.log(error.message)
+    }
+  }
+
+  function inicCategories() {
+    setCategories([])
+  }
+
+  async function loadComplementos() {
+    try {
+      const response = await api.get<IComplemento[]>('complementos', {
+        params: {
+          _sort: 'name',
+          _order: 'asc'
+        }
+      })
+
+      setComplementos(response.data)
+    }
+    catch(error: any) {
+      console.log(error.message)
+    }
+  }
+
+  function inicComplementos() {
+    setComplementos([])
+  }
+
   useEffect(() => {
     async function inic() {
       await getConfig()
-      // inicProducts()      
+      inicProducts()      
     }    
     inic()
   }, [])  
@@ -124,7 +211,16 @@ function BeerProvider ({ children }: ProviderProps) {
       config,
       checaAdmin,
       gravaConfig,
-      getConfig
+      getConfig,
+      products, 
+      loadProducts, 
+      inicProducts,
+      categories,
+      loadCategories,
+      inicCategories,
+      complementos,
+      loadComplementos,
+      inicComplementos
     }}>
       {children}
     </BeerContext.Provider>
