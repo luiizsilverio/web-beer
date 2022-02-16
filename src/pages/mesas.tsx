@@ -2,7 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/router';
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
-import NextNprogress from 'nextjs-progressbar'
 
 import * as S from '@/styles/mesas.styles'
 import { useBeerContext } from '@/contexts';
@@ -12,43 +11,17 @@ import { IComanda, IMesa } from '@/dtos';
 import Header from '@/components/Header'
 import { Mesa } from '@/components/Mesa'
 
-interface ITamanhoMesa {
-  width: number
-  height: number
-}
 
 export default function Mesas() {
   // const { isAdmin, checaAdmin, senha, logout, config } = useBeerContext()
   const app = useBeerContext()
   const router = useRouter()
-  
+
   const [mesas, setMesas] = useState<IMesa[]>([])
   const [mesaSelecionada, setMesaSelecionada] = useState<IMesa>({} as IMesa)
   const [modalOpen, setModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [refresh, setRefresh] = useState(true)
-
-  const [tamanho, setTamanho] = useState<ITamanhoMesa>(
-    calculaTamanhoMesa(app.config.qtd_mesas)
-  )
-   
-  function calculaTamanhoMesa(qtd_mesas: number): ITamanhoMesa {
-    let width, height
-
-    if (qtd_mesas <= 15) {
-      width = 100
-      height = 100
-    } else 
-    if (qtd_mesas <= 20) {
-      width = 80
-      height = 100
-    } else {
-      width = 80
-      height = 85
-    }
-
-    return { width, height }
-  }
 
   function handlePedido(mesa: IMesa) {
     if (mesa.numMesa > 0) {
@@ -57,21 +30,21 @@ export default function Mesas() {
     }
   }
 
-  async function inicializaGrid() {       
-    const grid: IMesa[] = [] 
+  async function inicializaGrid() {
+    const grid: IMesa[] = []
 
     console.log('inicializaGrid')
     setLoading(true)
-    
-    try { 
-      const cfg = await app.getConfig()      
+
+    try {
+      const cfg = await app.getConfig()
       let qtd_mesas = cfg.qtd_mesas
-      
+
       if (!apiConfig.ok) {
         router.push('/infoip')
         return
       }
-  
+
       for(var i = 0; i < qtd_mesas; i++) {
         grid.push({
           numMesa: i + 1,
@@ -98,9 +71,8 @@ export default function Mesas() {
 
     } catch(error) {
       console.log(error.message)
-      
+
     } finally {
-      setTamanho(calculaTamanhoMesa(grid.length))
       setMesas(grid)
       setLoading(false)
     }
@@ -119,16 +91,16 @@ export default function Mesas() {
   useEffect(() => {
     async function inicUser() {
       let mySenha = app.senha
-      
+
       if (!app.isAdmin) {
         // busca a senha dos cookies
         const cookies = Nookies.get(null)
         mySenha = cookies['MyBeer:senha']
 
         if (mySenha) {
-          // descriptografa a senha do cookie        
+          // descriptografa a senha do cookie
           const bytes  = CryptoJS.AES.decrypt(mySenha, process.env.NEXT_PUBLIC_API_SECRET);
-          mySenha = bytes.toString(CryptoJS.enc.Utf8);          
+          mySenha = bytes.toString(CryptoJS.enc.Utf8);
         }
       }
 
@@ -138,8 +110,8 @@ export default function Mesas() {
         return false
       }
       else {
-        return await app.checaAdmin(mySenha)              
-      }  
+        return await app.checaAdmin(mySenha)
+      }
     }
 
     inicUser()
@@ -147,10 +119,10 @@ export default function Mesas() {
         if (!response) {
           router.push('/signin')
         }
-      })   
+      })
   }, [])
-  
-  useEffect(() => {    
+
+  useEffect(() => {
     async function inic() {
       if (app.products.length === 0) {
         await app.loadProducts()
@@ -162,8 +134,8 @@ export default function Mesas() {
     inic()
   }, [])
 
-  useEffect(() => {    
-    async function inic() {      
+  useEffect(() => {
+    async function inic() {
       await inicializaGrid()
     }
 
@@ -174,39 +146,46 @@ export default function Mesas() {
       }
       setRefresh(prev => !prev)
     }, 7000) // atualiza o mapa a cada 7 segundos
-    
+
     return () => {
       clearTimeout(timer)
     }
   }, [refresh])
 
 
-  console.log(tamanho)
+  useEffect(() => {
+    async function inic() {
+      await inicializaGrid()
+    }
+
+    if (refresh && !loading && !modalOpen) {
+        inic()
+    }
+}, []);
+
+
   return (
     <>
       <Header title="Fechamento de Conta" />
-      
+
       {/* {
         loading && <Loading />
       } */}
-      
-      <S.Main>        
+
+      <S.Main>
       {
         mesas.map((item: IMesa) => (
-          // <button key={item.numMesa.toString()}>
-          //   { item.numMesa } - { item.situacao }
-          // </button>
-          <Mesa 
-            numMesa={ item.numMesa } 
+          <Mesa
+            key={ item.numMesa.toString() }
+            numMesa={ item.numMesa }
             ocupado={ item.situacao === 'Ocupada' }
             fechar={ item.fechar || item.temNovoConsumo }
-            key={ item.numMesa }
-            width={ tamanho.width }
-            height={ tamanho.height }
             onPress={() => handlePedido(item)}
+            width={100}
+            height={110}
           />
-        )) 
-      } 
+        ))
+      }
       </S.Main>
     </>
   )

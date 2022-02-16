@@ -7,41 +7,34 @@ interface MesaProps {
   height: number
 }
 
-export const Button = styled.button`
-  flex: 1;
+export const Button = styled.button<MesaProps>`
   align-items: center;
   padding: 8px;
-  width: 100%;
-`;
-
-// h: 100, w:100 cabe ate 15 mesas
-// h: 100, w:80 cabe ate 20 mesas
-// h:85, w:80 cabe ate 24 mesas
-export const Container = styled.div<MesaProps>`
-  height: ${props => props.height}px; //100px;
-  width: ${props => props.width}px;   //100px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  width: ${props => props.width}px;
+  height: ${props => props.height}px;
+  padding: 8px;
+  background-color: ${props => props.ocupado ? '#cd5c5c' : '#f4ede8'};
+  border: 4px solid ${props => props.ocupado ? "#e36666" : "#d6d6ff"};
   border-radius: 20px;
-  border-color: ${props => props.ocupado ? "#ffb6b6" : "#d6d6ff"};
-  border-width: 4px;
-  margin: ${props => props.height === 85 ? 6 : 8}px;
-  background-color: ${props => props.ocupado 
-    ? '#cd5c5c'
-    : '#f4ede8'
-  };  
-`;
+  margin: 8px;  //ffb6b6
 
-interface Props {
-  fechar?: boolean
-}
+  -webkit-box-shadow: 4px 4px 10px 4px rgba(0,0,0,0.14);
+  -moz-box-shadow: 4px 4px 10px 4px rgba(0,0,0,0.14);
+  box-shadow: 4px 4px 10px 4px rgba(0,0,0,0.14);
 
-export const Title = styled.h2<Props>`
-  font-weight: bold;
-  font-size: 24px;
-  color: ${props => props.fechar
-    ? 'yellow' 
-    : '#f4ede8'
-  };
+  h2 {
+    font-weight: bold;
+    font-size: 24px;
+    color: ${props => props.fechar ? 'yellow' : '#0f86fa'};
+  }
+
+  transition: 0.2s transform;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
 `;

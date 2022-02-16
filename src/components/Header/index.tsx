@@ -9,13 +9,13 @@ type Props = {
 
 export default function Header({ title, children }: Props) {
   const { menuOpen, toggleMenu } = useBeerContext()
-  
+
   return (
-    <S.Container>
+    <S.Container id="myheader">
       {
         !menuOpen && <MenuButton icon="Menu" onClick={ toggleMenu } />
       }
-      
+
       <h1>{ title }</h1>
 
       { children }

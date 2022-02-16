@@ -14,26 +14,22 @@ interface Props {
   onPress?: () => void
 }
 
-export function Mesa({ 
-  numMesa, 
-  ocupado, 
-  fechar = false, 
-  width = 100, 
-  height = 100, 
-  onPress = () => {} 
+export function Mesa({
+  numMesa,
+  ocupado,
+  fechar = false,
+  width = 100,
+  height = 100,
+  onPress = () => {}
 }: Props){
-  const [pressed, setPressed] = useState(false)
+
   const mesa = numMesa.toString().padStart(2, '0');
-  
-  function handlePress(press: boolean) {
-      setPressed(press)
-  }
 
   const icone = useCallback(() => {
     if (fechar) {
       return (
         <Flag
-          size={32} 
+          size={32}
           color={ 'var(--black)' }
         />
       )
@@ -46,7 +42,7 @@ export function Mesa({
           color={ 'var(--black)' }
         />
       )
-    } 
+    }
 
     return (
       <People_Outline
@@ -54,31 +50,22 @@ export function Mesa({
         color={ 'var(--black)' }
       />
     )
-      
+
   }, [])
 
-  return (
-    <S.Container 
-      ocupado={ ocupado } 
-      fechar={ fechar } 
-      width={ width } 
-      height={ height }
-      style={[ 
-        pressed && { transform: [{ scale: 0.98 }] },
-        // !ocupado && { backgroundColor: '#80d5fc' }
-      ]}
-    >
-      <S.Button 
+    return (
+      <S.Button
+        ocupado={ ocupado }
+        fechar={ fechar }
+        width={ width }
+        height={ height }
         onPress={ onPress }
-        onPressIn={() => handlePress(true)}
-        onPressOut={() => handlePress(false)}
       >
-        { 
+        {
           icone()
         }
-        <S.Title fechar={ fechar }>{ mesa }</S.Title>
+        <h2>{ mesa }</h2>
       </S.Button>
-    </S.Container>
-  )
+    )
 }
 

@@ -14,16 +14,16 @@ export const Grid = styled.div`
   ;
 
   height: 100vh;
-  
+
   background-image: url('./bg-beer-2.jpg');
   background-position: center;
   background-size: cover;
-  background-repeat: no-repeat;  
+  background-repeat: no-repeat;
 
 
   @media(max-width: 740px ) {
 	  grid-template-columns: auto;
-    grid-template-areas:  
+    grid-template-areas:
       'princ'
       'princ'
     ;
