@@ -7,23 +7,23 @@ import * as S from '@/styles/vendas.styles'
 import { useBeerContext } from '@/contexts';
 import Header from '@/components/Header'
 
-export default function Fechar() {
+export default function Vendas() {
   const { isAdmin, checaAdmin, senha, logout } = useBeerContext()
   const router = useRouter()
-  
+
   useEffect(() => {
     async function inicUser() {
       let mySenha = senha
-      
+
       if (!isAdmin) {
         // busca a senha dos cookies
         const cookies = Nookies.get(null)
         mySenha = cookies['MyBeer:senha']
 
         if (mySenha) {
-          // descriptografa a senha do cookie        
+          // descriptografa a senha do cookie
           const bytes  = CryptoJS.AES.decrypt(mySenha, process.env.NEXT_PUBLIC_API_SECRET);
-          mySenha = bytes.toString(CryptoJS.enc.Utf8);          
+          mySenha = bytes.toString(CryptoJS.enc.Utf8);
         }
       }
 
@@ -33,9 +33,8 @@ export default function Fechar() {
         return false
       }
       else {
-        console.log(mySenha)
-        return await checaAdmin(mySenha)              
-      }  
+        return await checaAdmin(mySenha)
+      }
     }
 
     inicUser()
@@ -43,15 +42,15 @@ export default function Fechar() {
         if (!response) {
           router.push('/signin')
         }
-      })   
+      })
   }, [])
-  
-  
+
+
   return (
     <>
       <Header title="Relatório de Vendas" />
-      <S.Main>           
-        
+      <S.Main>
+
       </S.Main>
     </>
   )

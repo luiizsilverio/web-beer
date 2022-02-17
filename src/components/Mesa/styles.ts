@@ -35,6 +35,6 @@ export const Button = styled.button<MesaProps>`
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.98);
   }
 `;

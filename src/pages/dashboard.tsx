@@ -33,13 +33,13 @@ interface IData{
 
 interface IHistory {
   monthNo: number
-  month: string  
+  month: string
   vl_total: number
 }
 
 interface ITop5History {
   monthNo: number
-  month: string  
+  month: string
   vl_total: number[]
   qtd: number[]
 }
@@ -168,7 +168,7 @@ export default function Dashboard() {
         value: y,
         label: y.toString()
       })
-    }    
+    }
 
     return lista
   }, [])
@@ -181,7 +181,7 @@ export default function Dashboard() {
       throw new Error('Ano inválido');
     }
   }, [])
-  
+
   const handlePeriodo = useCallback((per: string) => {
     const ndias = parseInt(per)
     if (!isNaN(ndias)) {
@@ -207,7 +207,7 @@ export default function Dashboard() {
       color: cores_grafico[index]
     }))
 
-    setCategories(totais)    
+    setCategories(totais)
   }
 
   async function loadResumo(dt1, dt2: string) {
@@ -218,7 +218,7 @@ export default function Dashboard() {
         ndias: periodoSel
       }
     })
-    
+
     const totais: IResumo = {
       vl_total: response.data.vl_total?.toFixed(2),
       vlMedio: response.data.vlMedio?.toFixed(2),
@@ -226,7 +226,7 @@ export default function Dashboard() {
       comparativo: response.data.comparativo
     }
 
-    setResumo(totais)    
+    setResumo(totais)
   }
 
   async function loadHistory(ano: number) {
@@ -239,10 +239,10 @@ export default function Dashboard() {
     const totais: IHistory[] = response.data.map((item, index) => ({
       monthNo: months[index].value,
       month: months[index].label.substring(0,3),
-      vl_total: item      
+      vl_total: item
     }))
 
-    setHistory(totais)    
+    setHistory(totais)
   }
 
   async function loadTop5(dt1, dt2: string) {
@@ -266,12 +266,12 @@ export default function Dashboard() {
       item.id_product
     ))
 
-    setTop5(totais)    
+    setTop5(totais)
 
     loadTop5history(yearSel, produtos)
   }
 
-  async function loadTop5history(ano: number, produtos: string[]) {    
+  async function loadTop5history(ano: number, produtos: string[]) {
     if (produtos.length === 0 || !produtos[0]) {
       setTop5history([])
       return
@@ -307,14 +307,14 @@ export default function Dashboard() {
 
     response.data.map((item, index) => {
       const prod = produtos.findIndex(prod => prod === item.id_product)
-      
+
       for (let mes = 0; mes < 12; mes++) {
-        totais[mes].vl_total[prod] = item.vl_total[mes] 
+        totais[mes].vl_total[prod] = item.vl_total[mes]
         totais[mes].qtd[prod] = item.qtd[mes]
-      }    
+      }
     })
 
-    setTop5history(totais)    
+    setTop5history(totais)
   }
 
   async function loadData() {
@@ -324,21 +324,21 @@ export default function Dashboard() {
     const hoje = new Date()
     const dt2 = hoje.toISOString()
     const dt1 = subDays(hoje, periodoSel + 1).toISOString()
-    
+
     // executa todas as chamadas à API, antes de prosseguir
-    
+
     try {
       await Promise.all([
         loadResumo(dt1, dt2),
         loadTop5(dt1, dt2),
         loadCategorias(dt1, dt2),
         loadHistory(yearSel),
-      ])            
+      ])
     }
     catch (error) {
       console.log(error.message)
       if (!apiConfig.ok) {
-        router.push('/infoip')        
+        router.push('/infoip')
       }
     }
     finally {
@@ -349,16 +349,16 @@ export default function Dashboard() {
   useEffect(() => {
     async function inicUser() {
       let mySenha = senha
-      
+
       if (!isAdmin) {
         // busca a senha dos cookies
         const cookies = Nookies.get(null)
         mySenha = cookies['MyBeer:senha']
 
         if (mySenha) {
-          // descriptografa a senha do cookie        
+          // descriptografa a senha do cookie
           const bytes  = CryptoJS.AES.decrypt(mySenha, process.env.NEXT_PUBLIC_API_SECRET);
-          mySenha = bytes.toString(CryptoJS.enc.Utf8);          
+          mySenha = bytes.toString(CryptoJS.enc.Utf8);
         }
       }
 
@@ -368,16 +368,16 @@ export default function Dashboard() {
         return false
       }
       else {
-        return await checaAdmin(mySenha)              
-      }  
+        return await checaAdmin(mySenha)
+      }
     }
 
     inicUser()
       .then((response) => {
         if (!response) {
-          router.push('/signin')        
+          router.push('/signin')
         }
-      })   
+      })
   }, [])
 
 
@@ -385,16 +385,16 @@ export default function Dashboard() {
     async function inicDados() {
       await loadData()
     }
-    
+
     if (isAdmin && !loading) {
       inicDados()
     }
   }, [periodoSel, yearSel])
-  
+
 
   return (
     <>
-      <Header title="Dashboard" />      
+      <Header title="Dashboard" />
 
       <S.Main>
 
@@ -411,7 +411,7 @@ export default function Dashboard() {
               <h1>{ resumo.qtdMesas }</h1>
               <span>Vl. Médio / Mesa:</span>
               <h1>R$ { resumo.vlMedio }</h1>
-              <AttachMoney size={270} />               
+              <AttachMoney size={270} />
             </S.TotalContainer>
 
             {
@@ -429,12 +429,12 @@ export default function Dashboard() {
                     <p>{ resumo.comparativo }%</p>
                     <ArrowDownShort size={22} />
                   </div>
-                </S.ArrowBox>              
+                </S.ArrowBox>
             }
 
             <S.SelectContainer>
-              <SelectInput 
-                options={ periodos } 
+              <SelectInput
+                options={ periodos }
                 defaultValue={ periodoSel }
                 onChange={(e) => handlePeriodo(e.target.value)}
               />
@@ -447,22 +447,22 @@ export default function Dashboard() {
               top5.map(item => (
                 <S.Legend color={ item.color } key={ item.id_product } totalSel={ totalSel }>
                   <div>
-                    {                   
-                      totalSel === "R$" 
+                    {
+                      totalSel === "R$"
                         ? item.vl_total?.toFixed(2)
-                        : strzero(item.quant, 3) 
+                        : strzero(item.quant, 3)
                     }
                   </div>
                   <span>{ item.name }</span>
                 </S.Legend>
               ))
-            }         
+            }
             </S.LegendContainer>
 
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
                 <PieChart>
-                  <Pie 
+                  <Pie
                     data={ top5 }
                     dataKey={ totalSel === "R$" ? "vl_total" : "quant" }
                   >
@@ -472,50 +472,50 @@ export default function Dashboard() {
                       ))
                     }
                   </Pie>
-                  
-                  <Tooltip 
+
+                  <Tooltip
                     formatter={(value: number) => (
-                      totalSel === "R$" 
+                      totalSel === "R$"
                         ? `R$ ${value?.toFixed(2)}`
                         : strzero(value, 3)
                     )}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                    animationDuration={0} 
+                    animationDuration={0}
                   />
                 </PieChart>
               </ResponsiveContainer>
             </S.ChartContainer>
 
             <S.SelectContainer>
-              <SelectInput 
-                  options={ totais } 
+              <SelectInput
+                  options={ totais }
                   defaultValue={ totalSel }
                   onChange={(e) => setTotalSel(e.target.value)}
-                />              
+                />
             </S.SelectContainer>
           </Card>
-        </S.CardContainer>        
-      
-        <Card 
-          title='Faturamento Top 5' 
+        </S.CardContainer>
+
+        <Card
+          title='Faturamento Top 5'
           heightPx={210}
           valorR$={ totalSel === 'R$' }
         >
           <S.ChartContainer>
             <ResponsiveContainer width="99%" height="99%">
 
-              <LineChart 
+              <LineChart
                 data={ top5history }
                 margin={{ top: 20, bottom: 0, left: 15, right: 10 }}
-              > 
+              >
                 <CartesianGrid strokeDasharray="2 1" stroke="grey" />
                 <XAxis dataKey="month" stroke="#cecece" />
-                              
+
                 {
                   top5.map((item, index) => (
-                    <Line 
-                      dataKey={ 
-                        totalSel === "R$" 
+                    <Line
+                      dataKey={
+                        totalSel === "R$"
                           ? `vl_total[${ index }]`
                           : `qtd[${ index }]`
                       }
@@ -528,34 +528,34 @@ export default function Dashboard() {
                       activeDot={{ r: 8 }}
                     />
                   ))
-                }               
-                
-                <Tooltip 
+                }
+
+                <Tooltip
                   formatter={(value: number) => (
-                    totalSel === "R$" 
+                    totalSel === "R$"
                       ? `R$ ${value?.toFixed(2)}`
                       : strzero(value, 3)
                   )}
                   cursor={{ fill: 'none '}}
                   contentStyle={{borderRadius: "8px", opacity: 0.8}}
                   labelStyle={{color: "#1f1f24", fontWeight: 600 }}
-                  animationDuration={0} 
+                  animationDuration={0}
                 />
               </LineChart>
             </ResponsiveContainer>
           </S.ChartContainer>
 
           <S.SelectContainer>
-            <SelectInput 
-              options={ years } 
+            <SelectInput
+              options={ years }
               defaultValue={ yearSel }
-              onChange={(e) => handleYear(e.target.value)}            
+              onChange={(e) => handleYear(e.target.value)}
             />
           </S.SelectContainer>
-        </Card>       
+        </Card>
 
-        <S.CardContainer widthCard1={50}>                   
-          <Card 
+        <S.CardContainer widthCard1={50}>
+          <Card
             title='Categorias:'
             valorR$={true}
           >
@@ -564,20 +564,20 @@ export default function Dashboard() {
               categories.map(item => (
                 <S.Legend color={ item.color } key={ item.id } totalSel="R$" >
                   <div>
-                    {                   
+                    {
                       item.value?.toFixed(2)
                     }
                   </div>
                   <span>{ item.name }</span>
                 </S.Legend>
               ))
-            }         
+            }
             </S.LegendContainer>
 
             <S.ChartContainer>
               <ResponsiveContainer width="99%" height="99%">
                 <PieChart>
-                  <Pie 
+                  <Pie
                     data={ categories }
                     dataKey="value"
                     cx={64}
@@ -592,47 +592,47 @@ export default function Dashboard() {
                       ))
                     }
                   </Pie>
-                  
-                  <Tooltip 
+
+                  <Tooltip
                     formatter={(value: number) => (
                       `R$ ${value?.toFixed(2)}`
                     )}
                     contentStyle={{borderRadius: "8px", opacity: 0.8}}
-                    animationDuration={0} 
+                    animationDuration={0}
                   />
                 </PieChart>
               </ResponsiveContainer>
             </S.ChartContainer>
           </Card>
 
-          <Card 
+          <Card
             title='Faturamento Total'
             valorR$={true}
           >
             <ResponsiveContainer width="99%" height="99%">
-              <BarChart 
-                data={ history }                     
+              <BarChart
+                data={ history }
                 margin={{ top: 20, bottom: 0, left: 10, right: 10 }}
-              > 
+              >
                 <CartesianGrid strokeDasharray="2 1" stroke="grey" />
                 <XAxis dataKey="month" stroke="#cecece" />
 
-                <Bar 
-                  dataKey="vl_total" 
+                <Bar
+                  dataKey="vl_total"
                   fill={"var(--scrollbar)"}
                 />
-                
-                <Tooltip 
-                  formatter={(value: number) => ( `R$ ${value?.toFixed(2)}` )}                      
+
+                <Tooltip
+                  formatter={(value: number) => ( `R$ ${value?.toFixed(2)}` )}
                   cursor={{ fill: 'none '}}
                   contentStyle={{borderRadius: "8px", opacity: 0.8}}
                   labelStyle={{color: "#1f1f24", fontWeight: 600 }}
-                  animationDuration={0} 
+                  animationDuration={0}
                 />
               </BarChart>
             </ResponsiveContainer>
           </Card>
-        </S.CardContainer>           
+        </S.CardContainer>
 
         <S.Footer>
           <p>Luiz Oliveira (2022)</p>

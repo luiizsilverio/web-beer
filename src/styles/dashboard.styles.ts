@@ -2,10 +2,9 @@ import styled, { css } from 'styled-components'
 
 export const Main = styled.main`
   grid-area: princ;
-  display: flex;  
+  display: flex;
   flex-direction: column;
   padding: 18px 20px;
- 
 `;
 
 type ContainerProps = {
@@ -14,18 +13,18 @@ type ContainerProps = {
 
 export const CardContainer = styled.div<ContainerProps>`
   display: grid;
-  grid-template-columns: ${ props => props.widthCard1 }% auto; 
-  column-gap: 1.5rem;  
+  grid-template-columns: ${ props => props.widthCard1 }% auto;
+  column-gap: 1.5rem;
 
   @media(max-width: 900px) {
 	  display: inline-block;
-    width: 100%;     
+    width: 100%;
 	}
 `;
 
 export const ChartContainer = styled.div`
   display: flex;
-  flex: 1;  
+  flex: 1;
   /* background-color: red; */
 `;
 
@@ -41,7 +40,7 @@ export const TotalContainer = styled.div`
   position: relative;
   /* background-color: red; */
   overflow: hidden;
-  
+
   span {
     font-size: 1.6rem;
     color: var(--text-light);
@@ -64,7 +63,7 @@ export const TotalContainer = styled.div`
   @media(max-width: 1064px) {
     grid-template-columns: 120px 1fr;
     padding-left: 10px;
-    
+
     span {
       font-size: 1.4rem;
     }
@@ -116,7 +115,7 @@ export const LegendContainer = styled.ul`
   width: 180px;
   /* background-color: black; */
 
-  
+
   @media(max-width: 900px) {
     width: 230px; /*170px;*/
   }
@@ -140,7 +139,7 @@ export const LegendContainer = styled.ul`
 
   ::-webkit-scrollbar-track {
     background-color: transparent; //var(--brown);
-  }  
+  }
 `;
 
 interface ILegendProps {
@@ -157,7 +156,7 @@ export const Legend = styled.li<ILegendProps>`
 
   > div {
     background-color: ${props => props.color};
-    height: 24px;    
+    height: 24px;
 
     ${ props => props.totalSel === 'R$' && css`
       width: 80px;
@@ -173,7 +172,7 @@ export const Legend = styled.li<ILegendProps>`
     font-size: 1.2rem;
     line-height: 24px;
     text-align: center;
-    margin: 4px 6px 3px 0;    
+    margin: 4px 6px 3px 0;
     /* box-shadow: 1px 1px 2px rgba(50, 50, 50, .6); */
   }
 
@@ -202,7 +201,7 @@ export const SelectContainer = styled.div`
 
 export const Footer = styled.footer`
   display: none;
-  
+
   @media(max-width: 460px) {
     display: inline-block;
     text-align: center;
@@ -221,17 +220,17 @@ export const ArrowBox = styled.div<ArrowProps>`
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    
+
     width: 100px;
     background-color: ${props => props.color};
     color: var(--white);
     border-radius: 6px;
     padding-left: 4px;
   }
-  
+
   position: absolute;
   right: 14px;
   bottom: 14px;
   z-index: 44;
-  font-size: 12px;  
+  font-size: 12px;
 `;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/router';
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
@@ -10,6 +10,7 @@ import { IComanda, IMesa } from '@/dtos';
 
 import Header from '@/components/Header'
 import { Mesa } from '@/components/Mesa'
+import { Loading } from '@/components/Loading'
 
 
 export default function Mesas() {
@@ -19,14 +20,14 @@ export default function Mesas() {
 
   const [mesas, setMesas] = useState<IMesa[]>([])
   const [mesaSelecionada, setMesaSelecionada] = useState<IMesa>({} as IMesa)
-  const [modalOpen, setModalOpen] = useState(false)
   const [loading, setLoading] = useState(false)
   const [refresh, setRefresh] = useState(true)
 
-  function handlePedido(mesa: IMesa) {
+  function handlePedido(mesa?: IMesa) {
+    console.log('handlePedido')
     if (mesa.numMesa > 0) {
       setMesaSelecionada(mesa)
-      setModalOpen(true)
+      router.push(`/fechar?mesa=${mesa.numMesa}`)
     }
   }
 
@@ -80,9 +81,6 @@ export default function Mesas() {
 
   function atualizaGrid() {
     async function inic() {
-      if (modalOpen) {
-        setModalOpen(false)
-      }
       await inicializaGrid()
     }
     inic()
@@ -131,6 +129,7 @@ export default function Mesas() {
         await app.loadComplementos()
       }
     }
+
     inic()
   }, [])
 
@@ -140,8 +139,7 @@ export default function Mesas() {
     }
 
     const timer = setTimeout(() => {
-      // if (refresh && !loading && !modalOpen && !transfer.dragging) {
-      if (refresh && !loading && !modalOpen) {
+      if (refresh && !loading) {
         inic()
       }
       setRefresh(prev => !prev)
@@ -158,8 +156,8 @@ export default function Mesas() {
       await inicializaGrid()
     }
 
-    if (refresh && !loading && !modalOpen) {
-        inic()
+    if (refresh && !loading) {
+      inic()
     }
 }, []);
 
@@ -168,9 +166,9 @@ export default function Mesas() {
     <>
       <Header title="Fechamento de Conta" />
 
-      {/* {
+      {
         loading && <Loading />
-      } */}
+      }
 
       <S.Main>
       {
@@ -180,7 +178,7 @@ export default function Mesas() {
             numMesa={ item.numMesa }
             ocupado={ item.situacao === 'Ocupada' }
             fechar={ item.fechar || item.temNovoConsumo }
-            onPress={() => handlePedido(item)}
+            onClick={() => handlePedido(item)}
             width={100}
             height={110}
           />

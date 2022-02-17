@@ -5,7 +5,7 @@ import * as S from './styles'
 
 export function Loading() {
   return (
-    <S.Container>
+    <S.Container role="bar">
       {/* <img src="/skull.gif" alt="Caveira" width={300} /> */}
       <Lottie
         loop={true}
