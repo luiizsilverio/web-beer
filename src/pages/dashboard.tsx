@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
-import { format, subDays, addDays } from 'date-fns';
+import { format, subDays } from 'date-fns';
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
 
@@ -636,7 +636,7 @@ export default function Dashboard() {
 
         <S.Footer>
           <p>Luiz Oliveira (2022)</p>
-          <p>Todos os direitos reservados.</p>
+          <p>&copy; Todos os direitos reservados.</p>
         </S.Footer>
       </S.Main>
     </>

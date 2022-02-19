@@ -20,24 +20,24 @@ function SignIn() {
   async function handleSignIn() {
     const senhaOk = await checaAdmin(mySenha)
 
-    // destroyCookie(null, 'MyBeer:senha') 
+    // destroyCookie(null, 'MyBeer:senha')
 
     if (!senhaOk && !apiConfig.ok) {
       router.push('/infoip')
       return
     }
-    
+
     if (!senhaOk) {
       toast.error('Senha incorreta.', {
         duration: 4000,
         position: 'top-center',
-        style: {fontSize: 18}        
+        style: {fontSize: 18}
       })
       return
-    } 
+    }
 
     // cria um Token JWT que expira em 8h
-    const token = sign({}, 
+    const token = sign({},
       process.env.NEXT_PUBLIC_API_SECRET, {
         subject: 'beer',
         expiresIn: '8h'
@@ -54,24 +54,24 @@ function SignIn() {
     setCookie(null, 'MyBeer:token', token)
     setCookie(null, 'MyBeer:senha', senhaCriptografada)
 
-    router.push('/')    
+    router.push('/')
   }
 
   return (
     <S.Container>
       <S.Content>
         <S.Title>
-          <Beer size={120} color={"var(--orange)"} /> 
+          <Beer size={120} color={"var(--orange)"} />
           <h1>My-Beer</h1>
         </S.Title>
 
         <S.Form>
-          <InputBox 
+          <InputBox
             label='Senha Administrador'
             type="password"
-            value={mySenha} 
+            value={mySenha}
             onChange={(e) => setMySenha(e.target.value)}
-            maxLength={10} 
+            maxLength={10}
           />
           <MyButton
             type="button"

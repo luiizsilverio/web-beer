@@ -1,11 +1,15 @@
 import { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { Add } from '@styled-icons/material-rounded'
+import { Flag } from '@styled-icons/entypo'
+import { Checkmark } from '@styled-icons/ionicons-outline'
 
 import * as S from '@/styles/fechar.styles'
 import { IComanda, IConsumo, IMesa } from '@/dtos'
 import strzero from '@/utils/strzero'
 import Header from '@/components/Header'
 import FecharCard from '@/components/FecharCard'
+import RoundButton from '@/components/RoundButton'
 
 const lista: IConsumo[] = [
   {
@@ -44,16 +48,46 @@ export default function Fechar() {
     return acc + item.vl_total
   }, 0), [consumos])
 
+  function handleAdd() {
+    console.log('add')
+  }
+
+  function handleFlag() {
+    console.log('flag')
+  }
+
+  function handleFecha() {
+    console.log('fecha')
+  }
+
   return (
     <>
-      <Header title={`MESA Nº ${ mesa }`} />
+      <Header title={`MESA Nº ${ mesa }`}>
+        <S.ControlBox>
+          <RoundButton color="#0f86fa" onClick={handleAdd}>
+            <Add size={32} />
+          </RoundButton>
+          <RoundButton color="#c53030" onClick={handleFlag}>
+            <Flag size={26} />
+          </RoundButton>
+          <RoundButton color="mediumseagreen" onClick={handleFecha}>
+            <Checkmark size={30} />
+          </RoundButton>
+        </S.ControlBox>
+      </Header>
+
       <S.Container>
         <S.Content>
           <ul>
             {
               consumos.map((item) => (
                 <li key={item.id}>
-                  <FecharCard />
+                  <FecharCard
+                    data={item}
+                    handleDelete={() => {}}
+                    handleEdit={() => {}}
+                    handleFechou={() => {}}
+                  />
                 </li>
               ))
             }

@@ -4,7 +4,7 @@ export const apiConfig = {
 	ok: true,
 	api_host: process.env.NEXT_PUBLIC_API_HOST || 'localhost',
 	api_port: process.env.NEXT_PUBLIC_API_PORT || '3434',
-  api_secret: process.env.NEXT_PUBLIC_API_SECRET 
+  api_secret: process.env.NEXT_PUBLIC_API_SECRET
 }
 
 const api = axios.create({
@@ -27,8 +27,8 @@ api.interceptors.response.use(
 		}
 		if (!apiConfig.ok) {
 			console.log('** Erro ao acessar Beer-API')
-		}
-		return Promise.reject(error);
+    }
+    return Promise.reject(error);
 	}
 );
 

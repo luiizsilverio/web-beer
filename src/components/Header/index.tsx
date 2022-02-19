@@ -1,13 +1,14 @@
 import * as S from './styles'
 import { useBeerContext } from '@/contexts';
 import MenuButton from '../MenuButton'
+import { ReactChild } from 'react';
 
-type Props = {
-  title: string
+type HeaderProps = {
+  title: string,
   children?: React.ReactNode
 }
 
-export default function Header({ title, children }: Props) {
+function Header({ title, children }: HeaderProps) {
   const { menuOpen, toggleMenu } = useBeerContext()
 
   return (
@@ -18,8 +19,11 @@ export default function Header({ title, children }: Props) {
 
       <h1>{ title }</h1>
 
-      { children }
-
+      <div className="controls">
+        { children }
+      </div>
     </S.Container>
   )
 }
+
+export default Header

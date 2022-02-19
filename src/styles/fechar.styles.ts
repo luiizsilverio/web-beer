@@ -32,7 +32,7 @@ export const Content = styled.div`
     background-color: rgba(31, 32, 36, 0.6);
     border: 1px solid var(--background);
     padding: 8px 12px;
-    gap: 16px;
+    gap: 18px;
 
     h2 {
       font-size: 26px;
@@ -45,4 +45,13 @@ export const Content = styled.div`
       font-weight: lighter;
     }
   }
+`;
+
+export const ControlBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 200px;
+  /* background-color: red; */
+
 `;

@@ -78,7 +78,7 @@ function BeerProvider ({ children }: ProviderProps) {
 
     try {
       const response = await api.get(`/config/password/${ key }`)
-      
+
       const ok = response.data.match
       setIsAdmin(ok)
       return ok
@@ -93,15 +93,15 @@ function BeerProvider ({ children }: ProviderProps) {
   function logout() {
     setIsAdmin(false)
     setSenha("")
-    destroyCookie(null, 'MyBeer:senha') 
+    destroyCookie(null, 'MyBeer:senha')
   }
 
-  async function gravaConfig(config_: IConfig) {    
+  async function gravaConfig(config_: IConfig) {
     try {
       const response = await api.post<IConfig>('/config', { ...config_ })
-        
-      setConfig(response.data)      
-    } 
+
+      setConfig(response.data)
+    }
     catch(error: any) {
       console.log(error.message)
     }
@@ -115,8 +115,8 @@ function BeerProvider ({ children }: ProviderProps) {
         await api.post<IConfig>('/config', { ...config })
         return config
 
-      } else {        
-        setConfig({ ...response.data }) 
+      } else {
+        setConfig({ ...response.data })
         return response.data
       }
     }
@@ -135,13 +135,13 @@ function BeerProvider ({ children }: ProviderProps) {
         }
       })
 
-      const lista = response.data.map(item => ({ 
-        id: item.id, 
-        name: item.name, 
+      const lista = response.data.map(item => ({
+        id: item.id,
+        name: item.name,
         preco: item.preco
       }))
-      
-      setProducts([ {id: '0', name: '', preco: 0}, ...lista ])     
+
+      setProducts([ {id: '0', name: '', preco: 0}, ...lista ])
     }
     catch(error: any) {
       console.log(error.message)
@@ -195,15 +195,15 @@ function BeerProvider ({ children }: ProviderProps) {
   useEffect(() => {
     async function inic() {
       await getConfig()
-      inicProducts()      
-    }    
+      inicProducts()
+    }
     inic()
-  }, [])  
+  }, [])
 
 
   return (
-    <BeerContext.Provider value={{ 
-      menuOpen, 
+    <BeerContext.Provider value={{
+      menuOpen,
       toggleMenu,
       isAdmin,
       senha,
@@ -212,8 +212,8 @@ function BeerProvider ({ children }: ProviderProps) {
       checaAdmin,
       gravaConfig,
       getConfig,
-      products, 
-      loadProducts, 
+      products,
+      loadProducts,
       inicProducts,
       categories,
       loadCategories,

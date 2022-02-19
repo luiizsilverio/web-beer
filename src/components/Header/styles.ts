@@ -11,16 +11,16 @@ export const Container = styled.header`
   padding: 0 20px;
   background-color: var(--background);
   font-family: Roboto;
-  
+
   /* height: 60px; */
   height: ${ props => header_height }px;
   width: calc(100% - ${ props => aside_width }px); /* subtrai a largura do menu */
-  
+
   position: fixed;
   top: 0;
-  
+
   h1 {
-    font-size: 2.4rem;     
+    font-size: 2.4rem;
     font-weight: 500;
     color: var(--bege); //var(--white);
   }
@@ -29,5 +29,6 @@ export const Container = styled.header`
 	  width: 100%;
     padding-left: 60px;
 	}
+
 `;
 
