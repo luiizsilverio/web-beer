@@ -16,10 +16,11 @@ const lista: IConsumo[] = [
     id: '1',
     id_comanda: '1',
     id_product: '1',
-    name: "Cerveja",
-    qtd: 1,
+    name: "Agua s/Gas",
+    qtd: 2,
     vl_unit: 7,
-    vl_total: 7,
+    vl_total: 14,
+    complemento: "com gelo e limão",
     fechou: true
   },
   {
@@ -32,6 +33,16 @@ const lista: IConsumo[] = [
     vl_total: 5,
     fechou: false
   },
+  {
+    id: '3',
+    id_comanda: '1',
+    id_product: '3',
+    name: "Cerveja Weiss",
+    qtd: 1,
+    vl_unit: 12,
+    vl_total: 12,
+    fechou: false
+  }
 ]
 
 export default function Fechar() {
@@ -81,9 +92,9 @@ export default function Fechar() {
           <ul>
             {
               consumos.map((item) => (
-                <li key={item.id}>
+                <li key={ item.id }>
                   <FecharCard
-                    data={item}
+                    data={ item }
                     handleDelete={() => {}}
                     handleEdit={() => {}}
                     handleFechou={() => {}}

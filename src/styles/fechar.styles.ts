@@ -12,20 +12,20 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  background-color: rgba(31, 32, 36, 0.9);
+  background-color: rgba(31, 32, 36, 0.85);
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
   animation: ${animacao_crescer} 0.2s linear;
   padding: 8px;
 
 
   ul {
-    flex: 0.93;
+    flex: 0.94;
     list-style: none;
   }
 
   footer {
     display: flex;
-    flex: 0.07;
+    flex: 0.06;
     align-items: center;
     justify-content: flex-end;
 
