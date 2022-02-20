@@ -10,7 +10,7 @@ export const Container = styled.header`
   align-items: center;
   padding: 0 20px;
   background-color: var(--background);
-  font-family: Roboto;
+  font-family: Roboto, 'Open Sans', sans-serif;
 
   /* height: 60px; */
   height: ${ props => header_height }px;

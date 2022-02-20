@@ -9,25 +9,26 @@ interface CardProps {
   data: IConsumo
   handleDelete: (data: IConsumo) => void
   handleEdit: (data: IConsumo) => void
-  handleFechou: (consumo: IConsumo) => void
+  handleTicar: (data: IConsumo) => void
 }
 
 export default function FecharCard({
   data,
   handleDelete,
   handleEdit,
-  handleFechou
+  handleTicar
 }: CardProps) {
+
   return (
     <S.Container fechou={data.fechou}>
       <div className="controls">
-        <button type="button">
+        <button type="button" onClick={() => handleTicar(data)}>
           <Checkmark size={26} title="Ticar" />
         </button>
-        <button type="button">
+        <button type="button" onClick={() => handleEdit(data)}>
           <Edit size={22} title="Editar" />
         </button>
-        <button type="button">
+        <button type="button" onClick={() => handleDelete(data)}>
           <Delete size={24} title="Excluir" />
         </button>
       </div>

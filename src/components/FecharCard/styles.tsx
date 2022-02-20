@@ -9,7 +9,7 @@ export const Container = styled.div<Props>`
   align-items: center;
   background-color: rgba(131, 140, 125, 0.2);
 
-  margin-bottom: 8px;
+  margin: 4px 4px 8px;
   border-radius: 4px;
   padding: 4px 8px;
   gap: 10px;

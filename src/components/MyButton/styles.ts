@@ -2,10 +2,10 @@ import styled from 'styled-components'
 
 export const ButtonContainer = styled.button`
   background-color: var(--orange);
-  font-family: Roboto, 'Sans Serif', sans-serif;
+  font-family: Roboto, 'Open Sans', sans-serif;
   font-weight: bold;
   font-size: 1.7rem;
-  color: var(--background);   
+  color: var(--background);
   padding: 10px;
   border-radius: 8px;
   margin: 6px 0;
@@ -20,6 +20,6 @@ export const ButtonContainer = styled.button`
 
   &:active {
     filter: sepia(10%);
-    transform: scale(1.02);    
+    transform: scale(1.02);
   }
 `;

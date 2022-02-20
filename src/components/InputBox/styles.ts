@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   padding: 8px 0;
-  
+
   label {
     font-size: 1.5rem;
     margin-bottom: 6px;
@@ -22,16 +22,16 @@ export const InputContainer = styled.div`
 
   input {
     font-size: 2.7rem;
-    font-family: Roboto, 'Sans Serif', sans-serif;
+    font-family: Roboto, 'Open Sans', sans-serif;
     outline: none;
     background-color: #18191c;
     border: none;
     color: var(--text-white);
-    text-align: center;     
-    width: 100%;     
-      
+    text-align: center;
+    width: 100%;
+
     &::placeholder {
-      font-size: 1.6rem;                    
+      font-size: 1.6rem;
     }
   }
 

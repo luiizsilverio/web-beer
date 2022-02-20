@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { animacao_crescer } from './keyframes';
+import { animacao_crescer, animacao_subir } from './keyframes';
 
 export const Container = styled.div`
   grid-area: princ;
@@ -14,13 +14,29 @@ export const Content = styled.div`
   flex: 1;
   background-color: rgba(31, 32, 36, 0.85);
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
-  animation: ${animacao_crescer} 0.2s linear;
   padding: 8px;
 
+  animation: ${animacao_crescer} 0.2s linear;
 
   ul {
     flex: 0.94;
     list-style: none;
+    overflow-y: auto;
+
+    animation: ${animacao_subir} 0.5s ease-out;
+
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(131, 140, 125, 0.4);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background-color: rgba(131, 140, 125, 0.1);
+    }
   }
 
   footer {
@@ -53,5 +69,4 @@ export const ControlBox = styled.div`
   gap: 8px;
   width: 200px;
   /* background-color: red; */
-
 `;

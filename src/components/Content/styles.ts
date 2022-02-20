@@ -15,8 +15,7 @@ export const Container = styled.div`
   height: calc(100vh - ${ props => header_height }px);
 
   color: var(--white);
-  /* padding: 12px; */
-  overflow-y: auto; //scroll;  
+  overflow-y: auto; //scroll;
 
   ::-webkit-scrollbar {
     width: 10px;

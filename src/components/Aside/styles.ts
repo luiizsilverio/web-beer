@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
-import { 
-  animacao_balanca, 
-  animacao_subir, 
+import {
+  animacao_balanca,
+  animacao_subir,
   animacao_para_direita
 } from '@/styles/keyframes';
 
@@ -14,9 +14,9 @@ export const Container = styled.aside<Props>`
   background-color: var(--background);
   color: var(--white);
   position: relative;
-  background-image: linear-gradient(to bottom right, 
+  background-image: linear-gradient(to bottom right,
     var(--background), var(--back_light));
-      
+
   @media(max-width: 740px) {
     position: absolute;
     z-index: 50;
@@ -51,12 +51,12 @@ export const TitleContainer = styled.header`
   svg {
     margin-right: 10px;
     animation: ${ animacao_balanca } 0.7s ease-in-out;
-    
+
     &:hover {
       animation: ${ animacao_balanca } 0.5s infinite;
     }
-  }  
-  
+  }
+
 `;
 
 export const Title = styled.div`
@@ -66,7 +66,7 @@ export const Title = styled.div`
   border-top: 1px solid var(--orange);
   border-bottom: 1px solid var(--orange);
 
-  
+
   h1 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
@@ -82,8 +82,8 @@ export const Menu = styled.ul`
   flex-direction: column;
   list-style: none;
   padding: 2.5rem;
-  font-size: 1.6rem;  
-  animation: ${ animacao_subir } 0.4s ease-out;  
+  font-size: 1.6rem;
+  animation: ${ animacao_subir } 0.7s ease-out;
   max-width: 30rem;
 `;
 
@@ -117,7 +117,7 @@ export const MenuLink = styled.a`
 export const LinkButton = styled.button`
   background-color: transparent;
   color: var(--text-light);
-  font-size: 1.6rem;  
+  font-size: 1.6rem;
   text-align: left;
   cursor: pointer;
   border: none;
