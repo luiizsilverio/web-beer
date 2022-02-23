@@ -28,7 +28,8 @@
     "react-lottie-player": "^1.4.1",
     "react-modal": "^3.14.4",
     "recharts": "^2.1.8",
-    "styled-components": "^5.2.3"
+    "styled-components": "^5.2.3",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
@@ -36,6 +37,7 @@
     "@types/react": "^17.0.38",
     "@types/react-modal": "^3.13.1",
     "@types/recharts": "^1.8.23",
+    "@types/uuid": "^8.3.4",
     "babel-plugin-styled-components": "^1.12.0",
     "typescript": "^4.5.4"
   }

@@ -28,9 +28,12 @@ export default function Mesas() {
     if (mesa.numMesa > 0) {
       setMesaSelecionada(mesa)
       // router.push(`/fechar?mesa=${mesa.numMesa}`)
-      router.push({ pathname: '/fechar', query: {
-        mesa: JSON.stringify(mesa)
-      }})
+      router.push({
+        pathname: '/fechar',
+        query: {
+          mesa: JSON.stringify(mesa)
+        }
+      })
     }
   }
 

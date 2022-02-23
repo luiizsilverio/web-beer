@@ -277,16 +277,11 @@ export default function Dashboard() {
       return
     }
 
-    const vpar = {
+    const vpar: any = {
       ano: ano.toString(),
-      prod1: '',
-      prod2: '',
-      prod3: '',
-      prod4: '',
-      prod5: '',
+      prod1: produtos[0]
     }
 
-    if (produtos.length > 0) vpar.prod1 = produtos[0]
     if (produtos.length > 1) vpar.prod2 = produtos[1]
     if (produtos.length > 2) vpar.prod3 = produtos[2]
     if (produtos.length > 3) vpar.prod4 = produtos[3]

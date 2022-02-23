@@ -7,7 +7,7 @@ type Props = {
 export const Container = styled.div<Props>`
   display: flex;
   align-items: center;
-  background-color: rgba(131, 140, 125, 0.2);
+  background-color: rgba(86, 99, 115, 0.3);
 
   margin: 4px 4px 8px;
   border-radius: 4px;

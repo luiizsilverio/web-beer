@@ -2,7 +2,7 @@ import styled,{ css } from 'styled-components'
 import { animacao_crescer } from '@/styles/keyframes';
 
 export const Container = styled.div`
-  margin-bottom: 1.6rem;  
+  margin-bottom: 1.6rem;
 `;
 
 type CardProps = {
@@ -12,7 +12,7 @@ type CardProps = {
 
 export const Content = styled.div<CardProps>`
   display: flex;
-  
+
   ${ props => props.widthPx > 0 && css`
     width: ${ props.widthPx }px;
   `};
@@ -23,11 +23,7 @@ export const Content = styled.div<CardProps>`
   padding-right: 4px;
   position: relative;
 
-  /* background-color: var(--back_light);
-  filter: opacity(50%); */
-  
-  /* background-color: rgba(82, 102, 122, .6);  */
-  background-color: rgba(49, 61, 73, .6);   
+  background-color: rgba(49, 61, 73, .6);
 
   animation: ${ animacao_crescer } 0.4s;
 
@@ -44,7 +40,7 @@ export const TitleContainer = styled.div`
   color: var(--white);
   /* font-family: 'Open Sans'; */
   font-size: 1.2rem;
-  line-height: 1.8;  
+  line-height: 1.8;
 `;
 
 export const Title = styled.div`
@@ -61,7 +57,7 @@ export const Title = styled.div`
 
   @media(max-width: 460px) {
 	  font-size: 1.1rem;
-    line-height: 2;      
+    line-height: 2;
 
     h2 {
       font-weight: normal;
@@ -78,7 +74,7 @@ export const RealBox = styled.div`
   border-radius: 6px;
   padding-top: 2px;
   font-size: 14px;
-  font-weight: bold;  
-  background-color: var(--bege); 
+  font-weight: bold;
+  background-color: var(--bege);
   color: var(--abacate);
 `;

@@ -18,27 +18,6 @@ export const Content = styled.div`
 
   animation: ${animacao_crescer} 0.2s linear;
 
-  ul {
-    flex: 0.94;
-    list-style: none;
-    overflow-y: auto;
-
-    animation: ${animacao_subir} 0.5s ease-out;
-
-    ::-webkit-scrollbar {
-      width: 10px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background-color: rgba(86, 99, 115, 0.3);
-      border-radius: 5px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background-color: rgba(86, 99, 115, 0.3);
-    }
-  }
-
   footer {
     display: flex;
     flex: 0.06;
@@ -46,7 +25,6 @@ export const Content = styled.div`
     justify-content: flex-end;
 
     background-color: rgba(86, 99, 115, 0.4);
-    /* border: 1px solid var(--background); */
     padding: 8px 12px;
     gap: 18px;
 

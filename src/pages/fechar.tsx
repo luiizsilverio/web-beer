@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
+import { v4 as uuid } from 'uuid'
 
 import { Add } from '@styled-icons/material-rounded'
 import { Flag } from '@styled-icons/entypo'
@@ -8,7 +9,7 @@ import { Checkmark } from '@styled-icons/ionicons-outline'
 import { ArrowLeftShort } from '@styled-icons/bootstrap'
 
 import * as S from '@/styles/fechar.styles'
-import api, { apiConfig } from '@/services/api'
+import api from '@/services/api'
 import { IComanda, IConsumo, IMesa } from '@/dtos'
 import strzero from '@/utils/strzero'
 import Header from '@/components/Header'
@@ -16,86 +17,12 @@ import FecharCard from '@/components/FecharCard'
 import RoundButton from '@/components/RoundButton'
 import QuestionBox from '@/components/QuestionBox';
 
-const lista: IConsumo[] = [
-  {
-    id: '1',
-    id_comanda: '1',
-    id_product: '1',
-    name: "Agua s/Gas",
-    qtd: 2,
-    vl_unit: 7,
-    vl_total: 14,
-    complemento: "com gelo e limão",
-    fechou: true
-  },
-  {
-    id: '2',
-    id_comanda: '1',
-    id_product: '2',
-    name: "Amendoim",
-    qtd: 1,
-    vl_unit: 5,
-    vl_total: 5,
-    fechou: false
-  },
-  {
-    id: '3',
-    id_comanda: '1',
-    id_product: '3',
-    name: "Cerveja Weiss",
-    qtd: 1,
-    vl_unit: 12,
-    vl_total: 12,
-    fechou: false
-  },
-  {
-    id: '4',
-    id_comanda: '1',
-    id_product: '4',
-    name: "Ovo de codorna",
-    qtd: 1,
-    vl_unit: 5,
-    vl_total: 5,
-    fechou: false
-  },
-  {
-    id: '4',
-    id_comanda: '1',
-    id_product: '4',
-    name: "Ovo de codorna",
-    qtd: 1,
-    vl_unit: 5,
-    vl_total: 5,
-    fechou: false
-  },
-  {
-    id: '5',
-    id_comanda: '1',
-    id_product: '5',
-    name: "Porção de azeitonas",
-    qtd: 1,
-    vl_unit: 5,
-    vl_total: 5,
-    fechou: false
-  },
-  {
-    id: '6',
-    id_comanda: '1',
-    id_product: '6',
-    name: "Cerveja Pilsen 300 ML",
-    qtd: 2,
-    vl_unit: 7,
-    vl_total: 14,
-    fechou: true
-  },
-]
 
 export default function Fechar() {
   const [comanda, setComanda] = useState<IComanda>({} as IComanda)
   const [consumos, setConsumos] = useState<IConsumo[]>([])
   const [consumo, setConsumo] = useState<IConsumo>({} as IConsumo)
   const [id_comanda, setId_comanda] = useState("")
-  const [newConta, setNewConta] = useState(false)
 
   const router = useRouter()
   const mesa: IMesa = router.query?.mesa ? JSON.parse(router.query.mesa.toString()) : null
@@ -105,12 +32,39 @@ export default function Fechar() {
     return acc + item.vl_total
   }, 0), [consumos])
 
+
   function handleBack() {
     router.back()
   }
 
-  function handleAdd() {
-    console.log('add')
+  function incluiConsumo() {
+    let id = id_comanda
+    if (id === "" || id === "0") {
+      id = mesa.id_comanda
+    }
+    if (id === "" || id === "0") {
+      id = uuid() as string
+    }
+    if (id_comanda !== id) {
+      setId_comanda(id)
+    }
+
+    setConsumo({} as IConsumo)
+
+    router.push({
+      pathname: '/consumo',
+      query: {
+        id: id,
+        id_comanda,
+        numMesa
+      }
+    })
+  }
+
+
+  function alteraConsumo(consumo: IConsumo) {
+    setConsumo(consumo)
+    router.push('consumo')
   }
 
 
@@ -130,12 +84,12 @@ export default function Fechar() {
         await api.put<IComanda>(`comandas/${mesa.id_comanda}`, { ...newComanda })
 
         //setComanda(newComanda) //não precisa, pois vai fechar a janela
-        router.back()
+        handleBack()
       }
       catch (error: any) {
         console.log(error.message)
         toast.error('Erro ao fechar a conta')
-        router.back()
+        handleBack()
       }
     }
 
@@ -169,7 +123,6 @@ export default function Fechar() {
       id = mesa.id_comanda
     }
     if (id === "" || id === "0") {
-      setNewConta(true)
       return
     }
 
@@ -194,6 +147,8 @@ export default function Fechar() {
     }
     catch (error: any) {
       console.log(error.message)
+      toast.error('Erro ao abrir a conta')
+      handleBack()
     }
   }
 
@@ -214,12 +169,12 @@ export default function Fechar() {
 
         await api.put<IComanda>(`comandas/${ id }`, { ...newComanda })
 
-        router.back()
+        handleBack()
       }
       catch (err: any) {
         console.log(err.message)
         toast.error('Erro ao fechar a conta')
-        router.back()
+        handleBack()
       }
     }
 
@@ -249,6 +204,7 @@ export default function Fechar() {
     );
   }
 
+
   async function ticarConsumo(desp: IConsumo) {
     const newConsumo: IConsumo = {
       id: desp.id,
@@ -262,25 +218,36 @@ export default function Fechar() {
     }
 
     try {
+      // atualiza no banco a tabela consumo
       await api.put<IConsumo>(`consumo/${ desp.id }`, { ...newConsumo })
 
-      const idx = consumos.findIndex(item => item.id === desp.id)
-      consumos[idx].fechou = newConsumo.fechou
+      // atualiza o estado consumos
+      const newConsumos = consumos.map((item, index) => {
+        if (item.id === desp.id) {
+          return {...item, fechou: newConsumo.fechou}
+        } else {
+          return {...item}
+        }
+      })
 
-      const temNovoConsumo = consumos.some(item => !item.fechou)
+      setConsumos(newConsumos)
+
+      // atualiza no banco a tabela comandas
+      const temNovoConsumo = newConsumos.some(item => !item.fechou)
       if (temNovoConsumo !== comanda.temNovoConsumo) {
         await api.put<IComanda>(`comandas/${ id_comanda }`, {
           ...comanda,
           temNovoConsumo
         })
-
-        setNewConta(true)
       }
     }
     catch (error: any) {
       console.log(error.message)
+      toast.error('Erro ao ticar o consumo')
+      handleBack()
     }
   }
+
 
   async function excluiConsumo(id: string, toastId?: string) {
     if (toastId) {
@@ -293,7 +260,6 @@ export default function Fechar() {
       // abreComanda()
       const lista = [...consumos].filter(item => item.id !== id)
       setConsumos(lista)
-      setNewConta(true)
 
       const temNovoConsumo = consumos.some(item => !item.fechou)
       if (temNovoConsumo !== comanda.temNovoConsumo) {
@@ -306,6 +272,7 @@ export default function Fechar() {
     catch (error: any) {
       console.log(error.message)
       toast.error("Erro ao excluir o consumo")
+      handleBack()
     }
   }
 
@@ -365,10 +332,10 @@ export default function Fechar() {
     <>
       <Header title={`MESA Nº ${ numMesa }`}>
         <S.ControlBox>
-          <RoundButton color="var(--orange)" onClick={handleBack}>
+          <RoundButton color="#BA55D3" onClick={handleBack}>
             <ArrowLeftShort size={36} title="Voltar" />
           </RoundButton>
-          <RoundButton color="#0f86fa" onClick={handleAdd}>
+          <RoundButton color="#0f86fa" onClick={incluiConsumo}>
             <Add size={32} title="Lançar novo consumo" />
           </RoundButton>
           <RoundButton color="#c53030" onClick={pediuFecharConta}>
