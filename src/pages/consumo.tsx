@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { ArrowLeftShort } from '@styled-icons/bootstrap';
+import { Beer } from '@styled-icons/ionicons-solid/Beer'
 
 import * as S from '@/styles/consumo.styles'
 import { useBeerContext } from '@/contexts';
@@ -58,6 +59,7 @@ export default function Consumo() {
       <S.Container>
         <S.Content>
           <S.FormContainer>
+            <Beer size={300} />
           <S.Form onSubmit={handleSubmit}>
             <label htmlFor='product'>Descrição do produto</label>
             <select
@@ -91,20 +93,24 @@ export default function Consumo() {
 
             <label htmlFor="qtd">Quantidade</label>
             <input
-              type="text"
+              type="number" min="0" max="100"
               id="qtd"
             />
 
             <label htmlFor="vlun">Valor Unitário R$</label>
             <input
-              type="text"
+              type="number"
               id="vlun"
+              step='0.01' placeholder='0.00'
+              readOnly
             />
 
             <label htmlFor="vtot">Valor Total R$</label>
             <input
-              type="text"
+              type="number"
               id="vtot"
+              step='0.01' placeholder='0.00'
+              readOnly
             />
 
           </S.Form>
@@ -112,9 +118,12 @@ export default function Consumo() {
 
           <footer>
             <MyButton type="submit">Confirma</MyButton>
-            <span>Total</span>
-            <h2>R$ 0.00</h2>
+            <div className="totaldiv">
+              <span>Total</span>
+              <h2>R$ 0.00</h2>
+            </div>
           </footer>
+
         </S.Content>
       </S.Container>
 
