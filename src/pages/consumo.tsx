@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Router, useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { ArrowLeftShort } from '@styled-icons/bootstrap';
@@ -8,22 +8,42 @@ import { useBeerContext } from '@/contexts';
 import { IConsumo } from '@/dtos';
 import Header from '@/components/Header'
 import RoundButton from '@/components/RoundButton'
+import { MyButton } from '@/components/MyButton';
 
-interface RouterProps {
-  id: string
-  id_comanda: string
-  numMesa: string
-}
+const options = [
+  { value: '1', label: 'Chocolate' },
+  { value: '2', label: 'Strawberry' },
+  { value: '3', label: 'Vanilla' }
+]
+
 
 export default function Consumo() {
   const app = useBeerContext()
   const router = useRouter()
   const [id, setId] = useState(router.query?.id || "")
-  const [id_product, setId_product] = useState(router.query?.id_product || "")
-  const [complemento, setComplemento] = useState(router.query?.complemento || "")
+  const [id_product, setId_product] = useState(router.query.id_product || "")
+  const [complemento, setComplemento] = useState(router.query.complemento || "")
   const [quant, setQuant] = useState(router.query?.qtd || 1)
   const [total, setTotal] = useState(router.query?.vl_total || 0)
   const [vlun, setVlun] = useState(router.query?.vl_unit || 0)
+
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault()
+    //...
+  }
+
+  useEffect(() => {
+    async function inic() {
+      if (app.products.length === 0) {
+        await app.loadProducts()
+      }
+      if (app.complementos.length === 0) {
+        await app.loadComplementos()
+      }
+    }
+
+    inic()
+  }, [])
 
   return (
     <>
@@ -37,8 +57,61 @@ export default function Consumo() {
 
       <S.Container>
         <S.Content>
+          <S.FormContainer>
+          <S.Form onSubmit={handleSubmit}>
+            <label htmlFor='product'>Descrição do produto</label>
+            <select
+              value={id_product}
+              onChange={(e) => setId_product(e.target.value)}
+              id="product"
+            >
+              {
+                app.products.map((item) => (
+                  <option value={item.id}>
+                    {item.name}
+                  </option>
+                ))
+              }
+            </select>
+
+            <label htmlFor='complemento'>Complemento (opcional)</label>
+            <select
+              value={complemento}
+              onChange={(e) => setComplemento(e.target.value)}
+              id="complemento"
+            >
+              {
+                app.complementos.map((item) => (
+                  <option value={item.name}>
+                    {item.name}
+                  </option>
+                ))
+              }
+            </select>
+
+            <label htmlFor="qtd">Quantidade</label>
+            <input
+              type="text"
+              id="qtd"
+            />
+
+            <label htmlFor="vlun">Valor Unitário R$</label>
+            <input
+              type="text"
+              id="vlun"
+            />
+
+            <label htmlFor="vtot">Valor Total R$</label>
+            <input
+              type="text"
+              id="vtot"
+            />
+
+          </S.Form>
+          </S.FormContainer>
 
           <footer>
+            <MyButton type="submit">Confirma</MyButton>
             <span>Total</span>
             <h2>R$ 0.00</h2>
           </footer>

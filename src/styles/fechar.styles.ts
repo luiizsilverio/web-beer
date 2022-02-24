@@ -12,7 +12,7 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   flex: 1;
-  background-color: rgba(31, 32, 36, 0.85);
+  background-color: rgba(31, 32, 36, 0.95);
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
   padding: 8px;
 

@@ -261,7 +261,7 @@ export default function Fechar() {
       const lista = [...consumos].filter(item => item.id !== id)
       setConsumos(lista)
 
-      const temNovoConsumo = consumos.some(item => !item.fechou)
+      const temNovoConsumo = lista.some(item => !item.fechou)
       if (temNovoConsumo !== comanda.temNovoConsumo) {
         await api.put<IComanda>(`comandas/${ id_comanda }`, {
           ...comanda,
@@ -306,10 +306,13 @@ export default function Fechar() {
     }
 
     inic()
+  }, [])
 
-    // se tiver algum consumo que não foi ticado, avisa
+
+  useEffect(() => {
     let toastId
 
+    // se tiver algum consumo que não foi ticado, avisa
     if (mesa?.fechar) {
       setTimeout(() => {
         toastId = toast.success('Cliente pediu para fechar a conta', {
