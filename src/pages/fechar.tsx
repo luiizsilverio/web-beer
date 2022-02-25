@@ -54,9 +54,13 @@ export default function Fechar() {
     router.push({
       pathname: '/consumo',
       query: {
-        id: id,
+        id,
         id_comanda,
-        numMesa
+        numMesa,
+        qtd: 1,
+        vl_unit: 0.0,
+        vl_total: 0.0,
+        complemento: ''
       }
     })
   }
@@ -64,7 +68,19 @@ export default function Fechar() {
 
   function alteraConsumo(consumo: IConsumo) {
     setConsumo(consumo)
-    router.push('consumo')
+
+    router.push({
+      pathname: '/consumo',
+      query: {
+        id: consumo.id,
+        id_comanda: consumo.id_product,
+        numMesa,
+        qtd: consumo.qtd,
+        vl_unit: consumo.vl_unit,
+        vl_total: consumo.vl_total,
+        complemento: consumo.complemento
+      }
+    })
   }
 
 
@@ -359,7 +375,7 @@ export default function Fechar() {
                   <FecharCard
                     data={ item }
                     handleDelete={() => handleExcluiConsumo(item)}
-                    handleEdit={() => {}}
+                    handleEdit={() => alteraConsumo(item)}
                     handleTicar={() => ticarConsumo(item)}
                   />
                 </li>

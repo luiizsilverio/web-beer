@@ -3,13 +3,17 @@ import { Router, useRouter } from 'next/router';
 import toast, { Toaster } from 'react-hot-toast';
 import { ArrowLeftShort } from '@styled-icons/bootstrap';
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
+import { v4 as uuid } from 'uuid'
 
 import * as S from '@/styles/consumo.styles'
 import { useBeerContext } from '@/contexts';
-import { IConsumo } from '@/dtos';
+import api from '@/services/api';
+import { IConsumo, IComanda } from '@/dtos';
+
 import Header from '@/components/Header'
 import RoundButton from '@/components/RoundButton'
 import { MyButton } from '@/components/MyButton';
+import strzero from '@/utils/strzero';
 
 const options = [
   { value: '1', label: 'Chocolate' },
@@ -21,17 +25,22 @@ const options = [
 export default function Consumo() {
   const app = useBeerContext()
   const router = useRouter()
+  const v_qtd = parseInt(router.query?.qtd.toString() || '1')
+  const v_unit = parseFloat(router.query?.vl_total.toString() || '0.00')
+
   const [id, setId] = useState(router.query?.id || "")
   const [id_product, setId_product] = useState(router.query.id_product || "")
   const [complemento, setComplemento] = useState(router.query.complemento || "")
-  const [quant, setQuant] = useState(router.query?.qtd || 1)
-  const [total, setTotal] = useState(router.query?.vl_total || 0)
-  const [vlun, setVlun] = useState(router.query?.vl_unit || 0)
+
+  const [qtd, setQtd] = useState(v_qtd)
+  const [vl_total, setVl_total] = useState(v_unit)
+  const [vl_unit, setVl_unit] = useState(v_unit * v_qtd)
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
     //...
   }
+
 
   useEffect(() => {
     async function inic() {
@@ -41,10 +50,38 @@ export default function Consumo() {
       if (app.complementos.length === 0) {
         await app.loadComplementos()
       }
+
+      const prod = app.products.find(item => item.id === id_product)
+
+      if (prod) {
+        if (prod.preco !== vl_unit) {
+          setVl_unit(prod.preco)
+          setVl_total(qtd * vl_unit)
+        }
+      }
     }
 
     inic()
   }, [])
+
+
+  useEffect(() => {
+    const prod = app.products.find(item => item.id === id_product)
+    if (prod) {
+      const vun = prod.preco;
+      const tot = vun * qtd;
+      setVl_unit(vun)
+      setVl_total(tot)
+    }
+  }, [id_product]);
+
+
+  useEffect(() => {
+    const vun = vl_unit;
+    const tot = vun * qtd;
+    setVl_total(tot)
+  }, [qtd]);
+
 
   return (
     <>
@@ -69,7 +106,7 @@ export default function Consumo() {
             >
               {
                 app.products.map((item) => (
-                  <option value={item.id}>
+                  <option value={ item.id } key={ item.id }>
                     {item.name}
                   </option>
                 ))
@@ -95,23 +132,26 @@ export default function Consumo() {
             <input
               type="number" min="0" max="100"
               id="qtd"
+              value={ strzero(qtd,2) }
+              onChange={(e) => setQtd(parseInt(e.target.value))}
             />
 
             <label htmlFor="vlun">Valor Unitário R$</label>
             <input
               type="number"
-              id="vlun"
+              id="vl_unit"
+              value={ vl_unit.toFixed(2) }
               step='0.01' placeholder='0.00'
               readOnly
             />
 
-            <label htmlFor="vtot">Valor Total R$</label>
+            {/* <label htmlFor="vtot">Valor Total R$</label>
             <input
               type="number"
               id="vtot"
               step='0.01' placeholder='0.00'
               readOnly
-            />
+            /> */}
 
           </S.Form>
           </S.FormContainer>
@@ -120,7 +160,7 @@ export default function Consumo() {
             <MyButton type="submit">Confirma</MyButton>
             <div className="totaldiv">
               <span>Total</span>
-              <h2>R$ 0.00</h2>
+              <h2>R$ { vl_total.toFixed(2) }</h2>
             </div>
           </footer>
 

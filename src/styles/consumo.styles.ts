@@ -12,8 +12,8 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
 
-  flex: 0.95;
-  background-color: rgba(31, 32, 36, 0.95);
+  flex: 1;
+  background-color: rgba(31, 32, 36, 0.94);
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
   padding: 8px;
 
@@ -21,7 +21,6 @@ export const Content = styled.div`
 
   footer {
     display: flex;
-    flex: 0.05;
     align-items: center;
     justify-content: space-between;
 
@@ -52,6 +51,8 @@ export const Content = styled.div`
       font-size: 18px;
       margin: 0;
       padding: 8px;
+      outline-color: var(--orange);
+
 
       @media(max-width: 490px) {
         width: 150px;
@@ -149,6 +150,7 @@ export const Form = styled.form`
     font-weight: lighter;
     color: var(--white);
     background-color: rgba(31, 32, 36, 0.4);
+    text-align: center;
     margin: 4px 0 18px;
     padding: 6px 8px;
     border-radius: 6px;
