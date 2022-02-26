@@ -37,6 +37,8 @@ Permite lançar o consumo das mesas e fechar as contas.<br />
   </tr>
   <tr>
     <td><img src="https://github.com/luiizsilverio/web-beer/blob/main/src/assets/tela3.png" /></td>
+  </tr>
+  <tr>
     <td><img src="https://github.com/luiizsilverio/web-beer/blob/main/src/assets/tela7.png" /></td>
   </tr>
 </table>
