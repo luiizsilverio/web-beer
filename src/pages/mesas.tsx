@@ -19,14 +19,11 @@ export default function Mesas() {
   const router = useRouter()
 
   const [mesas, setMesas] = useState<IMesa[]>([])
-  const [mesaSelecionada, setMesaSelecionada] = useState<IMesa>({} as IMesa)
   const [loading, setLoading] = useState(false)
   const [refresh, setRefresh] = useState(true)
 
   function handlePedido(mesa?: IMesa) {
-    console.log('handlePedido')
     if (mesa.numMesa > 0) {
-      setMesaSelecionada(mesa)
       // router.push(`/fechar?mesa=${mesa.numMesa}`)
       router.push({
         pathname: '/fechar',

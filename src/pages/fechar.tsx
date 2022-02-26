@@ -21,7 +21,6 @@ import QuestionBox from '@/components/QuestionBox';
 export default function Fechar() {
   const [comanda, setComanda] = useState<IComanda>({} as IComanda)
   const [consumos, setConsumos] = useState<IConsumo[]>([])
-  const [consumo, setConsumo] = useState<IConsumo>({} as IConsumo)
   const [id_comanda, setId_comanda] = useState("")
 
   const router = useRouter()
@@ -34,8 +33,10 @@ export default function Fechar() {
 
 
   function handleBack() {
-    router.back()
+    // router.back()
+    router.push('mesas')
   }
+
 
   function incluiConsumo() {
     let id = id_comanda
@@ -48,8 +49,6 @@ export default function Fechar() {
     if (id_comanda !== id) {
       setId_comanda(id)
     }
-
-    setConsumo({} as IConsumo)
 
     router.push({
       pathname: '/consumo',
@@ -64,12 +63,11 @@ export default function Fechar() {
         complemento: ''
       }
     })
+
   }
 
 
   function alteraConsumo(consumo: IConsumo) {
-    setConsumo(consumo)
-
     router.push({
       pathname: '/consumo',
       query: {
@@ -83,52 +81,6 @@ export default function Fechar() {
         complemento: consumo.complemento
       }
     })
-  }
-
-
-  function pediuFecharConta() {
-    async function fecharConta(fechar: boolean, toastId?: string) {
-      if (toastId) {
-        toast.dismiss(toastId);
-      }
-      if (comanda.fechar === fechar) {
-        return
-      }
-
-      try {
-
-        const newComanda = {...comanda, fechar: fechar}
-
-        await api.put<IComanda>(`comandas/${mesa.id_comanda}`, { ...newComanda })
-
-        //setComanda(newComanda) //não precisa, pois vai fechar a janela
-        handleBack()
-      }
-      catch (error: any) {
-        console.log(error.message)
-        toast.error('Erro ao fechar a conta', {
-          style: {fontSize: 18}
-        })
-        handleBack()
-      }
-    }
-
-    toast((t) => (
-      <QuestionBox
-        title="Sinalizar 🚩"
-        pergunta="Cliente pediu para fechar a conta?"
-        handleConfirm={() => fecharConta(true, t.id)}
-        handleCancel={() => fecharConta(false, t.id)}
-      />
-      ),
-      {
-        duration: 2000,
-        style: {
-          background: 'var(--bege2)',
-          boxShadow: '1px 1px 4px 4px rgba(0, 0, 0, .2)'
-        },
-      }
-    )
   }
 
 
@@ -165,11 +117,8 @@ export default function Fechar() {
 
       setConsumos(despesas.data)
     }
-    catch (error: any) {
-      console.log(error.message)
-      toast.error('Erro ao abrir a conta', {
-        style: {fontSize: 18}
-      })
+    catch (error) {
+      console.log('->', error.message)
       handleBack()
     }
   }
@@ -226,6 +175,52 @@ export default function Fechar() {
         },
       }
     );
+  }
+
+
+  function pediuFecharConta() {
+    async function fecharConta(fechar: boolean, toastId?: string) {
+      if (toastId) {
+        toast.dismiss(toastId);
+      }
+      if (comanda.fechar === fechar) {
+        return
+      }
+
+      try {
+
+        const newComanda = {...comanda, fechar: fechar}
+
+        await api.put<IComanda>(`comandas/${mesa.id_comanda}`, { ...newComanda })
+
+        //setComanda(newComanda) //não precisa, pois vai fechar a janela
+        handleBack()
+      }
+      catch (error) {
+        console.log(error.message)
+        toast.error('Erro ao fechar a conta', {
+          style: {fontSize: 18}
+        })
+        handleBack()
+      }
+    }
+
+    toast((t) => (
+      <QuestionBox
+        title="Sinalizar 🚩"
+        pergunta="Cliente pediu para fechar a conta?"
+        handleConfirm={() => fecharConta(true, t.id)}
+        handleCancel={() => fecharConta(false, t.id)}
+      />
+      ),
+      {
+        duration: 2000,
+        style: {
+          background: 'var(--bege2)',
+          boxShadow: '1px 1px 4px 4px rgba(0, 0, 0, .2)'
+        },
+      }
+    )
   }
 
 
@@ -304,6 +299,7 @@ export default function Fechar() {
     }
   }
 
+
   function handleExcluiConsumo(consumo: IConsumo) {
     if (!consumo.id) {
       return
@@ -333,7 +329,9 @@ export default function Fechar() {
       await abreComanda()
     }
 
-    inic()
+    if (consumos.length === 0) {
+      inic()
+    }
   }, [])
 
 

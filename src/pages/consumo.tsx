@@ -1,13 +1,13 @@
-import { FormEvent, useEffect, useMemo, useState } from 'react';
-import { Router, useRouter } from 'next/router';
-import toast, { Toast, Toaster } from 'react-hot-toast';
+import { FormEvent, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import toast, { Toaster } from 'react-hot-toast';
 import { ArrowLeftShort } from '@styled-icons/bootstrap';
 import { Beer } from '@styled-icons/ionicons-solid/Beer'
 import { v4 as uuid } from 'uuid'
 
 import * as S from '@/styles/consumo.styles'
 import { useBeerContext } from '@/contexts';
-import { IConsumo, IComanda } from '@/dtos';
+import { IConsumo, IComanda, IMesa } from '@/dtos';
 import strzero from '@/utils/strzero';
 import api from '@/services/api';
 
@@ -100,7 +100,7 @@ export default function Consumo() {
       comanda = response.data
     }
     catch(err) {
-      // console.log(err)
+      console.log('=>', err.message)
     }
 
     achou = comanda?.id === id_comanda
@@ -164,7 +164,26 @@ export default function Consumo() {
       }
 
       setLoading(false)
-      router.back()
+
+      if (novo) {
+        const mesa: IMesa = {
+          numMesa,
+          situacao: 'Ocupada',
+          fechar: false,
+          id_comanda,
+          temNovoConsumo: true
+        }
+
+        router.push({
+          pathname: '/fechar',
+          query: {
+            mesa: JSON.stringify(mesa)
+          }
+        })
+      }
+      else {
+        router.back()
+      }
     }
     catch(error: any) {
       console.log(error.message)
@@ -217,7 +236,6 @@ export default function Consumo() {
   }, [qtd]);
 
 
-  console.log(complemento)
   return (
     <>
       <Header title={`CONSUMO DA MESA Nº ${ router.query?.numMesa }`}>

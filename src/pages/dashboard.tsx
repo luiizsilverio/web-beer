@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
 import { LineChart, Line, XAxis, CartesianGrid, BarChart, Bar, } from 'recharts'
-import { format, subDays } from 'date-fns';
+import { subDays } from 'date-fns';
 import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
 
@@ -21,7 +21,6 @@ import Header from '@/components/Header'
 import Card from '@/components/Card'
 import SelectInput from '@/components/SelectInput';
 import { Loading } from '@/components/Loading';
-import { exit } from 'process';
 
 interface IData{
   id: string
@@ -44,43 +43,43 @@ interface ITop5History {
   qtd: number[]
 }
 
-const data: IData[] = [
-  {
-    id: '1',
-    name: "Chopp Pilsen",
-    value: 450,
-    quant: 45,
-    color: cores_grafico[0]
-  },
-  {
-    id: '2',
-    name: "Chopp Weiss",
-    value: 300,
-    quant: 30,
-    color: cores_grafico[1]
-  },
-  {
-    id: '3',
-    name: "Batata Chips",
-    value: 150,
-    quant: 15,
-    color: cores_grafico[2]
-  },
-  {
-    id: '4',
-    name: "Porcao Amendoim",
-    value: 50,
-    quant: 5,
-    color: cores_grafico[3]
-  },
-  {
-    id: '5',
-    name: "Água mineral",
-    value: 50,
-    quant: 5,
-    color: cores_grafico[4]
-  }
-]
+// const data: IData[] = [
+//   {
+//     id: '1',
+//     name: "Chopp Pilsen",
+//     value: 450,
+//     quant: 45,
+//     color: cores_grafico[0]
+//   },
+//   {
+//     id: '2',
+//     name: "Chopp Weiss",
+//     value: 300,
+//     quant: 30,
+//     color: cores_grafico[1]
+//   },
+//   {
+//     id: '3',
+//     name: "Batata Chips",
+//     value: 150,
+//     quant: 15,
+//     color: cores_grafico[2]
+//   },
+//   {
+//     id: '4',
+//     name: "Porcao Amendoim",
+//     value: 50,
+//     quant: 5,
+//     color: cores_grafico[3]
+//   },
+//   {
+//     id: '5',
+//     name: "Água mineral",
+//     value: 50,
+//     quant: 5,
+//     color: cores_grafico[4]
+//   }
+// ]
 
 interface ILista {
   label: string | number;
@@ -148,7 +147,7 @@ const totais: ILista[] = [
 export default function Dashboard() {
   const hoje = new Date()
   const [yearSel, setYearSel] = useState(hoje.getFullYear())
-  const [periodoSel, setPeriodoSel] = useState(1)
+  const [periodoSel, setPeriodoSel] = useState(7)
   const [totalSel, setTotalSel] = useState("QT")
   const [categories, setCategories] = useState<IData[]>([])
   const [resumo, setResumo] = useState<IResumo>({} as IResumo)
