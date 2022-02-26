@@ -146,7 +146,7 @@ export default function Mesas() {
         inic()
       }
       setRefresh(prev => !prev)
-    }, 7000) // atualiza o mapa a cada 7 segundos
+    }, 5000) // atualiza o mapa a cada 5 segundos
 
     return () => {
       clearTimeout(timer)
