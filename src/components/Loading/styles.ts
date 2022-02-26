@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-const TAM = 200;
+const TAM = 250;
 
 export const Container = styled.div`
   width: ${props => TAM}px;

@@ -130,7 +130,7 @@ function BeerProvider ({ children }: ProviderProps) {
     try {
       const response = await api.get<IProduct[]>('products', {
         params: {
-          _sort: 'name',
+          // _sort: 'name',
           _order: 'asc'
         }
       })
@@ -140,6 +140,17 @@ function BeerProvider ({ children }: ProviderProps) {
         name: item.name,
         preco: item.preco
       }))
+      .sort((a: any, b: any) => {
+        if (a.id.toString() < b.id.toString()) {
+          return -1;
+        }
+        if (a.id.toString() > b.id.toString()) {
+          return 1;
+        }
+        return 0; // a deve ser igual a b
+      })
+
+      console.log('lista:', lista)
 
       setProducts([ {id: '0', name: '', preco: 0}, ...lista ])
     }

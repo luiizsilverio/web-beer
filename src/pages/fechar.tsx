@@ -54,12 +54,13 @@ export default function Fechar() {
     router.push({
       pathname: '/consumo',
       query: {
-        id,
-        id_comanda,
         numMesa,
+        id: null,
+        id_comanda: id,
+        id_product: '',
         qtd: 1,
         vl_unit: 0.0,
-        vl_total: 0.0,
+        // vl_total: 0.0,
         complemento: ''
       }
     })
@@ -72,12 +73,13 @@ export default function Fechar() {
     router.push({
       pathname: '/consumo',
       query: {
-        id: consumo.id,
-        id_comanda: consumo.id_product,
         numMesa,
+        id: consumo.id,
+        id_comanda: consumo.id_comanda,
+        id_product: consumo.id_product,
         qtd: consumo.qtd,
         vl_unit: consumo.vl_unit,
-        vl_total: consumo.vl_total,
+        // vl_total: consumo.vl_total,
         complemento: consumo.complemento
       }
     })
@@ -104,7 +106,9 @@ export default function Fechar() {
       }
       catch (error: any) {
         console.log(error.message)
-        toast.error('Erro ao fechar a conta')
+        toast.error('Erro ao fechar a conta', {
+          style: {fontSize: 18}
+        })
         handleBack()
       }
     }
@@ -163,7 +167,9 @@ export default function Fechar() {
     }
     catch (error: any) {
       console.log(error.message)
-      toast.error('Erro ao abrir a conta')
+      toast.error('Erro ao abrir a conta', {
+        style: {fontSize: 18}
+      })
       handleBack()
     }
   }
@@ -189,7 +195,9 @@ export default function Fechar() {
       }
       catch (err: any) {
         console.log(err.message)
-        toast.error('Erro ao fechar a conta')
+        toast.error('Erro ao fechar a conta', {
+          style: {fontSize: 18}
+        })
         handleBack()
       }
     }
@@ -259,7 +267,9 @@ export default function Fechar() {
     }
     catch (error: any) {
       console.log(error.message)
-      toast.error('Erro ao ticar o consumo')
+      toast.error('Erro ao ticar o consumo', {
+        style: {fontSize: 18}
+      })
       handleBack()
     }
   }
@@ -287,7 +297,9 @@ export default function Fechar() {
     }
     catch (error: any) {
       console.log(error.message)
-      toast.error("Erro ao excluir o consumo")
+      toast.error("Erro ao excluir o consumo", {
+        style: {fontSize: 18}
+      })
       handleBack()
     }
   }
@@ -351,8 +363,8 @@ export default function Fechar() {
     <>
       <Header title={`MESA Nº ${ numMesa }`}>
         <S.ControlBox>
-          <RoundButton color="#BA55D3" onClick={handleBack}>
-            <ArrowLeftShort size={36} title="Voltar" />
+          <RoundButton color="var(--orange)" onClick={handleBack}>
+            <ArrowLeftShort size={36} title="Voltar" color='var(--background)' />
           </RoundButton>
           <RoundButton color="#0f86fa" onClick={incluiConsumo}>
             <Add size={32} title="Lançar novo consumo" />

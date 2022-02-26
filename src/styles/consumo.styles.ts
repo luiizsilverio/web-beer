@@ -130,6 +130,7 @@ export const Form = styled.form`
 
     option {
       font-weight: lighter;
+      background-color: rgb(41, 40, 35);
     }
 
     &:hover {
@@ -137,7 +138,7 @@ export const Form = styled.form`
       background-color: rgb(41, 40, 35);
     }
 
-    &:focus>option:checked {
+    &:focus > option:checked {
       color: var(--black);
       background: var(--orange);
       /* selected */
@@ -156,5 +157,40 @@ export const Form = styled.form`
     border-radius: 6px;
     width: 200px;
     border: 1px solid rgba(170, 170, 170, 0.5);
+
+    /* esconde os botões spin */
+    &::-webkit-inner-spin-button, input::-webkit-outer-spin-button {
+        -webkit-appearance: none !important;
+        margin: 0 !important;
+        -moz-appearance:textfield !important;
+    }
   }
+
+  .qtContainer {
+    position: relative;
+  }
+
+  #menos, #mais {
+    position: relative;
+    z-index: 9;
+    top: 1px;
+    color: var(--bege);
+    background-color: transparent;
+    font-family: Roboto, 'Open Sans', sans-serif;
+    font-size: 20px;
+    border: none;
+
+    &:active {
+      transform: scale(1.1);
+    }
+  }
+
+  #menos {
+    left: -190px;
+  }
+
+  #mais {
+    left: -30px;
+  }
+
 `;
