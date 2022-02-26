@@ -24,7 +24,7 @@ export function Mesa({
 
   const mesa = numMesa.toString().padStart(2, '0');
 
-    const icone = useCallback(() => {
+    const icone = () => {
       if (fechar) {
         return (
           <Flag
@@ -49,8 +49,7 @@ export function Mesa({
           color={ 'var(--black)' }
         />
       )
-
-    }, [])
+    }
 
     return (
       <S.Button
