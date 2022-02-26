@@ -31,10 +31,9 @@ Permite lançar o consumo das mesas e fechar as contas.<br />
 * __Date-fns__ para sofrer menos com datas
 
 ## :camera_flash: Screenshots
-![](https://github.com/luiizsilverio/web-beer/blob/main/src/assets/my-beer.gif)
 <table>
   <tr>
-    <td><img src="https://github.com/luiizsilverio/web-beer/blob/main/src/assets/tela4.png" /></td>
+    <td><img src="https://github.com/luiizsilverio/web-beer/blob/main/src/assets/my-beer.gif" /></td>
   </tr>
   <tr>
     <td><img src="https://github.com/luiizsilverio/web-beer/blob/main/src/assets/tela3.png" /></td>
