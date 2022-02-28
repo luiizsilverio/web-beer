@@ -4,7 +4,7 @@ import { destroyCookie } from 'nookies'
 import api from '@/services/api'
 import { IConfig, IProduct, ICategory, IComplemento } from '../dtos'
 
-interface ProductProps {
+export interface ProductProps {
   id: string
   name: string
   preco: number

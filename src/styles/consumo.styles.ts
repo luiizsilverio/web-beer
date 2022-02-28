@@ -108,7 +108,8 @@ export const Form = styled.form`
   display: flex;
   flex-direction: column;
   max-width: 600px;
-  z-index: 2;
+  position: relative;
+  z-index: 7;
 
   label {
     color: var(--text-light);
@@ -150,13 +151,40 @@ export const Form = styled.form`
     font-family: Roboto, 'Open Sans', sans-serif;
     font-weight: lighter;
     color: var(--white);
-    background-color: rgba(31, 32, 36, 0.4);
+    background-color: rgba(31, 32, 36, 0.1);
     text-align: center;
     margin: 4px 0 18px;
     padding: 6px 8px;
     border-radius: 6px;
     width: 200px;
     border: 1px solid rgba(170, 170, 170, 0.5);
+
+    &[type=number] {
+      background-color: rgba(31, 32, 36, 0.5);
+    }
+
+    &.edt {
+      position: absolute;
+      width: calc(100% - 20px);
+      padding-left: 12px;
+      border: none;
+      border-left: 1px solid rgba(170, 170, 170, 0.5);
+      outline: none;
+      text-align: left;
+      text-transform: uppercase;
+      color: transparent;
+      z-index: 1;
+
+      &:focus {
+        background-color: rgb(31, 32, 36);
+        color: var(--white);
+        z-index: 8;
+      }
+    }
+
+    &#prod {
+      top: 21px;
+    }
 
     /* esconde os botões spin */
     &::-webkit-inner-spin-button, input::-webkit-outer-spin-button {

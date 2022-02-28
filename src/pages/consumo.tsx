@@ -6,7 +6,7 @@ import { Beer } from '@styled-icons/ionicons-solid/Beer'
 import { v4 as uuid } from 'uuid'
 
 import * as S from '@/styles/consumo.styles'
-import { useBeerContext } from '@/contexts';
+import { useBeerContext, ProductProps } from '@/contexts';
 import { IConsumo, IComanda, IMesa } from '@/dtos';
 import strzero from '@/utils/strzero';
 import api from '@/services/api';
@@ -41,6 +41,8 @@ export default function Consumo() {
   const [vl_total, setVl_total] = useState(v_unit)
   const [vl_unit, setVl_unit] = useState(v_unit * v_qtd)
   const [loading, setLoading] = useState(false)
+  const [produto, setProduto] = useState("")
+  const [produtos, setProdutos] = useState<ProductProps[]>([])
 
   const novo = (!router.query || !router.query?.id)
 
@@ -195,6 +197,22 @@ export default function Consumo() {
     }
   }
 
+  function buscaProd(prod) {
+    setProduto(prod)
+
+    console.log('prod:', prod)
+    if (prod === "") {
+      setProdutos([...app.products])
+    }
+    else {
+      const lista = app.products.filter((item) => {
+        return item.name.toUpperCase().includes(prod.toUpperCase())
+      })
+
+      setProdutos([...lista])
+    }
+  }
+
   useEffect(() => {
     async function inic() {
       if (app.products.length === 0) {
@@ -204,9 +222,12 @@ export default function Consumo() {
         await app.loadComplementos()
       }
 
+      setProdutos([...app.products])
+
       const prod = app.products.find(item => item.id === id_product)
 
       if (prod) {
+        setProduto(prod.name)
         if (prod.preco !== vl_unit) {
           setVl_unit(prod.preco)
           setVl_total(qtd * vl_unit)
@@ -225,6 +246,7 @@ export default function Consumo() {
       const tot = vun * qtd;
       setVl_unit(vun)
       setVl_total(tot)
+      setProduto(prod.name)
     }
   }, [id_product]);
 
@@ -235,7 +257,7 @@ export default function Consumo() {
     setVl_total(tot)
   }, [qtd]);
 
-
+  console.log(produtos)
   return (
     <>
       <Header title={`CONSUMO DA MESA Nº ${ router.query?.numMesa }`}>
@@ -253,74 +275,83 @@ export default function Consumo() {
         <S.Content>
           <S.FormContainer>
             <Beer size={300} />
-          <S.Form>
-            <label htmlFor='product'>Descrição do produto</label>
-            <select
-              value={id_product}
-              onChange={(e) => setId_product(e.target.value)}
-              id="product"
+            <S.Form
+              autoComplete="off"
+              autoCorrect="off"
+              spellCheck="false"
             >
-              {
-                app.products.map((item) => (
-                  <option key={ item.id } value={ item.id }>
-                    {
-                      item.id === "0" ? '' : `${ item.id } - ${ item.name }`
-                    }
-                  </option>
-                ))
-              }
-            </select>
+              <label htmlFor='product'>Descrição do produto</label>
+              <select
+                value={id_product}
+                onChange={(e) => setId_product(e.target.value)}
+                id="product"
+              >
+                {
+                  produtos.map((item) => (
+                    <option key={ item.id } value={ item.id }>
+                      {
+                        item.id === "0" ? '' : `${ item.id } - ${ item.name }`
+                      }
+                    </option>
+                  ))
+                }
+              </select>
 
-            <label htmlFor='complemento'>Complemento (opcional)</label>
-            <select
-              value={complemento}
-              onChange={(e) => setComplemento(e.target.value)}
-              id="complemento"
-            >
-              <option key={ "0" } value="" />
-              {
-                app.complementos.map((item) => (
-                  <option key={ item.id } value={ item.name }>
-                    { item.name }
-                  </option>
-                ))
-              }
-            </select>
-
-            <label htmlFor="qtd">Quantidade</label>
-            <div id="qtContainer">
-              <input
-                type="number" min="0" max="100"
-                id="qtd"
-                value={ strzero(qtd,2) }
-                onChange={(e) => setQtd(parseInt(e.target.value))}
+              <input type="text" id="prod" className="edt"
+                value={produto}
+                onChange={(e) => buscaProd(e.target.value)}
               />
-              <button id="menos" type="button" onClick={() => setQtd(prev => prev - 1)}>
-                &lt;
-              </button>
-              <button id="mais" type="button" onClick={() => setQtd(prev => prev + 1)}>
-                &gt;
-              </button>
-            </div>
 
-            <label htmlFor="vlun">Valor Unitário R$</label>
-            <input
-              type="number"
-              id="vl_unit"
-              value={ vl_unit.toFixed(2) }
-              step='0.01' placeholder='0.00'
-              readOnly
-            />
+              <label htmlFor='complemento'>Complemento (opcional)</label>
+              <select
+                value={complemento}
+                onChange={(e) => setComplemento(e.target.value)}
+                id="complemento"
+              >
+                <option key={ "0" } value="" />
+                {
+                  app.complementos.map((item) => (
+                    <option key={ item.id } value={ item.name }>
+                      { item.name }
+                    </option>
+                  ))
+                }
+              </select>
 
-            {/* <label htmlFor="vtot">Valor Total R$</label>
-            <input
-              type="number"
-              id="vtot"
-              step='0.01' placeholder='0.00'
-              readOnly
-            /> */}
+              <label htmlFor="qtd">Quantidade</label>
+              <div id="qtContainer">
+                <input
+                  type="number" min="0" max="100"
+                  id="qtd"
+                  value={ strzero(qtd,2) }
+                  onChange={(e) => setQtd(parseInt(e.target.value))}
+                />
+                <button id="menos" type="button" onClick={() => setQtd(prev => prev - 1)}>
+                  &lt;
+                </button>
+                <button id="mais" type="button" onClick={() => setQtd(prev => prev + 1)}>
+                  &gt;
+                </button>
+              </div>
 
-          </S.Form>
+              <label htmlFor="vlun">Valor Unitário R$</label>
+              <input
+                type="number"
+                id="vl_unit"
+                value={ vl_unit.toFixed(2) }
+                step='0.01' placeholder='0.00'
+                readOnly
+              />
+
+              {/* <label htmlFor="vtot">Valor Total R$</label>
+              <input
+                type="number"
+                id="vtot"
+                step='0.01' placeholder='0.00'
+                readOnly
+              /> */}
+
+            </S.Form>
           </S.FormContainer>
 
           <footer>

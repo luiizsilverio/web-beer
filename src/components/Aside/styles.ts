@@ -32,6 +32,9 @@ export const Container = styled.aside<Props>`
 
     ${ props => !props.menuOpen && css`
       display: none;
+      a {
+        display: none;
+      }
     `};
   }
 
@@ -85,10 +88,6 @@ export const Menu = styled.ul<Props>`
   font-size: 1.6rem;
   animation: ${ animacao_subir } 0.7s ease-out;
   max-width: 30rem;
-
-  ${ props => !props.menuOpen && css`
-    display: none;
-  `};
 `;
 
 export const MenuLink = styled.a`

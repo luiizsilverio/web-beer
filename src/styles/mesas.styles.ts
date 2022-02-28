@@ -9,6 +9,6 @@ export const Main = styled.main`
   padding: 20px;
 
   @media (max-width: 460px) {
-    padding: 20px 0;
+    padding: 20px 10px;
   }
 `;
