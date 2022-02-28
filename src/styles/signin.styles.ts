@@ -6,7 +6,7 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   height: 100vh;
-  width: 100vw;  
+  width: 100vw;
 
   background-image: url('./bg-beer-2.jpg');
   background-position: center;
@@ -25,8 +25,7 @@ export const Content = styled.div`
   flex-direction: column;
   align-items: center;
   width: 42rem;
-  height: 38rem;  
-  max-width: 80%;  
+  height: 38rem;
 
   background-color: var(--background);
   border-radius: 20px;
@@ -40,14 +39,19 @@ export const Content = styled.div`
     font-size: 1.6rem;
     color: var(--text-light);
   }
+
+  @media(max-width: 500px) {
+    width: 36rem;
+    padding: 20px 0;
+  }
 `;
 
 export const Title = styled.header`
-  height: 14rem;  
+  height: 14rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   h1 {
     border-top: 1px solid var(--orange);
     border-bottom: 1px solid var(--orange);
@@ -64,7 +68,7 @@ export const Title = styled.header`
     &:hover {
       animation: ${ animacao_balanca } 0.5s infinite;
     }
-  }  
+  }
 
   @media(max-width: 460px) {
     h1 {
@@ -76,10 +80,11 @@ export const Title = styled.header`
 export const Form = styled.form`
   display: flex;
   flex-direction: column;
-  width: 60%;
+  width: 24rem; //60%;
   padding: 2rem 0;
 
-  @media(max-width: 460px) {
-    width: 80%;
+  @media(max-width: 500px) {
+    width: 22rem; //60%;
+    /* width: 80%; */
   }
 `;

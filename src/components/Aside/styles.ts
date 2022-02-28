@@ -77,7 +77,7 @@ export const Title = styled.div`
 
 `;
 
-export const Menu = styled.ul`
+export const Menu = styled.ul<Props>`
   display: flex;
   flex-direction: column;
   list-style: none;
@@ -85,6 +85,10 @@ export const Menu = styled.ul`
   font-size: 1.6rem;
   animation: ${ animacao_subir } 0.7s ease-out;
   max-width: 30rem;
+
+  ${ props => !props.menuOpen && css`
+    display: none;
+  `};
 `;
 
 export const MenuLink = styled.a`
