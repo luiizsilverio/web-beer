@@ -7,14 +7,15 @@ export const Main = styled.main`
   padding: 18px 20px;
 
   @media print {
-    * {
-        background: transparent;
-        /* color: #000; */
-        text-shadow: none;
-        filter: none;
-        -ms-filter: none;
-        text-shadow: none;
-      }
+    @page{size: auto;}
+    margin: 0;
+    background: transparent;
+    /* color: #000; */
+    text-shadow: none;
+    filter: none;
+    -ms-filter: none;
+    box-shadow: none;
+
     .my-card {
       border: 1px solid gray;
     }

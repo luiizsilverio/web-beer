@@ -12,7 +12,7 @@ export const Container = styled.main`
 export const Content = styled.div`
   display: flex;
   flex: 1;
-  background-color: var(--bege);
+  background-color: #eeeeee;
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
   padding: 8px;
   color: var(--black);
@@ -45,6 +45,16 @@ export const Content = styled.div`
   ::-webkit-scrollbar-track {
     background-color: var(--brown);
   }
+
+  @media print {
+    @page{size: auto;}
+    background: transparent;
+    /* color: #000; */
+    text-shadow: none;
+    filter: none;
+    -ms-filter: none;
+    box-shadow: none;
+  }
 `;
 
 export const CardContainer = styled.div`
@@ -53,4 +63,18 @@ export const CardContainer = styled.div`
 `;
 
 export const Form = styled.form`
+  display: flex;
+
+  input {
+    font-family: Roboto, 'Open Sans', sans-serif;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--bege);
+    border: 1px solid var(--background);
+    outline: none;
+    width: 120px;
+    border-radius: 6px;
+    padding: 4px 0;
+    margin-left: 10px;
+  }
 `;

@@ -41,10 +41,10 @@ export default function Consumo() {
   const [vl_total, setVl_total] = useState(v_unit)
   const [vl_unit, setVl_unit] = useState(v_unit * v_qtd)
   const [loading, setLoading] = useState(false)
-  const [produto, setProduto] = useState("")
   const [produtos, setProdutos] = useState<ProductProps[]>([])
 
   const novo = (!router.query || !router.query?.id)
+  let timer = null;
 
   function handleSubmit(event: FormEvent) {
     event.preventDefault()
@@ -198,19 +198,21 @@ export default function Consumo() {
   }
 
   function buscaProd(prod) {
-    setProduto(prod)
+    clearTimeout(timer);
 
-    console.log('prod:', prod)
     if (prod === "") {
       setProdutos([...app.products])
+      return
     }
-    else {
+
+    // Debounce: só atualiza a lista de produtos a cada meio segundo
+    timer = setTimeout(() => {
       const lista = app.products.filter((item) => {
         return item.name.toUpperCase().includes(prod.toUpperCase())
       })
 
       setProdutos([...lista])
-    }
+    }, 500); // a cada meio segundo
   }
 
   useEffect(() => {
@@ -227,7 +229,6 @@ export default function Consumo() {
       const prod = app.products.find(item => item.id === id_product)
 
       if (prod) {
-        setProduto(prod.name)
         if (prod.preco !== vl_unit) {
           setVl_unit(prod.preco)
           setVl_total(qtd * vl_unit)
@@ -246,7 +247,6 @@ export default function Consumo() {
       const tot = vun * qtd;
       setVl_unit(vun)
       setVl_total(tot)
-      setProduto(prod.name)
     }
   }, [id_product]);
 
@@ -257,7 +257,6 @@ export default function Consumo() {
     setVl_total(tot)
   }, [qtd]);
 
-  console.log(produtos)
   return (
     <>
       <Header title={`CONSUMO DA MESA Nº ${ router.query?.numMesa }`}>
@@ -297,11 +296,7 @@ export default function Consumo() {
                 }
               </select>
 
-              <select multiple={true} value={['B', 'C']}>
-              </select>
-
               <input type="text" id="prod" className="edt"
-                value={produto}
                 onChange={(e) => buscaProd(e.target.value)}
               />
 

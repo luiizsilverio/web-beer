@@ -4,11 +4,15 @@ import Nookies from 'nookies'
 import CryptoJS from 'crypto-js'
 import { subDays } from 'date-fns';
 
+import DatePicker, { registerLocale } from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import pt from 'date-fns/locale/pt';
+
 import * as S from '@/styles/vendas.styles'
 import { useBeerContext } from '@/contexts';
 import api, { apiConfig } from '@/services/api';
 import Header from '@/components/Header'
-import strzero from '@/utils/strzero';
+import strzero from '@/utils/strzero'
 
 type TLista = {
   id_product: string
@@ -17,20 +21,23 @@ type TLista = {
   vl_total: number
 }
 
+registerLocale('pt', pt)
+
 export default function Vendas() {
   const { isAdmin, checaAdmin, senha, logout } = useBeerContext()
   const router = useRouter()
   const [lista, setLista] = useState<TLista[]>([])
   const [totQtd, setTotQtd] = useState(0.0)
   const [totVal, setTotVal] = useState(0.0)
+  const [dtIni, setDtIni] = useState<Date>(new Date())
+  const [dtFim, setDtFim] = useState<Date>(new Date())
 
-  async function buscaDados(dt1, dt2: string) {
-
+  async function buscaDados(dt1, dt2: Date) {
     try {
       const response = await api.get('estatistica/top5/produtos', {
         params: {
-          dtInicial: dt1,
-          dtFinal: dt2,
+          dtInicial: dt1.toISOString(),
+          dtFinal: dt2.toISOString(),
           unidade: 'QT',
           limite: 1000
         }
@@ -57,6 +64,7 @@ export default function Vendas() {
       }
     }
   }
+
 
   useEffect(() => {
     async function inicUser() {
@@ -91,20 +99,36 @@ export default function Vendas() {
         }
         else {
           const hoje = new Date()
-          const dt2 = hoje.toISOString()
-          const dt1 = subDays(hoje, 30).toISOString()
-          buscaDados(dt1, dt2)
+          setDtIni(hoje)
+          setDtFim(hoje)
         }
       })
   }, [])
+
+
+  useEffect(() => {
+    buscaDados(dtIni, dtFim)
+  }, [dtIni, dtFim])
 
 
   return (
     <>
       <Header title="Vendas">
         <S.Form>
-          <input type="date" placeholder="Dt.Inicial" />
-          <input type="date" placeholder="Dt.Final" />
+          <DatePicker
+            className="date-picker"
+            selected={dtIni}
+            onChange={(date) => setDtIni(date)}
+            dateFormat="dd/MM/yyyy"
+            locale="pt"
+          />
+          <DatePicker
+            className="date-picker"
+            selected={dtFim}
+            onChange={(date) => setDtFim(date)}
+            dateFormat="dd/MM/yyyy"
+            locale="pt"
+          />
         </S.Form>
       </Header>
 
