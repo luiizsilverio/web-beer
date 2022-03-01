@@ -28,7 +28,7 @@ Permite lançar o consumo das mesas e fechar as contas.<br />
 * __Axios__ para acessar a API
 * Animação com __React-lottie-player__
 * __jsonwebtoken__ para expirar a sessão após 8 horas
-* __Date-fns__ para sofrer menos com datas
+* __Date-fns__ e __React-datepicker__ para sofrer menos com datas
 
 ## :camera_flash: Screenshots
 <table>
