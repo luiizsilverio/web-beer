@@ -11,7 +11,7 @@ export const Container = styled.main`
 
 export const Content = styled.div`
   display: flex;
-  flex: 1;
+  /* flex: 1; */
   background-color: #eeeeee;
   box-shadow: 1px 1px 6px 4px rgba(0, 0, 0, .2);
   padding: 8px;
@@ -31,6 +31,9 @@ export const Content = styled.div`
   }
   .center {
     text-align: center;
+  }
+  .nome {
+    padding-left: 10px;
   }
 
   ::-webkit-scrollbar {

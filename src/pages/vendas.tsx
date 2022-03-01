@@ -102,11 +102,6 @@ export default function Vendas() {
         if (!response) {
           router.push('/signin')
         }
-        else {
-          const hoje = new Date()
-          setDtIni(hoje)
-          setDtFim(hoje)
-        }
       })
   }, [])
 
@@ -150,7 +145,7 @@ export default function Vendas() {
               lista.map(item => (
                 <tr key={ item.id_product }>
                   <td className="center">{ item.id_product }</td>
-                  <td>{ item.name }</td>
+                  <td className="nome">{ item.name }</td>
                   <td className="center">{ item.qtd }</td>
                   <td className="center">{ item.vl_total }</td>
                 </tr>
