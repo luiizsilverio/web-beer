@@ -52,8 +52,13 @@ export default function Vendas() {
         qtd: strzero(item.qtd, 3),
         vl_total: item.vl_total.toFixed(2)
       }))
+      .sort(function(a, b) {
+        if(a.name < b.name) { return -1; }
+        if(a.name > b.name) { return 1; }
+        return 0;
+      })
 
-      setLista( vendas.sort((a, b) => a.name > b.name) )
+      setLista(vendas)
       setTotQtd(qtd)
       setTotVal(vltot)
 
