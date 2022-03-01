@@ -8,16 +8,16 @@ type Props = {
   children?: React.ReactNode
 }
 
-export default function Header({ 
-  title, 
-  heightPx = 190, 
+export default function Header({
+  title,
+  heightPx = 190,
   widthPx = 0,
   valorR$ = false,
-  children 
+  children
 }: Props) {
 
   return (
-    <S.Container>
+    <S.Container className="my-card">
       <S.TitleContainer>
         <S.Title>
           <h2>{ title }</h2>

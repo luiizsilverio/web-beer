@@ -297,6 +297,9 @@ export default function Consumo() {
                 }
               </select>
 
+              <select multiple={true} value={['B', 'C']}>
+              </select>
+
               <input type="text" id="prod" className="edt"
                 value={produto}
                 onChange={(e) => buscaProd(e.target.value)}

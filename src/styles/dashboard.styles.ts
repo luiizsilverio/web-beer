@@ -5,6 +5,20 @@ export const Main = styled.main`
   display: flex;
   flex-direction: column;
   padding: 18px 20px;
+
+  @media print {
+    * {
+        background: transparent;
+        /* color: #000; */
+        text-shadow: none;
+        filter: none;
+        -ms-filter: none;
+        text-shadow: none;
+      }
+    .my-card {
+      border: 1px solid gray;
+    }
+  }
 `;
 
 type ContainerProps = {
