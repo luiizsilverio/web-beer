@@ -33,7 +33,7 @@ export default function FecharCard({
         </button>
       </div>
       <div className="info">
-        <h3>{ data.name }
+        <h3>{ `${data.id_product} - ${data.name}` }
         {
           data.complemento && <span>{ data.complemento }</span>
         }
