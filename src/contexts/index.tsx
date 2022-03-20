@@ -150,7 +150,7 @@ function BeerProvider ({ children }: ProviderProps) {
         return 0; // a deve ser igual a b
       })
 
-      setProducts([ {id: '0', name: '', preco: 0}, ...lista ])
+      setProducts([ {id: '0', name: ' ', preco: 0}, ...lista ])
     }
     catch(error: any) {
       console.log(error.message)

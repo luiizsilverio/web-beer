@@ -153,7 +153,7 @@ export const Form = styled.form`
     color: var(--white);
     background-color: rgba(31, 32, 36, 0.1);
     text-align: center;
-    margin: 4px 0 18px;
+    margin: 3px 0 18px;
     padding: 6px 8px;
     border-radius: 6px;
     width: 200px;

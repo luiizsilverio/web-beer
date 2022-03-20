@@ -30,5 +30,11 @@ export const Container = styled.header`
     padding-left: 60px;
 	}
 
+  @media(max-width: 460px) {
+    h1 {
+      font-size: 2rem;
+    }
+  }
+
 `;
 
