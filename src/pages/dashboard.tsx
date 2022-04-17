@@ -313,7 +313,6 @@ export default function Dashboard() {
 
   async function loadData() {
     setLoading(true)
-    console.log('loadData')
 
     const hoje = new Date()
     const dt2 = hoje.toISOString()

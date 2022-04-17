@@ -199,7 +199,6 @@ export default function Consumo() {
 
   function buscaProd(prod) {
     clearTimeout(timer);
-console.log(prod)
     if (prod === "") {
       setProdutos([...app.products])
       return
@@ -209,14 +208,12 @@ console.log(prod)
     timer = setTimeout(() => {
       const lista = app.products.filter((item) => {
         if (item.id === "0") {
-          console.log(0)
           return item
         } else {
           return item.name.toUpperCase().includes(prod.toUpperCase())
         }
       })
 
-      console.log(lista, lista.length)
       setProdutos([...lista])
     }, 500); // a cada meio segundo
   }
